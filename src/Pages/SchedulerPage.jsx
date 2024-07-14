@@ -1,2 +1,9 @@
-export const Google_API_KEY = ''
-export const TomTom_API_KEY = ''
+import React from 'react'
+
+function SchedulerPage() {
+  return (
+    <div>SchedulerPage</div>
+  )
+}
+
+export default SchedulerPage
