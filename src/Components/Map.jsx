@@ -38,6 +38,10 @@ function Map() {
       container: mapElement.current,
       center: [mapLongitude, mapLatitude],
       zoom: mapZoom,
+      stylesVisibility: {
+        trafficIncidents: true,
+        trafficFlow: true,
+      },
     });
     setMap(mapInstance);
     return () => mapInstance.remove();
