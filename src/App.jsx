@@ -1,7 +1,11 @@
+import Router from "./Router/Router";
+
 function App() {
   return (
     <>
-      <div className="w-full bg-primary"></div>
+      <div className="w-full ">
+        <Router />
+      </div>
     </>
   );
 }

@@ -1,12 +1,14 @@
-import React from 'react'
-import Navbar from '../Components/NavBar'
+import React from "react";
+import Navbar from "../Components/NavBar";
+import Map from "../Components/Map";
 
 function LandingPage() {
   return (
     <div>
-        <Navbar/>
+      {/* <Navbar /> */}
+      <Map />
     </div>
-  )
+  );
 }
 
-export default LandingPage
+export default LandingPage;
