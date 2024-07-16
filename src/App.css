@@ -1,11 +1,9 @@
-body {
-  
-}
+
 .profile {
     text-align: right !important;
 }
 input:focus {
-    outline-color : #3e5cb2;
+    outline-color : #9685cf;
 
 }
 .clip-path-mangled {
@@ -179,4 +177,34 @@ input:focus {
   .Signin-input {
     width: 100%;
   }
+  .sidebar {
+    width: 35% !important;
+    padding-top: 20px !important;
+
+  }
+  .sidebar li{
+   font-size: 14px;
+   margin-bottom: 15px;
+  }
+  .data {
+    font-size: 16px !important;
+    border-bottom: 1px solid gray !important;
+  }
+  .form label {
+    font-size: 14px;
+    margin-bottom: 2px;
+  }
+  .save {
+    width:100% !important;
+    padding: 5px 10px !important;
+    margin-top: -2vh !important;
+  }
+  }
+  .map {
+    border-top-right-radius: 20% !important;
+  }
+  .trafic {
+    border-radius: 0% !important;
+    border-top-left-radius: 50% !important;
+    height: 50% !important;
   }

@@ -30,12 +30,12 @@ import { Link, useNavigate } from 'react-router-dom';
             </div>
 
             <div className='Signin-input'>
-            <input type="email" value={theEmail} onChange={(e)=> {setTheEmail(e.target.value)}} placeholder='Enter Your Email'/>
-            <input type="password" value={thePassword} onChange={(e)=> {setThePassword(e.target.value)}} placeholder='Enter Your Password'/>
-            <button  onClick={handleClick}  className='btnSign bg-[#9685cf] text-[black]'>Login</button>
+            <input type="email" className='text-right' value={theEmail} onChange={(e)=> {setTheEmail(e.target.value)}} placeholder='الايميل'/>
+            <input type="password" className='text-right' value={thePassword} onChange={(e)=> {setThePassword(e.target.value)}} placeholder='كلمة المرور'/>
+            <button  onClick={handleClick}  className='btnSign bg-[#9685cf] text-[black]'>تسجيل الدخول</button>
 
             <ul className=' reg flex mt-[0] text-center ml-[auto] p-[8px]'>
-                <p className='mr-[10px]'>Don't have an account? </p>
+                <p className='mr-[10px]'>ليس لديك حساب</p>
                 {/* <li><Link to='/' className='register'>Register</Link></li> */}
             </ul>
             </div>
