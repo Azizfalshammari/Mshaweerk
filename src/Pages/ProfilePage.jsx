@@ -39,7 +39,7 @@ function ProfilePage() {
             {/* <Nav /> */}
             {/* section personal information */}
             <div className='h-[200px] w-full bg-[#7055be] pt-[10px]  rounded-[12px]'>
-                <h1 className='p-2 text-[18px] font-semibold pr-4 border-solid border-[2px] rounded-[15px] w-fit text-[#fff] border-[#fe6a00] ml-auto mr-[20px]'>
+                <h1 className='p-2 text-[18px] font-semibold pr-4 border-solid border-[2px] rounded-[15px] w-fit  border-[#f9a950] text-[#f9a950] ml-auto mr-[20px]'>
                     إعدادات الحساب
                 </h1>
             </div>
@@ -90,7 +90,7 @@ function ProfilePage() {
                             </div>
                             <div>
                                 <label className="block text-gray-600">
-                                    رقم الهاتف
+                                     الهاتف
                                 </label>
                                 <input
                                     type="text"
@@ -163,7 +163,7 @@ function ProfilePage() {
                 <div className='sidebar  rounded-[4px] w-[20%] p-[10px] pb-[1px] bg-[#fff] shadow-xl mt-[-10vh] ml-[10px]'>
                     <ul>
                         <li className='rounded-[6px] bg-[#ddd] p-[8px] mb-[8px]'>حسابي</li>
-                        <li className='rounded-[6px] bg-[#ddd] p-[8px] mb-[8px]'>مشاويرك</li>
+                        <li className='rounded-[6px] hover:bg-[#ddd] p-[8px] mb-[8px]'>مشاويرك</li>
                         <li className='rounded-[6px] hover:bg-[#ddd] p-[8px] mb-[8px]'>تسجيل الخروج</li>
                     </ul>
                 </div>

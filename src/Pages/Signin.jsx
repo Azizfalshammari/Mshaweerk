@@ -23,14 +23,16 @@ import { Link, useNavigate } from 'react-router-dom';
     <div>
         <div className='Signin-content text-center w-[80%] shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-xl overflow-hidden'>
             {/* <img src="https://im.rediff.com/news/2023/jul/24twitter.jpg?w=670&h=900" alt="" /> */}
-            <div className='h-full w-full bg-[#7055be]'>
-                <h1 className='text-[#f9a950] font-extrabold text-[20px] mt-[10vh]'>Wellcome Back!</h1>
+            <div className='h-full w-full bg-[#9685cf]'>
+                <h1 className='text-[#ffa842] font-extrabold text-[20px] mt-[10vh] mb-[20px]'>مرحبا بك مرة اخرى</h1>
+                <p className='text-[#ffa842] mb-[20px]'>  قم بادخال بيانتك لتسجيل الدخول</p>
+                <button className='border-[#ffa842] border-solid border-[1px] text-[14px] rounded-[12px] text-[#ffa842] p-1'>تسجيل جديد</button>
             </div>
 
             <div className='Signin-input'>
             <input type="email" value={theEmail} onChange={(e)=> {setTheEmail(e.target.value)}} placeholder='Enter Your Email'/>
             <input type="password" value={thePassword} onChange={(e)=> {setThePassword(e.target.value)}} placeholder='Enter Your Password'/>
-            <button  onClick={handleClick}  className='btnSign bg-[#7055be] text-[black]'>Login</button>
+            <button  onClick={handleClick}  className='btnSign bg-[#9685cf] text-[black]'>Login</button>
 
             <ul className=' reg flex mt-[0] text-center ml-[auto] p-[8px]'>
                 <p className='mr-[10px]'>Don't have an account? </p>

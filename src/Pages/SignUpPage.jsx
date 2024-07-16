@@ -51,9 +51,13 @@ function SignUpPage() {
    <div>
      <div className='Signin-content text-center w-[80%] shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-xl overflow-hidden'>
        {/* <img src="https://im.rediff.com/news/2023/jul/24twitter.jpg?w=670&h=900" alt="" /> */}
-       <div className='h-full w-full bg-[#7055be]'></div>
+       <div className='h-full w-full bg-[#9685cf]'>
+       <h1 className='text-[#ffa842] font-extrabold text-[20px] mt-[15vh] mb-[20px]'>مرحبا بك</h1>
+       <p className='text-[#ffa842] mb-[20px] '>قم بإدخال  معلوماتك للتسجيل</p>
+       <button className='border-[#ffa842] border-solid border-[1px] text-[14px] rounded-[12px] text-[#ffa842] p-1'>تسجيل دخول</button>
+       </div>
       <div className='Signin-input'>
-        <h1 className='mb-[10px] text-[#f9a950] font-semibold'>Create Acount</h1>
+        <h1 className='mb-[10px] text-[#f9a950] font-semibold'>إنشاء حساب</h1>
             {/* <div className='flex justify-center text-[14px]  mb-[10px]'><i className="fa-brands fa-google-plus-g bg-[#eee] p-2 rounded-[50%] mr-[10px]"></i><i className="fa-brands fa-twitter bg-[#eee] p-2 rounded-[50%] mr-[10px]"></i></div> */}
          <input type="text" value={name} placeholder='Enter Your Name' onChange={(e)=>{setName(e.target.value)}}/>
          <input type="text" value={username} placeholder='Enter User Name' onChange={(e)=>{setUserName(e.target.value)}}/>
