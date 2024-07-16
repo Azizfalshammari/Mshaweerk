@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 function SignUpPage() {
   return (    
-    <div className="w-full min-h-screen flex items-center justify-center px-5 py-5 bg-black-100">
+    <div className="w-full min-h-screen bg-gray-100 flex items-center justify-center px-5 py-5 bg-black-100">
         <div className="bg-white text-black-500  overflow-hidden w-[50vw]">
             <div className="md:flex w-full rounded-lg border-2 border-[#9685CF] ">
                 <div className=" md:block w-[50vw] bg-[#9685CF] py-10 px-10">
