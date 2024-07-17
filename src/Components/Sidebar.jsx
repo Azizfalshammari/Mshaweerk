@@ -1,17 +1,20 @@
 import React, { useState } from "react";
-import logo from "../assets/lan-fp-removebg-preview.png";
-const Sidebar = () => {
+import logo from "../assets/lan-fp.png";
+import { Link } from "react-router-dom";
+const Sidebar = ({ onMenuClick }) => {
   const [IsOpen, setIsOpen] = useState(false);
 
   return (
     <div
       onMouseEnter={() => setIsOpen(true)}
       onMouseLeave={() => setIsOpen(false)}
-      className="absolute bottom-32 right-2"
+      className="absolute bottom-[35vh] right-2"
     >
       <div className="relative flex h-auto w-auto flex-col rounded-lg bg-white pt-1 bg-clip-border p-1  text-[#9685cf] shadow-xl shadow-blue-gray-900/5 transition-all duration-300">
         <div className="flex items-center justify-center gap-4 ">
-          <img src={logo} alt="brand" className="w-20 h-20" />
+          <Link to="/">
+            <img src={logo} alt="brand" className="w-20 h-20" />
+          </Link>
         </div>
         {/* <hr className="my-2 border-[#9685cf]" /> */}
 
@@ -19,7 +22,7 @@ const Sidebar = () => {
           <div className="relative block w-full">
             <div
               role="button"
-              className="flex flex-col justify-center text-center items-center  w-full p-2 leading-tight transition-all rounded-lg outline-none text-start hover:bg-[#9685cf] hover:bg-opacity-80 hover:text-white focus:bg-[#9685cf] focus:bg-opacity-80 focus:text-white active:bg-[#9685cf] active:bg-opacity-80 active:text-white"
+              className="flex flex-col justify-center items-center  w-full p-2 leading-tight transition-all rounded-lg outline-none bg-[#9685cf] hover:bg-opacity-80 hover:text-white focus:bg-[#9685cf] focus:bg-opacity-80 focus:text-white active:bg-[#9685cf] active:bg-opacity-80 active:text-white"
             >
               <svg
                 width="48px"
@@ -62,13 +65,14 @@ const Sidebar = () => {
                   />
                 </g>
               </svg>
-
-              <p className="font-sans text-sm antialiased font-normal leading-relaxed text-blue-gray-900">
+              <p
+                onClick={onMenuClick}
+                className="text-sm antialiased font-semibold leading-relaxed text-black"
+              >
                 انشىء جدولك
               </p>
             </div>
           </div>
-
 
           <div
             role="button"
@@ -90,9 +94,11 @@ const Sidebar = () => {
               </svg>
             </div>
 
-            <p className="font-sans text-sm text-center antialiased font-normal leading-relaxed text-blue-gray-900">
-              الملف الشخصي
-            </p>
+            <Link to="/profile">
+              <p className=" text-sm text-center antialiased font-semibold leading-relaxed text-black">
+                الملف الشخصي
+              </p>
+            </Link>
           </div>
 
           {/* <div

@@ -29,9 +29,9 @@ function UsageSteps() {
 
     gsap.fromTo(
       lineRef2.current,
-      { strokeDasharray: "0, 500" },
+      { strokeDasharray: "10, 10" },
       {
-        strokeDasharray: "500, 0",
+        strokeDasharray: "25, 25",
         duration: 8,
         // ease: "power2.inOut",
         scrollTrigger: {
@@ -59,15 +59,15 @@ function UsageSteps() {
         viewBox="0 0 200 400"
       >
         <path
-          className=" "
-          d="M100 0 Q 150 150, 100 200 T 100 300 T 100 400 T 100 500 T 100 600"
-          stroke="#7d7d9e"
+          className="background-line"
+          d="M100 0 Q 250 150, 350 200 T 100 300 T 100 400 T 100 500 T 100 600"
+          stroke="#ddd"
           strokeWidth="25"
           fill="none"
         />
         <path
           ref={lineRef1}
-          d="M100 0 Q 150 150, 100 200 T 100 300 T 100 400 T 100 500 T 100 600"
+          d="M100 0 Q 250 150, 150 200 T 100 300 T 100 400 T 100 500 T 100 600"
           stroke="#6C63FF"
           strokeWidth="25"
           fill="none"
