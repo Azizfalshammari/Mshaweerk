@@ -1,11 +1,9 @@
 import Router from "./Router/Router";
-
+import "./App.css";
 function App() {
   return (
     <>
-      <div className="w-full bg-white ">
-        <Router />
-      </div>
+      <Router />
     </>
   );
 }

@@ -1,9 +1,7 @@
-import React from 'react'
-
+import React from "react";
+import ModalComponent from "../Components/ModalComponent";
 function LogInPage() {
-  return (
-    <div>LogInPage</div>
-  )
+  return <ModalComponent />;
 }
 
-export default LogInPage
+export default LogInPage;
