@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../Components/Sidebar";
+import ModalComponent from "../Components/ModalComponent";
 
 const SchedulerPage = () => {
   const [formData, setFormData] = useState({
@@ -7,7 +8,7 @@ const SchedulerPage = () => {
   });
   const [map, setMap] = useState(null);
   const [markers, setMarkers] = useState([]);
-
+  <ModalComponent />;
   useEffect(() => {
     const loadGoogleMapsScript = () => {
       const script = document.createElement("script");
