@@ -6,9 +6,11 @@ import UsageSteps from "../Components/UsageSteps";
 function LandingPage() {
   return (
     <div>
-      {/* <Navbar />
-      <Map1 /> */}
-      <UsageSteps />
+      <Navbar />
+
+      {/* <Map1 /> */}
+
+      {/* <UsageSteps /> */}
     </div>
   );
 }
