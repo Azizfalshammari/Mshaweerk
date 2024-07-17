@@ -3,7 +3,7 @@ import Router from "./Router/Router";
 function App() {
   return (
     <>
-      <div className="w-full ">
+      <div className="w-full bg-white ">
         <Router />
       </div>
     </>

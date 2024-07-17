@@ -1,0 +1,25 @@
+.step {
+  margin: 2px 0;
+}
+
+.number {
+  font-size: 24px;
+  background-color: #6c63ff;
+  color: white;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  z-index: 1;
+}
+
+.background-line {
+  position: relative;
+  left: 50%;
+  z-index: 1;
+  stroke: #7d7d9e;
+  stroke-width: 25;
+  /* background: linear-gradient(to bottom, transparent 100%, #962a28 100%); */
+}

@@ -6,7 +6,7 @@ import * as tt from "@tomtom-international/web-sdk-maps";
 
 const MAX_ZOOM = 17;
 
-function Map() {
+function Map1() {
   const mapElement = useRef();
   const [mapLongitude, setMapLongitude] = useState(46.685199701153614);
   const [mapLatitude, setMapLatitude] = useState(24.71521230058126);
@@ -38,10 +38,6 @@ function Map() {
       container: mapElement.current,
       center: [mapLongitude, mapLatitude],
       zoom: mapZoom,
-      stylesVisibility: {
-        trafficIncidents: true,
-        trafficFlow: true,
-      },
     });
     setMap(mapInstance);
     return () => mapInstance.remove();
@@ -65,9 +61,9 @@ function Map() {
           {/* Update Map */}
         </button>
       </div>
-      <div ref={mapElement} className="h-[600px] w-[100vw]" />
+      <div ref={mapElement} className="h-[900px] w-[100vw]" />
     </div>
   );
 }
 
-export default Map;
+export default Map1;
