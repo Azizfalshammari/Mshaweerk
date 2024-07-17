@@ -6,6 +6,7 @@ import './App.css';
 import SignUpPage from "./Pages/SignUpPage";
 import Signin from "./Pages/Signin";
 import LandingPage from "./Pages/LandingPage";
+import Animation from "./Components/Animation";
 
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
       {/* {" "} */}
       <div className="w-full">
         <LandingPage></LandingPage>
+        <Animation></Animation>
         <ProfilePage></ProfilePage>
         {/* <LandingPage></LandingPage> */}
         <SignUpPage></SignUpPage>
