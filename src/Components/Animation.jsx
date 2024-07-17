@@ -43,7 +43,7 @@ function Animation() {
 
     return ( 
         <div className="App flex-col justify-center m-[auto]"> 
-            <h1 className="mb-[20px] text-[18px] text-gray-600">كيف نستخدم جدولها ؟</h1> 
+            <h1 className="mb-[20px] text-[18px] text-gray-600 border-solid border-[#FFA842] border-[1px] shadow-xl rounded-[15px] p-2">كيف نستخدم جدولها ؟</h1> 
             <div className="step"> 
                 {/* <div className="number">1</div> */}
                 <i className="fa-solid fa-circle-nodes root mb-[-4vh] relative z-10"></i>

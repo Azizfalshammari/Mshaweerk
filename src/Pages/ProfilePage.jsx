@@ -221,8 +221,8 @@ const [showPreviousTrips, setShowPreviousTrips] = useState(false);
                          <label htmlFor="address" className="block text-gray-600"> العنوان </label> 
                     <input type="text" name="address" className="field w-full p-2 mb-[20px] border border-gray-300 rounded-[3px]" value={address} onChange={(e) => setAddress(e.target.value)} /> </div> </div> {/* <div className='bg-white pt-2 pb-2'> <div className='flex-col justify-between'> <button onClick={() => setShowPreviousTrips(!showPreviousTrips)} className='w-full bg-[#fff] pt-2 pb-2 rounded-md text-right mb-4 mr-auto' > <i className="fa-solid fa-angles-left mr-[20px]"></i> مشاويرك السابقة </button> <div className={`collapse-content ${showPreviousTrips ? 'block' : 'hidden'} p-4`}> <p className='text-[red]'>ااااا</p> </div> </div> </div> */}
                     <div className='btns flex w-[50%] justify-center mb-[20px] '>
-                    <button className='save ml-auto pb-4 bg-[#9685CF] text-[#fff] rounded-lg grid col-end-7 col-span-2 mt-5 w-[10em] p-2  pl-[10px]' onClick={update} > حفظ </button> 
-                    <button className='save ml-auto pb-4 bg-[#9685CF] text-[#fff] rounded-lg grid col-end-7 col-span-2 mt-5 w-[10em] p-2 text-[14px] mr-[10px]'  > عوده للرئيسية</button> 
+                    <button className='save ml-auto pb-4 bg-[#9685CF] text-[#fff] rounded-lg grid col-end-7 col-span-2 mt-5  p-2  pl-[10px] w-full' onClick={update} > حفظ </button> 
+                    <button className='save ml-auto pb-4  text-gray-600 rounded-lg grid col-end-7 col-span-2 mt-5 w-[10em] bg-[#ddd] p-2 text-[14px] mr-[10px] '  > عوده للرئيسية</button> 
                     </div>
                          </div> </div> </div> </div> </div> ); } 
     export default ProfilePage;
