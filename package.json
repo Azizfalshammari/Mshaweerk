@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@headlessui/react": "^2.1.2",
     "@react-google-maps/api": "^2.19.3",
     "@reduxjs/toolkit": "^2.2.6",
     "@tomtom-international/web-sdk-maps": "^6.25.0",
@@ -18,10 +19,12 @@
     "google-map-react": "^2.2.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-modal": "^3.16.1",
     "react-router-dom": "^6.24.1",
     "react-toastify": "^10.0.5",
     "redux": "^5.0.1",
-    "slick-slider": "^1.8.2"
+    "slick-slider": "^1.8.2",
+    "tailwindcss-rtl": "^0.9.0"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",
