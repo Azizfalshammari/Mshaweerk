@@ -297,6 +297,8 @@ input:focus {
                 margin-left: auto;
                 text-align: center;
                 line-height: 1.6;
+                padding-top: 30px !important;
+                background-color: #fff !important;
              } 
              .sidebar  i{
                 display: block;
@@ -304,11 +306,13 @@ input:focus {
                 text-align: center;
                 margin-right: 10px;
                 margin-top: 5px;
+
              } 
             .sidebar-item {
                 padding: 10px 0;
                 font-weight: bold;
-                flex-direction: column; 
+                flex-direction: column-reverse; 
+                line-height: 1.6;
                 justify-content: center;
                 text-align: center;
                cursor: pointer; 
@@ -316,12 +320,15 @@ input:focus {
                transition: background-color 0.3s; 
                padding: 10px; 
                font-size: 14px;
+               margin-bottom: 30px !important;
                margin: auto;}
                .form {
                 width: 80%  !important;
                }
-               /* .btns {
+               .btns {
                 flex-direction: column;
+                width: 100% !important;
+                padding-top: 20px !important;
                }
                .btns button{
                 flex-direction: column;
@@ -329,14 +336,27 @@ input:focus {
                 margin: auto;
                 margin-bottom: 20px;
                 margin-left: 20px !important;
-                }  */
+                } 
+                .sidebar-item.active, 
+                .sidebar-item:hover { 
+                    background-color: #ddd !important;
+                    background-color: #FFA842 !important;
+                    border-radius: 12px; 
+                    justify-content: space-between;
+                }
+                .inputs {
+                    display: flex !important;
+                    flex-direction: column !important;
+                    margin-top: -20px !important;
+                }
         }
-        .sidebar-item.active, 
-        .sidebar-item:hover { 
-            background-color: #FFA842;
-             border-radius: 12px; 
-             justify-content: space-between;
-    } .form { width: 100%; } 
+    .sidebar-item.active, 
+    .sidebar-item:hover { 
+        background-color: #FFA842;
+        border-radius: 12px; 
+        justify-content: space-between;
+    } 
+    .form { width: 100%; } 
     .shadow-xl { box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); } 
     .rounded { border-radius: 4px; }
         .mb-4 { margin-bottom: 1rem; } 

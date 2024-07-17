@@ -200,17 +200,25 @@ const [showPreviousTrips, setShowPreviousTrips] = useState(false);
     <li className='sidebar-item active mb-[10px] text-center m-[auto] flex justify-between '>البيانات الشخصية <span className='ml-[10px]'><i className="fa-regular fa-user"></i></span></li>
   <li className='sidebar-item text-center  flex justify-between '>المشاوير السابقة <span className='ml-[10px]'><i className="fa-solid fa-car-on"></i></span></li> 
   <li className='sidebar-item text-center  flex justify-between '>تسجيل خروج <span className='ml-[10px]'><i className="fa-solid fa-right-from-bracket"></i></span></li> </ul> </div> <div className="form w-[60%] mt-[] ml-4">
-     <div className="bg-white p-8 shadow-xl rounded-[4px]"> 
+     <div className="inputs bg-white p-8 shadow-xl rounded-[4px]"> 
         <div className="flex flex-col items-center mb-6"> 
             <div className="profile-pic bg-gray-200 rounded-full w-24 h-24 flex items-center justify-center text-3xl text-white"> {getInitials(fName, lName)} 
                 </div> <h3 className="mt-4 text-xl font-semibold"> {fName} {lName} </h3>
                  <p className="text-gray-600"> {address} </p> </div>
-                  <div className="grid grid-cols-2 gap-4"> 
-                <div className='box'> <label htmlFor="lastName" className="block text-gray-600"> الاسم الأول </label>
-                    <input type="text" name="lastName" className="field w-full p-2 border border-gray-300 rounded-[3px]" value={fName} onChange={(e) => setLName(e.target.value)} /> </div> <div> <label htmlFor="firstName" className="block text-gray-600"> الاسم الاخير </label>
-                    <input type="text" name="firstName" className="field w-full p-2 border border-gray-300 rounded-[3px]" value={lName}onChange={(e) => setFName(e.target.value)}/> </div> <div> <label htmlFor="email" className="block text-gray-600"> الإيميل </label>
-                    <input type="email" name="email" className="field w-full p-2 border border-gray-300 rounded-[3px]" value={email} onChange={(e) => setEmail(e.target.value)} /> </div> <div> <label htmlFor="phone" className="block text-gray-600"> الهاتف </label>
-                    <input type="text" name="phone" className="field w-full p-2 border border-gray-300 rounded-[3px]" value={phone} onChange={(e) => setPhone(e.target.value)} /> </div> <div> <label htmlFor="address" className="block text-gray-600"> العنوان </label> 
+                  <div className=" inputs grid grid-cols-2 gap-4"> 
+                <div className='box'>
+                     <label htmlFor="lastName" className="block text-gray-600"> الاسم الأول </label>
+                    <input type="text" name="lastName" className="field w-full p-2 border border-gray-300 rounded-[3px]" value={fName} onChange={(e) => setLName(e.target.value)} />
+                     </div> <div> 
+                        <label htmlFor="firstName" className="block text-gray-600"> الاسم الاخير </label>
+                    <input type="text" name="firstName" className="field w-full p-2 border border-gray-300 rounded-[3px]" value={lName}onChange={(e) => setFName(e.target.value)}/> 
+                    </div> <div>
+                         <label htmlFor="email" className="block text-gray-600"> الإيميل </label>
+                    <input type="email" name="email" className="field w-full p-2 border border-gray-300 rounded-[3px]" value={email} onChange={(e) => setEmail(e.target.value)} />
+                     </div> <div>
+                         <label htmlFor="phone" className="block text-gray-600"> الهاتف </label>
+                    <input type="text" name="phone" className="field w-full p-2 border border-gray-300 rounded-[3px]" value={phone} onChange={(e) => setPhone(e.target.value)} /> </div> <div>
+                         <label htmlFor="address" className="block text-gray-600"> العنوان </label> 
                     <input type="text" name="address" className="field w-full p-2 mb-[20px] border border-gray-300 rounded-[3px]" value={address} onChange={(e) => setAddress(e.target.value)} /> </div> </div> {/* <div className='bg-white pt-2 pb-2'> <div className='flex-col justify-between'> <button onClick={() => setShowPreviousTrips(!showPreviousTrips)} className='w-full bg-[#fff] pt-2 pb-2 rounded-md text-right mb-4 mr-auto' > <i className="fa-solid fa-angles-left mr-[20px]"></i> مشاويرك السابقة </button> <div className={`collapse-content ${showPreviousTrips ? 'block' : 'hidden'} p-4`}> <p className='text-[red]'>ااااا</p> </div> </div> </div> */}
                     <div className='btns flex w-[50%] justify-center mb-[20px] '>
                     <button className='save ml-auto pb-4 bg-[#9685CF] text-[#fff] rounded-lg grid col-end-7 col-span-2 mt-5 w-[10em] p-2  pl-[10px]' onClick={update} > حفظ </button> 
