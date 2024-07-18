@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import Sidebar from "../Components/Sidebar";
+
 const SchedulerPage = () => {
   const [formData, setFormData] = useState({
     locations: [{ address: "", deadline: "", position: { lat: null, lng: null } }],
@@ -15,7 +16,7 @@ const SchedulerPage = () => {
     const loadGoogleMapsScript = () => {
       const script = document.createElement("script");
       script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyAMzdv8DEMVlz1HdW6YiqZGqKeWGJxS0T0&libraries=places`;
-      script.async = true;``
+      script.async = true;
       script.defer = true;
       script.onload = () => initializeMap();
       document.head.appendChild(script);
@@ -35,6 +36,25 @@ const SchedulerPage = () => {
         );
 
         setMap(mapInstance);
+
+        // Add click listener to the map
+        mapInstance.addListener("click", (event) => {
+          const clickedPosition = {
+            lat: event.latLng.lat(),
+            lng: event.latLng.lng(),
+          };
+
+          const marker = new window.google.maps.Marker({
+            position: clickedPosition,
+            map: mapInstance,
+          });
+
+          setMarkers((prevMarkers) => [...prevMarkers, marker]);
+          updateAddress(clickedPosition, formData.locations.length - 1);
+
+          // Show the sidebar when the map is clicked
+          setIsSidebarVisible(true);
+        });
       });
     };
 
@@ -50,9 +70,7 @@ const SchedulerPage = () => {
       formData.locations.forEach((location, index) => {
         const input = document.getElementById(`location-${index}`);
         if (input) {
-          const autocomplete = new window.google.maps.places.Autocomplete(
-            input
-          );
+          const autocomplete = new window.google.maps.places.Autocomplete(input);
           autocomplete.addListener("place_changed", () => {
             const place = autocomplete.getPlace();
             handleLocationChange(
@@ -175,7 +193,7 @@ const SchedulerPage = () => {
                           type="datetime-local"
                           id={`deadline-${index}`}
                           name={`deadline-${index}`}
-                          value={`location.deadline`}
+                          value={location.deadline}
                           onChange={(e) => handleDeadlineChange(e, index)}
                           className="block w-full mt-2 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#9685CF]"
                         required/>
