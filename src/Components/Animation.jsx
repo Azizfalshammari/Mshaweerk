@@ -63,7 +63,7 @@ function Animation() {
             <div className="step"> 
                 {/* <div className="number">2</div>  */}
                 <i className="fa-solid fa-circle-nodes root  mb-[-4vh] relative z-10"></i>
-                <p className="cloud-background bg-[#eee] font-medium text-gray-600">ادخل جميع الأماكن التي تحتاج لزيارتها خلال الأسبوع</p>
+                <p className="cloud-background bg-[#eee] font-medium text-gray-600"></p>
             </div> 
             <svg className="line " width="200" height="200" viewBox="0 0 200 400"> 
                 <path className="background-line" d="M100 0 Q 150 150, 100 200 T 100 300 T 100 400 T 100 500 T 100 600" stroke="" strokeWidth="25" fill="none" /> 
@@ -79,7 +79,7 @@ function Animation() {
             <div className="step"> 
                 {/* <div className="number">3</div>  */}
                 <i className="fa-solid fa-circle-nodes root  mb-[-4vh] relative z-10"></i>
-                <p className="cloud-background bg-[#eee] text-gray-600 font-medium">ادخل جميع الأماكن التي تحتاج لزيارتها خلال الأسبوع</p> 
+                <p className="cloud-background bg-[#eee] text-gray-600 font-medium">حدد الاوقات التي تحتاج</p> 
             </div> 
         </div> 
     ); 

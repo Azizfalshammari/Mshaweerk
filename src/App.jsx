@@ -7,6 +7,9 @@ import SignUpPage from "./Pages/SignUpPage";
 import Signin from "./Pages/Signin";
 import LandingPage from "./Pages/LandingPage";
 import Animation from "./Components/Animation";
+import Card from "./Components/Card";
+import SchedulerPage from "./Pages/SchedulerPage";
+import Popup from "./Components/Popup";
 
 
 function App() {
@@ -14,6 +17,9 @@ function App() {
     <>
       {/* {" "} */}
       <div className="w-full">
+        <Popup></Popup>
+        {/* <SchedulerPage></SchedulerPage> */}
+        <Card></Card>
         <LandingPage></LandingPage>
         <Animation></Animation>
         <ProfilePage></ProfilePage>
