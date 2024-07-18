@@ -1,18 +1,18 @@
 import React from "react";
-import logo from ".../assets/lan-fp.png";
+import logo from "../assets/lan-fp.png";
 import { Link } from "react-router-dom";
 
 function NavBar() {
   return (
     <div className="w-full mb-2">
       <nav className="bg-white h-[10vh]">
-        <div className="flex items-center ">
+        <div className="flex items-center">
           <div className="flex items-center space-x-4 mb-[0px]">
             <Link
               to="/"
               className="flex items-center mr-2 text-black hover:text-gray-300"
             >
-              <img src={logo} className="w-auto h-[10vh] " alt="Logo" />
+              <img src={logo} className="w-auto h-[10vh]" alt="Logo" />
             </Link>
           </div>
           <div className="flex mr-auto">

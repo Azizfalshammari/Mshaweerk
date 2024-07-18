@@ -1,5 +1,5 @@
 import React from "react";
-import img from "../assets/logo-jadw.png";
+import img from "./logo-jadw.png";
 import { Link } from "react-router-dom";
 
 function LogInPage() {

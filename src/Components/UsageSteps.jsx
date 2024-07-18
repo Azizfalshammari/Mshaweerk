@@ -60,7 +60,7 @@ function UsageSteps() {
       >
         <path
           className="background-line"
-          d="M100 0 Q 250 150, 350 200 T 100 300 T 100 400 T 100 500 T 100 600"
+          d="M100 0 Q 250 150, 150 200 T 100 300 T 100 400 T 100 500 T 100 600"
           stroke="#ddd"
           strokeWidth="25"
           fill="none"
