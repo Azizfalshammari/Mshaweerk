@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
-import ScrollTrigger from "gsap/src/ScrollTrigger";
+import ScrollTrigger from "gsap/ScrollTrigger";
 import "../App.css";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -12,97 +12,90 @@ function UsageSteps() {
   useEffect(() => {
     gsap.fromTo(
       lineRef1.current,
-      { strokeDasharray: "0, 500" },
+      { strokeDasharray: "0, 900" },
       {
-        strokeDasharray: "500, 0",
-        duration: 8,
-        // ease: "power2.inOut",
+        strokeDasharray: "900, 0",
+        duration: 20,
         scrollTrigger: {
           trigger: lineRef1.current,
-          //   start: "top 80%",
-          //   end: "top 30%",
-          //   scrub: true,
-          //   toggleActions: "play none none none ",
         },
       }
     );
 
     gsap.fromTo(
       lineRef2.current,
-      { strokeDasharray: "10, 10" },
+      { strokeDasharray: "0, 900" },
       {
-        strokeDasharray: "25, 25",
-        duration: 8,
-        // ease: "power2.inOut",
+        strokeDasharray: "900, 0",
+        duration: 20,
         scrollTrigger: {
           trigger: lineRef2.current,
-          //   start: "top 80%",
-          //   end: "top 30%",
-          //   scrub: true,
-          //   toggleActions: "play none none reverse",
         },
       }
     );
   }, []);
 
   return (
-    <div className="text-center p-[20px]">
+    <div className="text-center z-1 w-[100%] text-xl p-[20px]">
       <h1>كيف نستخدم جدولها ؟</h1>
-      <div className="step">
-        <div className="number">1</div>
-        <p>ادخل جميع الأماكن التي تحتاج لزيارتها خلال الأسبوع.</p>
-      </div>
-      <svg
-        className="line mx-auto"
-        width="200"
-        height="200"
-        viewBox="0 0 200 400"
-      >
-        <path
-          className="background-line"
-          d="M100 0 Q 250 150, 150 200 T 100 300 T 100 400 T 100 500 T 100 600"
-          stroke="#ddd"
-          strokeWidth="25"
-          fill="none"
-        />
-        <path
-          ref={lineRef1}
-          d="M100 0 Q 250 150, 150 200 T 100 300 T 100 400 T 100 500 T 100 600"
-          stroke="#6C63FF"
-          strokeWidth="25"
-          fill="none"
-          strokeDasharray="500, 500"
-        />
-      </svg>
-      <div className="step">
-        <div className="number">2</div>
-        <p>ادخل جميع الأماكن التي تحتاج لزيارتها خلال الأسبوع.</p>
-      </div>
-      <svg
-        className="line mx-auto"
-        width="200"
-        height="200"
-        viewBox="0 0 200 400"
-      >
-        <path
-          className="background-line"
-          d="M100 0 Q 150 150, 100 200 T 100 300 T 100 400 T 100 500 T 100 600"
-          stroke="#ddd"
-          strokeWidth="25"
-          fill="none"
-        />
-        <path
-          ref={lineRef2}
-          d="M100 0 Q 150 150, 100 200 T 100 300 T 100 400 T 100 500 T 100 600"
-          stroke="#6C63FF"
-          strokeWidth="25"
-          fill="none"
-          strokeDasharray="500, 500"
-        />
-      </svg>
-      <div className="step">
-        <div className="number">3</div>
-        <p>ادخل جميع الأماكن التي تحتاج لزيارتها خلال الأسبوع.</p>
+      <div className="flex gap-10 justify-center">
+        <div className="step  flex flex-col items-center">
+          <div className="bg-[#9685CF] flex justify-center rounded-full w-[30px]">
+            <p>1</p>
+          </div>
+          <p className="flex items-center justify-center">
+            ادخل جميع الأماكن التي تحتاج لزيارتها خلال الأسبوع.
+          </p>
+        </div>
+        <svg
+          className="line absolute"
+          width="100%"
+          height="400"
+          viewBox="0 0 200 400"
+        >
+          <path
+            className="background-line"
+            d="M340 50 Q 250 100, 200 100 T 130 130"
+            stroke="#ddd"
+            strokeWidth="15"
+            fill="none"
+          />
+          <path
+            ref={lineRef1}
+            d="M340 50 Q 250 100, 200 100 T 130 130"
+            stroke="#9685CF"
+            strokeWidth="15"
+            fill="none"
+            strokeDasharray="900, 900"
+          />
+          <path
+            className="background-line"
+            d="M30 190   Q 0 200, 30 210 T -70 240, l-230 10"
+            stroke="#ddd"
+            strokeWidth="15"
+            fill="none"
+          />
+          <path
+            ref={lineRef2}
+            d="M30 190   Q 0 200, 30 210 T -70 240, l-230 10"
+            stroke="#9685CF"
+            strokeWidth="15"
+            fill="none"
+            strokeDasharray="900, 900"
+          />
+        </svg>
+        <div className="step  z-50 flex flex-col items-center justify-center">
+          <div className="bg-[#9685CF] mt-1 flex justify-center rounded-full w-[30px]">
+            <p>2</p>
+          </div>
+          <p>ادخل جميع الأماكن التي تحتاج لزيارتها خلال الأسبوع.</p>
+        </div>
+        <div className="step  z-[99] flex flex-col mr-10 items-center justify-end">
+          <div className="bg-[#9685CF] mt-60  flex justify-center  rounded-full w-[30px]">
+            3
+          </div>
+          <p>ادخل جميع الأماكن التي تحتاج لزيارتها خلال الأسبوع.</p>
+        </div>
       </div>
     </div>
   );
