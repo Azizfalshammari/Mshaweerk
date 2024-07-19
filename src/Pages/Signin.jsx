@@ -36,11 +36,15 @@ import { Link, useNavigate } from 'react-router-dom';
 
             <ul className=' reg flex mt-[0] text-center ml-[auto] p-[8px]'>
                 <p className='mr-[10px]'>ليس لديك حساب</p>
+             
                 {/* <li><Link to='/' className='register'>Register</Link></li> */}
             </ul>
             </div>
-
+          
     </div>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+                    <path fill="#9685CF" fill-opacity="1" d="M0,96L40,117.3C80,139,160,181,240,202.7C320,224,400,224,480,224C560,224,640,224,720,213.3C800,203,880,181,960,186.7C1040,192,1120,224,1200,229.3C1280,235,1360,213,1400,202.7L1440,192L1440,320L1400,320C1360,320,1280,320,1200,320C1120,320,1040,320,960,320C880,320,800,320,720,320C640,320,560,320,480,320C400,320,320,320,240,320C160,320,80,320,40,320L0,320Z"></path>
+                    </svg>
     </div>
   )
 }

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Markazi+Text:wght@400..700&family=Noto+Naskh+Arabic:wght@400..700&family=Scheherazade+New:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400..700&display=swap');
 body {
     font-family: "Cairo", sans-serif;
     margin: 0;
@@ -5,23 +7,13 @@ body {
 .profile {
     text-align: right !important;
 }
+.profile svg {
+  margin-top: -15vh !important;
+}
 input:focus {
     outline-color : #9685cf;
 
 }
-
-/* .contentProfile {
-    position: relative;
-    background-color: #9685cf !important;
-    margin-top: 5vh !important;
-    padding-bottom: 10vh;
-    border-radius: 6px !important;
-    width: 90%;
-    margin: auto;
-    padding-top: 20px;
-    overflow: hidden;
-    clip-path: polygon(0 10%, 10% 0, 90% 0, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0 90%);
-} */
 .App {
     display: flex;
     flex-direction: column;
@@ -253,6 +245,9 @@ input:focus {
 
 .profile { text-align: right !important; 
 }
+.profile .box {
+  align-items: center;
+}
  input:focus { 
     outline-color: #9685cf; 
 } 
@@ -289,13 +284,22 @@ input:focus {
                 line-height: 1.6;
                 padding-top: 30px !important;
                 background-color: #fff !important;
+                margin-top: 0vh;
+                /* padding-top: 20px !important; */
+               
              } 
+             .sidebar li {
+              display: none;
+             }
              .sidebar  i{
                 display: block;
+                text-align: center !important;
                 margin: auto;
                 text-align: center;
                 margin-right: 10px;
-                margin-top: 5px;
+                margin-top: 10px; 
+                margin-bottom: 20px;
+                padding-top: 10px;
 
              } 
             .sidebar-item {
@@ -306,7 +310,6 @@ input:focus {
                 justify-content: center;
                 text-align: center;
                cursor: pointer; 
-               /* width: 100%; */
                transition: background-color 0.3s; 
                padding: 10px; 
                font-size: 14px;
@@ -327,6 +330,9 @@ input:focus {
                 margin-bottom: 20px;
                 margin-left: 20px !important;
                 } 
+                .sidebar-item.active i{
+                  margin-right: 15px !important;
+                }
                 .sidebar-item.active, 
                 .sidebar-item:hover { 
                     background-color: #ddd !important;
@@ -525,9 +531,42 @@ body,html {
 }
 .wavy-landing svg {
  position: absolute;
- /* background-color: #9685CF; */
-  /* bottom: 0; */
   left: 0;
   width: 100%;
   bottom: -38vh !important;
 }
+.content {
+  position: relative;
+}
+.content svg {
+  position: absolute;
+   left: 0;
+   width: 100%;
+  bottom : 0;
+}
+
+/* * {
+  direction: rtl;
+   font-family: "Cairo", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+.gd{
+  padding-bottom: 3px;
+  color: #FFA842;
+  line-height: 2rem !important;
+
+}
+.lIN{
+  line-height: 1.4 !important;
+}
+.Par{
+  line-height: 1.6 !important;
+
+}
+.btn{
+  font-size: 50px;
+  width: 9rem;
+  height: 4rem;
+  border-radius: 14px;
+} */
