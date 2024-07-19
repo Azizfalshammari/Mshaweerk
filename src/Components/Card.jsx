@@ -57,9 +57,7 @@ export default function Card() {
          {/* end */}
             </div>
         </div>
-    
-
-//  </div>
+  
 
   )
 }
