@@ -3,7 +3,7 @@ import img1 from './landing-phot.png';
 
 function LandingPage() {
   return (
-    <div className="w-full flex bg-[#9685CF] h-auto justify-center items-center md:h-full py-10 md:py-0">
+    <div className="wavy-landing w-full flex bg-[#9685CF] h-auto justify-center items-center md:h-full py-10 md:py-0">
       <div className="w-full max-w-7xl md:h-full px-4 md:px-0">
         <div className="flex flex-col md:h-full md:flex-row-reverse">
           <div className="mr-14 md:w-1/2 flex justify-center md:h-full mb-6 md:mb-0">
