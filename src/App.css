@@ -26,3 +26,17 @@
     height: 4rem;
     border-radius: 14px;
 }
+.wavy-landing {
+  min-height: 30vh !important;
+  width: 100%;
+  background-color: #9685CF !important;
+  /* background-color: red; */
+  position: relative;
+  margin-bottom: 20vh !important;
+}
+.wavy-landing svg {
+ position: absolute;
+  left: 0;
+  width: 100%;
+  bottom: -38vh !important;
+}
