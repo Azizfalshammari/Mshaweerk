@@ -10,6 +10,7 @@ import Animation from "./Components/Animation";
 import Card from "./Components/Card";
 import SchedulerPage from "./Pages/SchedulerPage";
 import Popup from "./Components/Popup";
+import ErrorPage from "./Pages/ErrorPage";
 
 
 function App() {
@@ -17,11 +18,12 @@ function App() {
     <>
       {/* {" "} */}
       <div className="w-full">
+        <ErrorPage></ErrorPage>
         <Popup></Popup>
         {/* <SchedulerPage></SchedulerPage> */}
         <Card></Card>
         <LandingPage></LandingPage>
-        <Animation></Animation>
+        {/* <Animation></Animation> */}
         <ProfilePage></ProfilePage>
         {/* <LandingPage></LandingPage> */}
         <SignUpPage></SignUpPage>

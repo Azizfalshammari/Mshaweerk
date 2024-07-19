@@ -517,3 +517,19 @@ body,html {
 .model {
   direction: rtl;
 }
+.wavy-landing {
+  min-height: 30vh !important;
+  width: 100%;
+  background-color: #9685CF !important;
+  /* background-color: red; */
+  position: relative;
+  margin-bottom: 20vh !important;
+}
+.wavy-landing svg {
+ position: absolute;
+ /* background-color: #9685CF; */
+  /* bottom: 0; */
+  left: 0;
+  width: 100%;
+  bottom: -38vh !important;
+}
