@@ -58,19 +58,9 @@ const [showPreviousTrips, setShowPreviousTrips] = useState(false);
       </div>
       {/* end  */}
 
-  {/* <li className='sidebar-item text-center  flex justify-between mb-[10px]'
-  >المشاوير السابقة 
-    </li> */}
-    {/* <span className='ml-[10px]'><i class="fa-solid fa-table-list"></i></span> */}
-    {/* end  */}
-  {/* <li className='sidebar-item text-center  flex justify-between  mb-[10px]'>
-  الخريطة  */}
-    {/* <span className='ml-[10px]'><i class="fa-solid fa-location-dot"></i></span></li> */}
-    {/* end  */}
-  {/* <li className='sidebar-item text-center  flex justify-between  mb-[10px]' onClick={()=> localStorage.clear()}>تسجيل خروج <span className='ml-[10px]'><i className="fa-solid fa-right-from-bracket"></i></span></li>  */}
   </ul> </div> 
-  <div className="form w-[60%] mt-[] ml-4">
-     <div className="inputs bg-white p-8 shadow-xl rounded-[4px]"> 
+  <div className="form w-[60%] mt-[] ml-4 shadow-xl ">
+     <div className="inputs bg-white p-8 shadow-xl rounded-[4px]"  style={{ boxShadow: '0 0 10px rgba(0,0,0,0.2)', boxShadow: '0 0 10px rgba(0,0,0,0.2), inset -5px 0 8px rgba(0,0,0,0)' }}> 
         <div className="flex flex-col items-center mb-6"> 
             <div className="profile-pic bg-gray-200 rounded-full w-24 h-24 flex items-center justify-center text-3xl text-white"> {getInitials(fName, lName)} 
                 </div> <h3 className="mt-4 text-xl font-semibold"> {fName} {lName} </h3>
@@ -88,20 +78,22 @@ const [showPreviousTrips, setShowPreviousTrips] = useState(false);
                      </div> <div>
                          <label htmlFor="phone" className="block text-gray-600 mb-[5px]"> الهاتف </label>
                     <input type="text" name="phone" className="field w-full p-2 border border-gray-300 rounded-[3px]" value={phone} onChange={(e) => setPhone(e.target.value)} /> </div> <div>
-                         <label htmlFor="address" className="block text-gray-600 mb-[5px]"> العنوان </label> 
-                    <input type="text" name="address" className="field w-full p-2 mb-[20px] border border-gray-300 rounded-[3px]" value={address} onChange={(e) => setAddress(e.target.value)} /> </div> </div> 
+                    </div> </div> 
                     {/* <div className='bg-white pt-2 pb-2'> <div className='flex-col justify-between'> <button onClick={() => setShowPreviousTrips(!showPreviousTrips)} className='w-full bg-[#fff] pt-2 pb-2 rounded-md text-right mb-4 mr-auto' > <i className="fa-solid fa-angles-left mr-[20px]"></i> مشاويرك السابقة </button> <div className={`collapse-content ${showPreviousTrips ? 'block' : 'hidden'} p-4`}> <p className='text-[red]'>ااااا</p> </div> </div> </div> */}
                     <div className='btns flex w-[100%] justify-center mb-[20px] '>
-                    <button className='save ml-auto pb-4 bg-[#9685CF] mb-[20px] text-[#fff] rounded-lg grid col-end-7 col-span-2 mt-[20px]  p-2  pl-[10px] w-[20%] m-[auto]' onClick={update} > حفظ </button> 
+                    <button className='relative  save ml-auto pb-2 bg-gradient-to-r from-[#9685CF] to-[#fac282]  text-[#fff] rounded-lg grid col-end-7 col-span-2  p-2  pl-[10px] w-[20%] m-[auto] mb-[20px] mt-[20px]' onClick={update} > حفظ </button> 
                  
                     {/* <button className='save ml-auto pb-4  text-gray-600 rounded-lg grid col-end-7 col-span-2 mt-5 w-full bg-[#ddd] p-2 text-[14px] mr-[10px] '  > عوده للرئيسية</button>  */}
                
                     </div>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-                    <path fill="#9685CF" fill-opacity="1" d="M0,96L40,117.3C80,139,160,181,240,202.7C320,224,400,224,480,224C560,224,640,224,720,213.3C800,203,880,181,960,186.7C1040,192,1120,224,1200,229.3C1280,235,1360,213,1400,202.7L1440,192L1440,320L1400,320C1360,320,1280,320,1200,320C1120,320,1040,320,960,320C880,320,800,320,720,320C640,320,560,320,480,320C400,320,320,320,240,320C160,320,80,320,40,320L0,320Z"></path>
-                    </svg>
-                  </div>
-                
+                   
+              </div>
+              <div className='mt-[40px]'>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 250">
+                <path fill="#9685CF" fill-opacity="1" d="M0,320L30,314.7C60,309,120,299,180,266.7C240,235,300,181,360,160C420,139,480,149,540,165.3C600,181,660,203,720,192C780,181,840,139,900,144C960,149,1020,203,1080,218.7C1140,235,1200,213,1260,176C1320,139,1380,85,1410,58.7L1440,32L1440,320L1410,320C1380,320,1320,320,1260,320C1200,320,1140,320,1080,320C1020,320,960,320,900,320C840,320,780,320,720,320C660,320,600,320,540,320C480,320,420,320,360,320C300,320,240,320,180,320C120,320,60,320,30,320L0,320Z"></path>
+              </svg>
+              </div>
+            
                   </div>
                   </div>
                   </div>
