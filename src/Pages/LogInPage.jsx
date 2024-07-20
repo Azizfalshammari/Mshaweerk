@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 function LogInPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(""); // Add state for error handling
+  const [error, setError] = useState(""); 
   const navigate = useNavigate();
 
   const handleLogin = () => {
@@ -19,13 +19,13 @@ function LogInPage() {
         navigate("/");
       })
       .catch((error) => {
-        setError("البريد الإلكتروني أو كلمة المرور غير صحيحة"); // Set error message
+        setError("البريد الإلكتروني أو كلمة المرور غير صحيحة"); 
         console.error("Error logging in:", error);
       });
   };
 
   const closeModal = () => {
-    setError(""); // Clear the error when closing the modal
+    setError(""); 
   };
 
   return (
