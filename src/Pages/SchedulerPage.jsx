@@ -252,7 +252,7 @@ const SchedulerPage = () => {
           <div className="bg-transparent shadow-md flex items-center justify-between p-4">
             <input
               type="text"
-              placeholder="Search..."
+              placeholder="ابحث ..."
               className="px-4 py-2 rounded-lg bg-transparent"
             />
             <div className="flex items-center gap-4 space-x-4">
