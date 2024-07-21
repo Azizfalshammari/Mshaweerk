@@ -6,97 +6,95 @@ import "../App.css";
 gsap.registerPlugin(ScrollTrigger);
 
 function UsageSteps() {
-  const lineRef1 = useRef(null);
-  const lineRef2 = useRef(null);
+  const lineRef = useRef(null);
 
   useEffect(() => {
-    gsap.fromTo(
-      lineRef1.current,
-      { strokeDasharray: "0, 900" },
-      {
-        strokeDasharray: "900, 0",
-        duration: 20,
-        scrollTrigger: {
-          trigger: lineRef1.current,
-        },
-      }
-    );
+    const pathLength = lineRef.current.getTotalLength();
 
     gsap.fromTo(
-      lineRef2.current,
-      { strokeDasharray: "0, 900" },
+      lineRef.current,
       {
-        strokeDasharray: "900, 0",
+        strokeDasharray: pathLength,
+        strokeDashoffset: pathLength,
+      },
+      {
+        strokeDashoffset: 0,
         duration: 20,
         scrollTrigger: {
-          trigger: lineRef2.current,
+          trigger: lineRef.current,
         },
       }
     );
   }, []);
 
   return (
-    <div className="text-center z-1 w-[100%] text-xl p-[20px]">
-      <h1>كيف نستخدم جدولها ؟</h1>
-      <div className="flex gap-10 justify-center">
-        <div className="step  flex flex-col items-center">
-          <div className="bg-[#9685CF] flex justify-center rounded-full w-[30px]">
-            <p>1</p>
-          </div>
-          <p className="flex items-center justify-center">
-            ادخل جميع الأماكن التي تحتاج لزيارتها خلال الأسبوع.
-          </p>
-        </div>
+    <div className="flex flex-col items-center justify-center w-full h-full bg-white py-10">
+      <h1 className="text-4xl font-bold mb-10">How does it work?</h1>
+      <div className="relative w-full flex justify-center items-center">
         <svg
-          className="line absolute"
-          width="100%"
-          height="400"
-          viewBox="0 0 200 400"
+          className="absolute w-full h-full z-0 max-lg:hidden"
+          viewBox="0 0 1440 320"
+          preserveAspectRatio="none"
         >
+          <defs>
+            <linearGradient id="gradient1" gradientTransform="rotate(90)">
+              <stop offset="0%" stopColor="#ff7f50" />
+              <stop offset="100%" stopColor="#6C63FF" />
+            </linearGradient>
+          </defs>
+
           <path
-            className="background-line"
-            d="M340 50 Q 250 100, 200 100 T 130 130"
-            stroke="#ddd"
-            strokeWidth="15"
+            ref={lineRef}
+            d="M1320,-10 
+           Q1080,100 750,180 
+           l -200 -170,
+             l -600 400
+         
+          "
+            stroke="url(#gradient1)"
+            strokeWidth="5"
+            strokeDasharray="1000, 1000"
+            strokeDashoffset="1000"
+            strokeLinecap="round"
             fill="none"
-          />
-          <path
-            ref={lineRef1}
-            d="M340 50 Q 250 100, 200 100 T 130 130"
-            stroke="#9685CF"
-            strokeWidth="15"
-            fill="none"
-            strokeDasharray="900, 900"
-          />
-          <path
-            className="background-line"
-            d="M30 190   Q 0 200, 30 210 T -70 240, l-230 10"
-            stroke="#ddd"
-            strokeWidth="15"
-            fill="none"
-          />
-          <path
-            ref={lineRef2}
-            d="M30 190   Q 0 200, 30 210 T -70 240, l-230 10"
-            stroke="#9685CF"
-            strokeWidth="15"
-            fill="none"
-            strokeDasharray="900, 900"
           />
         </svg>
-        <div className="step  z-50 flex flex-col items-center justify-center">
-          <div className="bg-[#9685CF] mt-1 flex justify-center rounded-full w-[30px]">
-            <p>2</p>
+
+        <div className="relative w-[90%] bg--500 z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+          <div className="step z-50 bg-white border-4 border-purple-400 card p-4 rounded-badge flex flex-col items-center w-96 h-40">
+            <div className="bg-gradient-to-r from-purple-400 to-blue-500 flex justify-center rounded-full w-[30px] mb-4">
+              <p className="text-white text-2xl">1</p>
+            </div>
+            <p className="text-center">test </p>
           </div>
-          <p>ادخل جميع الأماكن التي تحتاج لزيارتها خلال الأسبوع.</p>
-        </div>
-        <div className="step  z-[99] flex flex-col mr-10 items-center justify-end">
-          <div className="bg-[#9685CF] mt-60  flex justify-center  rounded-full w-[30px]">
-            3
+
+          <div className="step z-50 bg-white border-4 border-purple-400 mt-32 card p-4 rounded-badge flex flex-col items-center w-96 h-40">
+            <div className="bg-gradient-to-r from-purple-400 to-blue-500 flex justify-center rounded-full w-[30px] mb-4">
+              <p className="text-white text-2xl">2</p>
+            </div>
+            <p className="text-center">tet </p>
           </div>
-          <p>ادخل جميع الأماكن التي تحتاج لزيارتها خلال الأسبوع.</p>
+
+          <div className="step z-50 bg-white border-4 border-purple-400 card p-4 rounded-badge flex flex-col items-center w-96 h-40">
+            <div className="bg-gradient-to-r from-purple-400 to-blue-500 flex justify-center rounded-full w-[30px] mb-4">
+              <p className="text-white text-2xl">3</p>
+            </div>
+            <p className="text-center">test </p>
+          </div>
+
+          <div className="step z-50 bg-white  border-4 border-purple-400 mt-52 card p-4 rounded-badge flex flex-col items-center w-96 h-40">
+            <div className="bg-gradient-to-r from-purple-400 to-blue-500 flex justify-center rounded-full w-[30px] mb-4">
+              <p className="text-white text-2xl">4</p>
+            </div>
+            <p className="text-center text-xl">test tsts </p>
+            <p>loredkdkjdjddjdj</p>
+            <p></p>
+          </div>
         </div>
       </div>
+      <button className="mt-10 px-6 py-3 bg-gradient-to-r from-purple-400 to-blue-500 text-white text-lg rounded-full">
+        Get Started
+      </button>
     </div>
   );
 }

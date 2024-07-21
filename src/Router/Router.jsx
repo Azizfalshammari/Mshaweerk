@@ -5,6 +5,8 @@ import LogInPage from "../Pages/LogInPage";
 import SignUpPage from "../Pages/SignUpPage";
 import SchedulerPage from "../Pages/SchedulerPage";
 import ProfilePage from "../Pages/ProfilePage";
+import Test from "../Components/Test";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -25,6 +27,10 @@ const router = createBrowserRouter([
   {
     path: "/profile",
     element: <ProfilePage />,
+  },
+  {
+    path: "/test",
+    element: <Test />,
   },
 ]);
 function Router() {

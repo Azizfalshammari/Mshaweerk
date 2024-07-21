@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import Sidebar from "../Components/Sidebar";
 
 const SchedulerPage = () => {
   const [formData, setFormData] = useState({
-    locations: [{ address: "", deadline: "", position: { lat: null, lng: null } }],
+    locations: [
+      { address: "", deadline: "", position: { lat: null, lng: null } },
+    ],
   });
   const [map, setMap] = useState(null);
   const [markers, setMarkers] = useState([]);
@@ -50,6 +52,7 @@ const SchedulerPage = () => {
           });
 
           setMarkers((prevMarkers) => [...prevMarkers, marker]);
+          console.log(markers);
           updateAddress(clickedPosition, formData.locations.length - 1);
 
           // Show the sidebar when the map is clicked
@@ -70,7 +73,9 @@ const SchedulerPage = () => {
       formData.locations.forEach((location, index) => {
         const input = document.getElementById(`location-${index}`);
         if (input) {
-          const autocomplete = new window.google.maps.places.Autocomplete(input);
+          const autocomplete = new window.google.maps.places.Autocomplete(
+            input
+          );
           autocomplete.addListener("place_changed", () => {
             const place = autocomplete.getPlace();
             handleLocationChange(
@@ -122,7 +127,11 @@ const SchedulerPage = () => {
   const addTaskToTable = () => {
     const updatedTaskList = [...taskList, ...formData.locations];
     setTaskList(updatedTaskList);
-    setFormData({ locations: [{ address: "", deadline: "", position: { lat: null, lng: null } }] });
+    setFormData({
+      locations: [
+        { address: "", deadline: "", position: { lat: null, lng: null } },
+      ],
+    });
   };
 
   const removeTaskFromTable = (index) => {
@@ -188,7 +197,8 @@ const SchedulerPage = () => {
                           value={location.address}
                           onChange={(e) => handleLocationChange(e, index)}
                           className="block w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#9685CF]"
-                        required/>
+                          required
+                        />
                         <input
                           type="datetime-local"
                           id={`deadline-${index}`}
@@ -196,7 +206,8 @@ const SchedulerPage = () => {
                           value={location.deadline}
                           onChange={(e) => handleDeadlineChange(e, index)}
                           className="block w-full mt-2 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#9685CF]"
-                        required/>
+                          required
+                        />
                       </div>
                     ))}
                     <button
@@ -219,7 +230,7 @@ const SchedulerPage = () => {
                               العنوان
                             </th>
                             <th className="py-2 px-4 border-b-2 border-[#9685CF] text-right text-lg  font-bold text-[#9685CF]">
-                               الموعد النهائي
+                              الموعد النهائي
                             </th>
                             <th className="py-2 px-4 border-b-2 border-[#9685CF]"></th>
                           </tr>
