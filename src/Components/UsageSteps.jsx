@@ -7,6 +7,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 function UsageSteps() {
   const lineRef = useRef(null);
+  const lineRef1 = useRef(null);
 
   useEffect(() => {
     const pathLength = lineRef.current.getTotalLength();
@@ -32,9 +33,10 @@ function UsageSteps() {
       <h1 className="text-4xl font-bold mb-10">How does it work?</h1>
       <div className="relative w-full flex justify-center items-center">
         <svg
-          className="absolute w-full h-full z-0 max-lg:hidden"
-          viewBox="0 0 1440 320"
+          className="absolute z-0 max-lg:hidden "
+          viewBox="0 0 1400 320"
           preserveAspectRatio="none"
+          style={{ top: "-70px", left: "0", width: "100%", height: "auto" }}
         >
           <defs>
             <linearGradient id="gradient1" gradientTransform="rotate(90)">
@@ -45,16 +47,14 @@ function UsageSteps() {
 
           <path
             ref={lineRef}
-            d="M1320,-10 
-           Q1080,100 750,180 
-           l -200 -170,
+            d="m1400,0 
+           Q1080,200 750,180 
+           l -150 -120,
              l -600 400
          
           "
             stroke="url(#gradient1)"
             strokeWidth="5"
-            strokeDasharray="1000, 1000"
-            strokeDashoffset="1000"
             strokeLinecap="round"
             fill="none"
           />
@@ -82,7 +82,7 @@ function UsageSteps() {
             <p className="text-center">test </p>
           </div>
 
-          <div className="step z-50 bg-white  border-4 border-purple-400 mt-52 card p-4 rounded-badge flex flex-col items-center w-96 h-40">
+          <div className="step z-50 bg-white border-4 border-purple-400 mt-52 card p-4 rounded-badge flex flex-col items-center w-96 h-40">
             <div className="bg-gradient-to-r from-purple-400 to-blue-500 flex justify-center rounded-full w-[30px] mb-4">
               <p className="text-white text-2xl">4</p>
             </div>
