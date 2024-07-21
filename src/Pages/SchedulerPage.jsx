@@ -59,6 +59,8 @@ const SchedulerPage = () => {
           };
 
           if (currentMarker) {
+            updateAddress(null, 0); // Update the first location's address
+
             currentMarker.setPosition(clickedPosition);
             updateAddress(clickedPosition, 0); // Update the first location's address
           } else {
@@ -66,13 +68,14 @@ const SchedulerPage = () => {
               position: clickedPosition,
               map: mapInstance,
             });
-            setCurrentMarker(marker);
+            setCurrentMarker(null);
+            console.log(currentMarker)
             setFormData((prevFormData) => ({
               locations: [
                 { address: "", deadline: "", position: clickedPosition },
               ],
             }));
-            setMarkers([marker]);
+            setMarkers(null);
             setIsSidebarVisible(true);
           }
         });
@@ -249,13 +252,13 @@ const SchedulerPage = () => {
         <Sidebar onMenuClick={toggleSidebar} />
 
         {/* Main Content */}
-        <div className="flex flex-col flex-grow bg-transparent">
+        <div className=" flex flex-col flex-grow bg-transparent">
           {/* <Popup/> */}
-          <div className="bg-transparent shadow-md flex items-center justify-between p-4 ">
+          <div className="absolute top-0 z-50 bg-transparent flex items-center justify-between p-4 ">
             <input
               type="text"
               placeholder="ابحث ..."
-              className="px-4 py-2 rounded-lg bg-transparent max-sm:hidden input-disabled select-disabled"
+              className="px-4 py-2 rounded-lg bg-white max-sm:hidden input-disabled select-disabled"
             />
             <div className="flex items-center gap-4 space-x-4">
               <FontAwesomeIcon
