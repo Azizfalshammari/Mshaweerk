@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../Components/Sidebar";
 import BestRouteModal from "../Components/BestRouteModal"; // Import the BestRouteModal component
+import LocationChooserModal from "../Components/LocationChooserModal"; // Import the LocationChooserModal component
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -23,6 +24,7 @@ const SchedulerPage = () => {
   const [currentMarker, setCurrentMarker] = useState(null);
   const [routeInfo, setRouteInfo] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false); // State to control the modal visibility
+  const [locationType, setLocationType] = useState(null); // State to control the location type for the modal
 
   useEffect(() => {
     const loadGoogleMapsScript = () => {
@@ -213,21 +215,30 @@ const SchedulerPage = () => {
     );
 
     const request = {
-      origin: origin,
-      destination: destination,
-      waypoints: waypoints,
+      origin,
+      destination,
+      waypoints,
       travelMode: window.google.maps.TravelMode.DRIVING,
-      optimizeWaypoints: true,
     };
 
     directionsService.route(request, (result, status) => {
-      if (status === "OK") {
+      if (status === window.google.maps.DirectionsStatus.OK) {
         setRouteInfo(result);
-        setIsModalOpen(true); // Open the modal when the route is calculated
-      } else {
-        alert("Could not calculate route: " + status);
       }
     });
+  };
+
+  const openLocationChooser = (type) => {
+    setLocationType(type);
+    setIsModalOpen(true);
+  };
+
+  const handleSaveLocation = ({ address, position }) => {
+    localStorage.setItem(
+      locationType,
+      JSON.stringify({ address, position })
+    );
+    setIsModalOpen(false);
   };
 
   return (
@@ -237,21 +248,23 @@ const SchedulerPage = () => {
         <Sidebar onMenuClick={toggleSidebar} />
 
         {/* Main Content */}
-        <div className=" flex flex-col flex-grow bg-transparent">
+        <div className="flex flex-col flex-grow bg-transparent">
           <div className="bg-transparent shadow-md flex items-center justify-between p-4">
             <input
               type="text"
               placeholder="Search..."
-              className="px-4 py-2 rounded-lg"
+              className="px-4 py-2 rounded-lg bg-transparent"
             />
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center gap-4 space-x-4">
               <FontAwesomeIcon
                 icon={faHome}
                 className="text-2xl cursor-pointer text-purple-200"
+                onClick={() => openLocationChooser("home")}
               />
               <FontAwesomeIcon
                 icon={faBriefcase}
                 className="text-2xl cursor-pointer text-purple-200"
+                onClick={() => openLocationChooser("work")}
               />
             </div>
           </div>
@@ -278,7 +291,9 @@ const SchedulerPage = () => {
                                 name={`location-${index}`}
                                 placeholder="أدخل العنوان"
                                 value={location.address}
-                                onChange={(e) => handleLocationChange(e, index)}
+                                onChange={(e) =>
+                                  handleLocationChange(e, index)
+                                }
                                 className="block w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#9685CF]"
                                 required
                               />
@@ -287,7 +302,9 @@ const SchedulerPage = () => {
                                 id={`deadline-${index}`}
                                 name={`deadline-${index}`}
                                 value={location.deadline}
-                                onChange={(e) => handleDeadlineChange(e, index)}
+                                onChange={(e) =>
+                                  handleDeadlineChange(e, index)
+                                }
                                 className="block w-full mt-2 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#9685CF]"
                                 required
                               />
@@ -354,6 +371,13 @@ const SchedulerPage = () => {
           <ToastContainer />
         </div>
       </div>
+      {isModalOpen && (
+        <LocationChooserModal
+          type={locationType}
+          onClose={() => setIsModalOpen(false)}
+          onSave={handleSaveLocation}
+        />
+      )}
     </>
   );
 };
