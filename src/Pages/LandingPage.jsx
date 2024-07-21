@@ -1,6 +1,7 @@
 import React from "react";
 import img1 from "./landingggg.png";
 import { Link } from "react-router-dom";
+import Team from "../Components/Team";
 
 function Landding() {
   return (

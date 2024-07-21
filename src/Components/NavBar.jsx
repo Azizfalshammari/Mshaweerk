@@ -35,7 +35,11 @@ function Navbar() {
       <nav className="bg-[#9685CF] h-[10vh]">
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center mr-2 hover:text-gray-300">
-            <img src={logo} className="w-auto mr-4 h-[15vh] max-sm:h-[10vh]" alt="Logo" />
+            <img
+              src={logo}
+              className="w-auto mr-4 h-[15vh] max-sm:h-[10vh]"
+              alt="Logo"
+            />
           </Link>
           <div className="hidden md:flex items-center gap-4">
             {isLoggedIn ? (
