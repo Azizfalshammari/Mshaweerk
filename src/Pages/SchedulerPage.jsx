@@ -1,30 +1,16 @@
 import React, { useState, useEffect } from "react";
-import Sidebar from "../Components/Sidebar";
-import BestRouteModal from "../Components/BestRouteModal"; // Import the BestRouteModal component
-import LocationChooserModal from "../Components/LocationChooserModal"; // Import the LocationChooserModal component
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import {
-//   faTrash,
-//   faHome,
-//   faBriefcase,
-// } from "@fortawesome/free-solid-svg-icons";
+import Sidebar from "../components/Sidebar";
 
 const SchedulerPage = () => {
   const [formData, setFormData] = useState({
-    locations: [
-      { address: "", deadline: "", position: { lat: null, lng: null } },
-    ],
+    locations: [{ address: "", deadline: "", position: { lat: null, lng: null } }],
   });
   const [map, setMap] = useState(null);
   const [markers, setMarkers] = useState([]);
-  const [isSidebarVisible, setIsSidebarVisible] = useState(false); // Make sure sidebar is initially visible
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
   const [taskList, setTaskList] = useState([]);
-  const [currentMarker, setCurrentMarker] = useState(null);
-  const [routeInfo, setRouteInfo] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false); // State to control the modal visibility
-  const [locationType, setLocationType] = useState(null); // State to control the location type for the modal
+  const [currentMarker, setCurrentMarker] = useState(null); // Track the current marker
+  const [routeInfo, setRouteInfo] = useState(null); // State to hold route information
 
   useEffect(() => {
     const loadGoogleMapsScript = () => {
@@ -66,10 +52,8 @@ const SchedulerPage = () => {
               map: mapInstance,
             });
             setCurrentMarker(marker);
-            setFormData((prevFormData) => ({
-              locations: [
-                { address: "", deadline: "", position: clickedPosition },
-              ],
+            setFormData(prevFormData => ({
+              locations: [{ address: "", deadline: "", position: clickedPosition }],
             }));
             setMarkers([marker]);
             setIsSidebarVisible(true);
@@ -90,9 +74,7 @@ const SchedulerPage = () => {
       formData.locations.forEach((location, index) => {
         const input = document.getElementById(`location-${index}`);
         if (input) {
-          const autocomplete = new window.google.maps.places.Autocomplete(
-            input
-          );
+          const autocomplete = new window.google.maps.places.Autocomplete(input);
           autocomplete.addListener("place_changed", () => {
             const place = autocomplete.getPlace();
             handleLocationChange(
@@ -124,11 +106,7 @@ const SchedulerPage = () => {
     updatedLocations[index].deadline = value;
     setFormData({ ...formData, locations: updatedLocations });
 
-    if (
-      currentMarker &&
-      updatedLocations[index].position.lat &&
-      updatedLocations[index].position.lng
-    ) {
+    if (currentMarker && updatedLocations[index].position.lat && updatedLocations[index].position.lng) {
       currentMarker.setPosition(updatedLocations[index].position);
       map.setCenter(updatedLocations[index].position);
     }
@@ -139,13 +117,9 @@ const SchedulerPage = () => {
     if (newLocations.length > 0) {
       const updatedTaskList = [...taskList, ...newLocations];
       setTaskList(updatedTaskList);
-      setFormData({
-        locations: [
-          { address: "", deadline: "", position: { lat: null, lng: null } },
-        ],
-      });
+      setFormData({ locations: [{ address: "", deadline: "", position: { lat: null, lng: null } }] });
       if (currentMarker) {
-        currentMarker.setMap(null);
+        currentMarker.setMap(null); 
         setCurrentMarker(null);
       }
     }
@@ -188,196 +162,179 @@ const SchedulerPage = () => {
   };
 
   const confirmSchedule = () => {
-    const notify = () => toast("This is an alert!");
-
     if (taskList.length < 2) {
-      notify();
+      alert("Please add at least two tasks to calculate a route.");
       return;
     }
 
     const directionsService = new window.google.maps.DirectionsService();
 
-    const waypoints = taskList.slice(1, taskList.length - 1).map((task) => ({
-      location: new window.google.maps.LatLng(
-        task.position.lat,
-        task.position.lng
-      ),
+    const waypoints = taskList.slice(1, taskList.length - 1).map(task => ({
+      location: new window.google.maps.LatLng(task.position.lat, task.position.lng),
       stopover: true,
     }));
 
-    const origin = new window.google.maps.LatLng(
-      taskList[0].position.lat,
-      taskList[0].position.lng
-    );
-    const destination = new window.google.maps.LatLng(
-      taskList[taskList.length - 1].position.lat,
-      taskList[taskList.length - 1].position.lng
-    );
+    const origin = new window.google.maps.LatLng(taskList[0].position.lat, taskList[0].position.lng);
+    const destination = new window.google.maps.LatLng(taskList[taskList.length - 1].position.lat, taskList[taskList.length - 1].position.lng);
 
     const request = {
-      origin,
-      destination,
-      waypoints,
+      origin: origin,
+      destination: destination,
+      waypoints: waypoints,
       travelMode: window.google.maps.TravelMode.DRIVING,
+      optimizeWaypoints: true,
     };
 
     directionsService.route(request, (result, status) => {
-      if (status === window.google.maps.DirectionsStatus.OK) {
+      if (status === "OK") {
         setRouteInfo(result);
+      } else {
+        alert("Could not calculate route: " + status);
       }
     });
   };
 
-  const openLocationChooser = (type) => {
-    setLocationType(type);
-    setIsModalOpen(true);
-  };
-
-  const handleSaveLocation = ({ address, position }) => {
-    localStorage.setItem(
-      locationType,
-      JSON.stringify({ address, position })
-    );
-    setIsModalOpen(false);
-  };
-
   return (
     <>
-      <div className="flex h-screen ">
-        {/* Sidebar */}
-        <Sidebar onMenuClick={toggleSidebar} />
-
-        {/* Main Content */}
-        <div className="flex flex-col flex-grow bg-transparent">
-          <div className="bg-transparent shadow-md flex items-center justify-between p-4 ">
-            <input
-              type="text"
-              placeholder="ابحث ..."
-              className="px-4 py-2 rounded-lg bg-transparent max-sm:hidden input-disabled select-disabled"
-            />
-            <div className="flex items-center gap-4 space-x-4">
-              <FontAwesomeIcon
-                icon={faHome}
-                className="text-2xl cursor-pointer text-[#9685cf]"
-                onClick={() => openLocationChooser("home")}
-              />
-              <FontAwesomeIcon
-                icon={faBriefcase}
-                className="text-2xl cursor-pointer text-[#9685cf]"
-                onClick={() => openLocationChooser("work")}
-              />
+      <div className="flex bg-transparent relative">
+        <div className="flex flex-col w-full">
+          <div className="flex h-screen">
+            <div className="w-full">
+              <div id="map" className="h-full"></div>
             </div>
-          </div>
-          <div className="flex flex-grow">
-            <div className="flex flex-col w-full h-full">
-              <div className="flex-grow relative">
-                <div id="map" className="h-full w-full"></div>
-                {isSidebarVisible && (
-                  <div className="absolute inset-0 flex justify-end p-4">
-                    <div className="w-1/3 bg-gray-100 rounded-lg p-3 overflow-y-auto max-sm:w-[67vw]">
-                      <div className="space-y-4">
-                        <h2 className="text-2xl font-semibold p-3 text-black">
-                          أدخل مواقع المهام والمواعيد النهائية
-                        </h2>
-                        <form onSubmit={handleSubmit} className="space-y-4">
-                          {formData.locations.map((location, index) => (
-                            <div
-                              key={index}
-                              className="p-4 bg-white rounded-lg shadow-md space-y-2"
-                            >
-                              <input
-                                type="text"
-                                id={`location-${index}`}
-                                name={`location-${index}`}
-                                placeholder="أدخل العنوان"
-                                value={location.address}
-                                onChange={(e) =>
-                                  handleLocationChange(e, index)
-                                }
-                                className="block w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#9685CF]"
-                                required
-                              />
-                              <input
-                                type="datetime-local"
-                                id={`deadline-${index}`}
-                                name={`deadline-${index}`}
-                                value={location.deadline}
-                                onChange={(e) =>
-                                  handleDeadlineChange(e, index)
-                                }
-                                className="block w-full mt-2 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#9685CF]"
-                                required
-                              />
-                            </div>
-                          ))}
-                          <button
-                            type="button"
-                            className="bg-[#9685CF] text-black text-lg px-4 py-2 rounded-md hover:bg-[#FFA842] focus:outline-none focus:ring-2 focus:ring-[#9685CF]"
-                            onClick={addTaskToTable}
-                          >
-                            أضف مهمة
-                          </button>
-                        </form>
-                        {taskList.length > 0 && (
-                          <div className="mt-8">
-                            <h3 className="text-2xl font-semibold text-black p-3">
-                              قائمة المهام
-                            </h3>
-                            <table className="min-w-full bg-white rounded-lg shadow-md">
-                              <thead>
-                                <tr>
-                                  <th className="py-2 px-4 border-b-2 border-[#9685CF] text-right text-lg font-bold text-[#9685CF]">
-                                    العنوان
-                                  </th>
-                                  <th className="py-2 px-4 border-b-2 border-[#9685CF] text-right text-lg font-bold text-[#9685CF]">
-                                    الموعد النهائي
-                                  </th>
-                                  <th className="py-2 px-4 border-b-2 border-[#9685CF]"></th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {taskList.map((location, index) => (
-                                  <tr key={index}>
-                                    <td className="py-2 px-4 border-b border-gray-200">
-                                      {location.address || "عنوان غير محدد"}
-                                    </td>
-                                    <td className="py-2 px-4 border-b border-gray-200">
-                                      {location.deadline || "غير محدد"}
-                                    </td>
-                                    <td className="py-2 px-4 border-b border-gray-200">
-                                      <button
-                                        type="button"
-                                        className="text-red-500 focus:outline-none focus:ring-2 focus:ring-red-500"
-                                        onClick={() =>
-                                          removeTaskFromTable(index)
-                                        }
-                                      >
-                                        <FontAwesomeIcon icon={faTrash} />
-                                      </button>
-                                    </td>
-                                  </tr>
-                                ))}
-                              </tbody>
-                            </table>
-                          </div>
-                        )}
+            {isSidebarVisible && (
+              <div className="sidebar w-1/3 bg-gray-100 rounded-lg p-3 overflow-y-auto max-sm:w-[67vw] max-sm:gray-100">
+                <div className="space-y-4">
+                  <h2 className="text-2xl font-semibold p-3 text-black">
+                    أدخل مواقع المهام والمواعيد النهائية
+                  </h2>
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    {formData.locations.map((location, index) => (
+                      <div
+                        key={index}
+                        className="p-4 bg-white rounded-lg shadow-md space-y-2"
+                      >
+                        <input
+                          type="text"
+                          id={`location-${index}`}
+                          name={`location-${index}`}
+                          placeholder="أدخل العنوان"
+                          value={location.address}
+                          onChange={(e) => handleLocationChange(e, index)}
+                          className="block w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#9685CF]"
+                          required
+                        />
+                        <input
+                          type="datetime-local"
+                          id={`deadline-${index}`}
+                          name={`deadline-${index}`}
+                          value={location.deadline}
+                          onChange={(e) => handleDeadlineChange(e, index)}
+                          className="block w-full mt-2 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#9685CF]"
+                          required
+                        />
                       </div>
+                    ))}
+                    <button
+                      type="button"
+                      className="bg-[#9685CF] text-black text-lg px-4 py-2 rounded-md hover:bg-[#FFA842] focus:outline-none focus:ring-2 focus:ring-[#9685CF]"
+                      onClick={addTaskToTable}
+                    >
+                      أضف مهمة
+                    </button>
+                  </form>
+                  {taskList.length > 0 && (
+                    <div className="mt-8">
+                      <h3 className="text-2xl font-semibold text-black p-3">
+                        قائمة المهام
+                      </h3>
+                      <table className="min-w-full bg-white rounded-lg shadow-md">
+                        <thead>
+                          <tr>
+                            <th className="py-2 px-4 border-b-2 border-[#9685CF] text-right text-lg font-bold text-[#9685CF]">
+                              العنوان
+                            </th>
+                            <th className="py-2 px-4 border-b-2 border-[#9685CF] text-right text-lg font-bold text-[#9685CF]">
+                              الموعد النهائي
+                            </th>
+                            <th className="py-2 px-4 border-b-2 border-[#9685CF]"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {taskList.map((location, index) => (
+                            <tr key={index}>
+                              <td className="py-2 px-4 border-b border-gray-200">
+                                {location.address || "عنوان غير محدد"}
+                              </td>
+                              <td className="py-2 px-4 border-b border-gray-200">
+                                {location.deadline || "غير محدد"}
+                              </td>
+                              <td className="py-2 px-4 border-b border-gray-200">
+                                <button
+                                  type="button"
+                                  className="text-red-500 focus:outline-none focus:ring-2 focus:ring-red-500"
+                                  onClick={() => removeTaskFromTable(index)}
+                                >
+                                  حذف
+                                </button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                      <button
+                        type="button"
+                        className="bg-[#FFA842] text-black text-lg px-4 py-2 rounded-md mt-4 hover:bg-[#9685CF] focus:outline-none focus:ring-2 focus:ring-[#9685CF]"
+                        onClick={confirmSchedule}
+                      >
+                        تأكيد الجدول
+                      </button>
                     </div>
-                  </div>
-                )}
+                  )}
+                  {routeInfo && (
+                    <div className="mt-8">
+                      <h3 className="text-2xl font-semibold text-black p-3">
+                        أفضل مسار
+                      </h3>
+                      <table className="min-w-full bg-white rounded-lg shadow-md">
+                        <thead>
+                          <tr>
+                            <th className="py-2 px-4 border-b-2 border-[#9685CF] text-right text-lg font-bold text-[#9685CF]">
+                              النقطة
+                            </th>
+                            <th className="py-2 px-4 border-b-2 border-[#9685CF] text-right text-lg font-bold text-[#9685CF]">
+                              العنوان
+                            </th>
+                            <th className="py-2 px-4 border-b-2 border-[#9685CF] text-right text-lg font-bold text-[#9685CF]">
+                              الوقت
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {routeInfo.routes[0].legs.map((leg, index) => (
+                            <tr key={index}>
+                              <td className="py-2 px-4 border-b border-gray-200">
+                                {index + 1}
+                              </td>
+                              <td className="py-2 px-4 border-b border-gray-200">
+                                {leg.start_address}
+                              </td>
+                              <td className="py-2 px-4 border-b border-gray-200">
+                                {leg.duration.text}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
+            )}
           </div>
-          <ToastContainer />
         </div>
       </div>
-      {isModalOpen && (
-        <LocationChooserModal
-          type={locationType}
-          onClose={() => setIsModalOpen(false)}
-          onSave={handleSaveLocation}
-        />
-      )}
+      <Sidebar onMenuClick={toggleSidebar} />
     </>
   );
 };

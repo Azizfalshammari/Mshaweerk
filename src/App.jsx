@@ -17,21 +17,7 @@ import ErrorPage from "./Pages/ErrorPage";
 function App() {
   return (
     <>
-      {/* {" "} */}
-      <div className="w-full">
-        <Title></Title>
-        <ErrorPage></ErrorPage>
-        <Popup></Popup>
-        {/* <SchedulerPage></SchedulerPage> */}
-        <Card></Card>
-        <LandingPage></LandingPage>
-        {/* <Animation></Animation> */}
-        <ProfilePage></ProfilePage>
-        {/* <LandingPage></LandingPage> */}
-        <SignUpPage></SignUpPage>
-        <Signin></Signin>
-        {/* <Photos/> */}
-      </div>
+      <div className="w-full bg-primary"></div>
     </>
   );
 }
