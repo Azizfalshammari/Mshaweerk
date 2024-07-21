@@ -46,18 +46,18 @@ export default function Popup() {
             <div className="p-4">
               
 
-<div class="max-w-md mx-auto ">
-  <div class="relative z-0 w-full mb-5 group ">
-    
-  {/* <i class="fa-solid fa-house"></i> */}
-      <input type="text" name="floating_email" id="floating_email" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#ffa842] focus:outline-none focus:ring-0 focus:border-[#ffa842] peer" placeholder=" " required />
-            <label for="floating_email" className="peer-focus:font-medium absolute text-sm text-gray-500  dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-[#9685CF] peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"> 
-            <i className="fa-solid fa-house ml-[5px] text-gray-500"></i>
-            عنوان المنزل
-            </label>
-    
+  <div class="max-w-md mx-auto ">
+    <div class="relative z-0 w-full mb-5 group ">
+      
+    {/* <i class="fa-solid fa-house"></i> */}
+        <input type="text" name="floating_email" id="floating_email" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#ffa842] focus:outline-none focus:ring-0 focus:border-[#ffa842] peer" placeholder=" " required />
+              <label for="floating_email" className="peer-focus:font-medium absolute text-sm text-gray-500  dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-[#9685CF] peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"> 
+              <i className="fa-solid fa-house ml-[5px] text-gray-500"></i>
+              عنوان المنزل
+              </label>
+      
 
-  </div>
+    </div>
   <div class="relative z-0 w-full mb-5 group ">
       <input type="text" name="floating_password" id="floating_password" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-[#ffa842] peer" placeholder=" " required />
       <label for="floating_password" className="peer-focus:font-medium absolute text-sm text-right text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-[#9685CF]  peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">

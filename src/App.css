@@ -217,7 +217,7 @@ input:focus {
         text-align: center; 
         width: 25% !important;
         border: #9685CF solid 2px !important;
-        /* box-shadow-; */
+    /* box-shadow-; */
      } 
      .inputs {
       box-shadow: none !important;
@@ -225,6 +225,7 @@ input:focus {
      }
      .form {
         margin-left: 1px !important;
+        /* box-shadow:  0 0 10px #ddd; */
      }
     .sidebar-menu { list-style: none; padding: 0; } 
     .sidebar-item {
@@ -504,29 +505,3 @@ body,html {
    width: 100%;
   bottom : 0;
 }
-
-/* * {
-  direction: rtl;
-   font-family: "Cairo", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
-.gd{
-  padding-bottom: 3px;
-  color: #FFA842;
-  line-height: 2rem !important;
-
-}
-.lIN{
-  line-height: 1.4 !important;
-}
-.Par{
-  line-height: 1.6 !important;
-
-}
-.btn{
-  font-size: 50px;
-  width: 9rem;
-  height: 4rem;
-  border-radius: 14px;
-} */

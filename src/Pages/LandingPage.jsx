@@ -66,9 +66,9 @@ function LandingPage() {
           <div className="mr-14 md:w-1/2 flex justify-center md:h-full mb-6 md:mb-0">
             {/* <img src={img1} alt="Landing" className="h-auto w-full md:w-auto md:h-full" /> */}
 {/*             add wavy */}
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
                 <path fill="#9685CF" fill-opacity="1" d="M0,64L48,80C96,96,192,128,288,149.3C384,171,480,181,576,170.7C672,160,768,128,864,122.7C960,117,1056,139,1152,165.3C1248,192,1344,224,1392,240L1440,256L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path>
-              </svg>
+          </svg>
 {/*             end */}
           </div>
           <div className="md:w-1/2 flex flex-col justify-center text-center md:text-right">
@@ -90,4 +90,7 @@ function LandingPage() {
 }
 
 export default LandingPage
+
+
+
   

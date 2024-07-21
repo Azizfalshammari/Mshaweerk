@@ -60,7 +60,7 @@ const [showPreviousTrips, setShowPreviousTrips] = useState(false);
 
   </ul> </div> 
   <div className="form w-[60%] mt-[] ml-4 shadow-xl ">
-     <div className="inputs bg-white p-8 shadow-xl rounded-[4px]"  style={{ boxShadow: '0 0 10px rgba(0,0,0,0.2)', boxShadow: '0 0 10px rgba(0,0,0,0.2), inset -5px 0 8px rgba(0,0,0,0)' }}> 
+     <div className="inputs bg-white p-8 shadow-xl rounded-[4px]"  > 
         <div className="flex flex-col items-center mb-6"> 
             <div className="profile-pic bg-gray-200 rounded-full w-24 h-24 flex items-center justify-center text-3xl text-white"> {getInitials(fName, lName)} 
                 </div> <h3 className="mt-4 text-xl font-semibold"> {fName} {lName} </h3>
@@ -89,9 +89,14 @@ const [showPreviousTrips, setShowPreviousTrips] = useState(false);
                    
               </div>
               <div className='mt-[40px]'>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 250">
+              {/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 250">
                 <path fill="#9685CF" fill-opacity="1" d="M0,320L30,314.7C60,309,120,299,180,266.7C240,235,300,181,360,160C420,139,480,149,540,165.3C600,181,660,203,720,192C780,181,840,139,900,144C960,149,1020,203,1080,218.7C1140,235,1200,213,1260,176C1320,139,1380,85,1410,58.7L1440,32L1440,320L1410,320C1380,320,1320,320,1260,320C1200,320,1140,320,1080,320C1020,320,960,320,900,320C840,320,780,320,720,320C660,320,600,320,540,320C480,320,420,320,360,320C300,320,240,320,180,320C120,320,60,320,30,320L0,320Z"></path>
-              </svg>
+              </svg> */}
+
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+              <path fill="#9685CF" fill-opacity="1" d="M0,288L30,266.7C60,245,120,203,180,181.3C240,160,300,160,360,160C420,160,480,160,540,160C600,160,660,160,720,149.3C780,139,840,117,900,117.3C960,117,1020,139,1080,176C1140,213,1200,267,1260,293.3C1320,320,1380,320,1410,320L1440,320L1440,320L1410,320C1380,320,1320,320,1260,320C1200,320,1140,320,1080,320C1020,320,960,320,900,320C840,320,780,320,720,320C660,320,600,320,540,320C480,320,420,320,360,320C300,320,240,320,180,320C120,320,60,320,30,320L0,320Z"></path>
+            </svg>
+            
               </div>
             
                   </div>

@@ -3,6 +3,7 @@ import ProfilePage  from "./Pages/ProfilePage";
 import Photos from "./Components/Photos";
 import './App.css';
 // import LandingPage from "./Pages/LandingPage";
+import Title from './Components/Title'
 import SignUpPage from "./Pages/SignUpPage";
 import Signin from "./Pages/Signin";
 import LandingPage from "./Pages/LandingPage";
@@ -18,6 +19,7 @@ function App() {
     <>
       {/* {" "} */}
       <div className="w-full">
+        <Title></Title>
         <ErrorPage></ErrorPage>
         <Popup></Popup>
         {/* <SchedulerPage></SchedulerPage> */}
