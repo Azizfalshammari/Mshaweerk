@@ -85,7 +85,7 @@ function LogInPage() {
                     className="block w-full max-w-xs mx-auto bg-[#9685CF] hover:bg-[#FFA842] focus:bg-[#FFA842] text-white rounded-lg px-3 py-3 font-semibold"
                     onClick={handleLogin}
                   >
-                    تسجيل
+                    تسجيل دخول
                   </button>
                   <p className="text-center p-3 text-black">
                     ليس لديك حساب؟ <Link to="/signup">قم بإنشاء حساب</Link>
