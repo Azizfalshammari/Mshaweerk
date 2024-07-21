@@ -44,12 +44,24 @@ function UsageSteps() {
               <stop offset="100%" stopColor="#6C63FF" />
             </linearGradient>
           </defs>
+          <path
+            d="m1400,0 
+           Q1080,200 750,180 
+           l -300 -90,
+             l -600 400
+         
+          "
+            stroke="#ddd"
+            strokeWidth="5"
+            strokeLinecap="round"
+            fill="none"
+          />
 
           <path
             ref={lineRef}
             d="m1400,0 
            Q1080,200 750,180 
-           l -150 -120,
+           l -300 -90,
              l -600 400
          
           "

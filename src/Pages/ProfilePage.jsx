@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { auth, datastore } from "../config/firbase";
 import { onAuthStateChanged } from "firebase/auth";
-import logo from '../assets/logo-jadw.png'
+import logo from "../assets/logo-jadw.png";
 import { Link } from "react-router-dom";
 
 function ProfilePage() {
@@ -52,44 +52,50 @@ function ProfilePage() {
   }
 
   const getInitials = (firstName, lastName) => {
-    if (!firstName || !lastName) return '';
-    return firstName.charAt(0).toUpperCase() + lastName.charAt(lastName.length - 1).toUpperCase();
+    if (!firstName || !lastName) return "";
+    return (
+      firstName.charAt(0).toUpperCase() +
+      lastName.charAt(lastName.length - 1).toUpperCase()
+    );
   };
 
   return (
-    <div className='profile text-right'>
-      <div className='contentProfile'>
-        <div className='flex justify-center w-[80vw] mr-56 mt-[17vh] max-sm:mr-2'>
-          <div className='sidebar w-[20%] h-[54vh] flex-shrink-0 max-sm:mt-28'>
+    <div className="profile text-right">
+      <div className="contentProfile">
+        <div className="flex justify-center w-[80vw] mr-56 mt-[17vh] max-sm:mr-2">
+          <div className="sidebar w-[20%] h-[54vh] flex-shrink-0 max-sm:mt-28">
             <Link to="/">
-              <img src={logo} className="h-48 mr-[4.6vw] max-sm:hidden"/>
+              <img src={logo} className="h-48 mr-[4.6vw] max-sm:hidden" />
             </Link>
-            <ul className='sidebar-menu'>
-              <div className='box sidebar-item active text-[16px] flex mb-[10px]'>
-                <li className='mb-[10px] font-bold text-center m-[auto] flex justify-between text-gray-800'>
+            <ul className="sidebar-menu">
+              <div className="box sidebar-item active text-[16px] flex mb-[10px]">
+                <li className="mb-[10px] font-bold text-center m-[auto] flex justify-between text-gray-800">
                   البيانات الشخصية
                 </li>
-                <span className='ml-[10px] mt-[-5px] text-gray-800'>
+                <span className="ml-[10px] mt-[-5px] text-gray-800">
                   <i className="fa-regular fa-user"></i>
                 </span>
               </div>
-              <div className='box sidebar-item text-[16px] flex mb-[10px]'>
-                <li className='mb-[0px] font-bold text-center m-[auto] flex justify-between text-gray-800'>
+              <div className="box sidebar-item text-[16px] flex mb-[10px]">
+                <li className="mb-[0px] font-bold text-center m-[auto] flex justify-between text-gray-800">
                   جدولك
                 </li>
-                <span className='ml-[10px] mt-[-5px] text-gray-800'>
-                <i className="fa-solid fa-table"></i>
+                <span className="ml-[10px] mt-[-5px] text-gray-800">
+                  <i className="fa-solid fa-table"></i>
                 </span>
               </div>
               <Link to="/login">
-              <div className='box sidebar-item text-[16px] flex mb-[10px]'>
-                <li className='mb-[10px] font-bold text-center m-[auto] flex justify-between text-gray-800' onClick={() => localStorage.clear()}>
-                  تسجيل خروج
-                </li>
-                <span className='ml-[10px] mt-[-5px] text-gray-800'>
-                 <i className="fa-solid fa-right-from-bracket"></i>
-                </span>
-              </div>
+                <div className="box sidebar-item text-[16px] flex mb-[10px]">
+                  <li
+                    className="mb-[10px] font-bold text-center m-[auto] flex justify-between text-gray-800"
+                    onClick={() => localStorage.clear()}
+                  >
+                    تسجيل خروج
+                  </li>
+                  <span className="ml-[10px] mt-[-5px] text-gray-800">
+                    <i className="fa-solid fa-right-from-bracket"></i>
+                  </span>
+                </div>
               </Link>
             </ul>
           </div>
@@ -105,8 +111,13 @@ function ProfilePage() {
                 <p className="text-gray-600">{currentUser.address}</p>
               </div>
               <div className="inputs grid grid-cols-2 gap-4">
-                <div className='box'>
-                  <label htmlFor="firstName" className="block text-gray-600 mb-[5px]">الاسم الأول</label>
+                <div className="box">
+                  <label
+                    htmlFor="firstName"
+                    className="block text-gray-600 mb-[5px]"
+                  >
+                    الاسم الأول
+                  </label>
                   <input
                     type="text"
                     name="firstName"
@@ -116,7 +127,12 @@ function ProfilePage() {
                   />
                 </div>
                 <div>
-                  <label htmlFor="lastName" className="block text-gray-600 mb-[5px]">الاسم الأخير</label>
+                  <label
+                    htmlFor="lastName"
+                    className="block text-gray-600 mb-[5px]"
+                  >
+                    الاسم الأخير
+                  </label>
                   <input
                     type="text"
                     name="lastName"
@@ -126,7 +142,12 @@ function ProfilePage() {
                   />
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-gray-600 mb-[5px]">الإيميل</label>
+                  <label
+                    htmlFor="email"
+                    className="block text-gray-600 mb-[5px]"
+                  >
+                    الإيميل
+                  </label>
                   <input
                     type="email"
                     name="email"
@@ -136,7 +157,12 @@ function ProfilePage() {
                   />
                 </div>
                 <div>
-                  <label htmlFor="phone" className="block text-gray-600 mb-[5px]">الهاتف</label>
+                  <label
+                    htmlFor="phone"
+                    className="block text-gray-600 mb-[5px]"
+                  >
+                    الهاتف
+                  </label>
                   <input
                     type="text"
                     name="phone"
@@ -155,5 +181,3 @@ function ProfilePage() {
 }
 
 export default ProfilePage;
-
-

@@ -3,7 +3,7 @@ import { auth, datastore } from "../config/firbase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { Link, useNavigate } from "react-router-dom";
-import img from "../assets/logo-jadw.png";
+import img from "./logo-jadw.png";
 import { motion } from "framer-motion";
 
 function SignUpPage() {
