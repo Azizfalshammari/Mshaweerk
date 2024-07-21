@@ -10,6 +10,7 @@ import {
   faHome,
   faBriefcase,
 } from "@fortawesome/free-solid-svg-icons";
+import Popup from "../Components/Popup";
 
 const SchedulerPage = () => {
   const [formData, setFormData] = useState({
@@ -249,6 +250,7 @@ const SchedulerPage = () => {
 
         {/* Main Content */}
         <div className="flex flex-col flex-grow bg-transparent">
+          {/* <Popup/> */}
           <div className="bg-transparent shadow-md flex items-center justify-between p-4 ">
             <input
               type="text"

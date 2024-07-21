@@ -29,7 +29,9 @@ const LocationChooserModal = ({ type, onClose, onSave }) => {
             if (status === "OK" && results[0]) {
               const address = results[0].formatted_address;
               onSave({ address, position: clickedPosition });
-              toast.success(`${type === "home" ? "Home" : "Work"} location saved!`);
+              toast.success(
+                `${type === "home" ? "Home" : "Work"} location saved!`
+              );
               onClose();
             }
           });
@@ -43,14 +45,33 @@ const LocationChooserModal = ({ type, onClose, onSave }) => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-white rounded-lg p-4 relative w-3/4 h-5/6 max-sm:h-2/4 max-sm:w-full">
-        <button
-          className="absolute top-4 right-4 bg-red-500 text-white px-4 py-2 rounded"
-          onClick={onClose}
-        >
-          Close
-        </button>
-        <div ref={mapRef} className="w-full max-sm:h-[90%] h-[95%] mt-12"></div> {/* Add margin-top to create space for the button */}
+      <div className="bg-[#c9c0e5] rounded-lg p-4 w-3/4 h-[90%] max-sm:h-2/4 max-sm:w-full max-md:h-[70%]">
+        <div className="flex flex-row justify-between w-full items-center">
+          {" "}
+          <p className="self-start">اختر الموقع </p>
+          <button
+            type="button"
+            className="text-gray-800 hover:bg-gray-100 p-1 rounded-full "
+            onClick={onClose}
+          >
+            <span className="sr-only">Close</span>
+            <svg
+              className="w-6 h-6"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M18 6L6 18" />
+              <path d="M6 6L18 18" />
+            </svg>
+          </button>
+        </div>
+        <div ref={mapRef} className="w-full max-sm:h-[90%] h-[90%]"></div>{" "}
+        {/* Add margin-top to create space for the button */}
       </div>
     </div>
   );
