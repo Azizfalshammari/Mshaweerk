@@ -1,7 +1,6 @@
 import React from 'react';
-import img1 from '../assets/landingggg.png';
+import img1 from './landingggg.png';
 import { Link } from 'react-router-dom';
-import Cards from './Cards';
 
 function Landding() {
   return (

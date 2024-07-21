@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Sidebar from "../components/Sidebar";
+import Sidebar from "../Components/Sidebar";
 
 const SchedulerPage = () => {
   const [formData, setFormData] = useState({

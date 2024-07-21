@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { auth, datastore } from "../config/firbase";
 import { onAuthStateChanged } from "firebase/auth";
-import logo from '../assets/logo-jadw.png'
+import logo from './logo-jadw.png'
 import { Link } from "react-router-dom";
 
 function ProfilePage() {
