@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import logo from "../assets/logo-jadw.png";
 import { auth } from "../config/firbase";
+import logo from "../Pages/logo-jadw.png";
 
 function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -85,7 +85,11 @@ function Navbar() {
             </button>
           </div>
         </div>
-        <div className={`mobile-menu ${menuOpen ? "block" : "hidden"} md:hidden bg-white`}>
+        <div
+          className={`mobile-menu ${
+            menuOpen ? "block" : "hidden"
+          } md:hidden bg-white`}
+        >
           {isLoggedIn ? (
             <button
               onClick={handleLogout}

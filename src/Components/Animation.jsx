@@ -89,7 +89,9 @@ function Animation() {
             <div className="bg-gradient-to-r from-purple-400 to-blue-500 flex justify-center rounded-full w-[30px] mb-4">
               <p className="text-white text-2xl">4</p>
             </div>
-            <p className="text-center font-bold text-xl">سنقوم بتحليل جميع البيانات المدخلة لإنشاء جدول زمني مثالي  </p>
+            <p className="text-center font-bold text-xl">
+              سنقوم بتحليل جميع البيانات المدخلة لإنشاء جدول زمني مثالي{" "}
+            </p>
             <p></p>
           </div>
         </div>
