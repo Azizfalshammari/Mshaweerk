@@ -3,7 +3,9 @@ import Sidebar from "../Components/Sidebar";
 
 const SchedulerPage = () => {
   const [formData, setFormData] = useState({
-    locations: [{ address: "", deadline: "", position: { lat: null, lng: null } }],
+    locations: [
+      { address: "", deadline: "", position: { lat: null, lng: null } },
+    ],
   });
   const [map, setMap] = useState(null);
   const [markers, setMarkers] = useState([]);
@@ -52,8 +54,10 @@ const SchedulerPage = () => {
               map: mapInstance,
             });
             setCurrentMarker(marker);
-            setFormData(prevFormData => ({
-              locations: [{ address: "", deadline: "", position: clickedPosition }],
+            setFormData((prevFormData) => ({
+              locations: [
+                { address: "", deadline: "", position: clickedPosition },
+              ],
             }));
             setMarkers([marker]);
             setIsSidebarVisible(true);
@@ -74,7 +78,9 @@ const SchedulerPage = () => {
       formData.locations.forEach((location, index) => {
         const input = document.getElementById(`location-${index}`);
         if (input) {
-          const autocomplete = new window.google.maps.places.Autocomplete(input);
+          const autocomplete = new window.google.maps.places.Autocomplete(
+            input
+          );
           autocomplete.addListener("place_changed", () => {
             const place = autocomplete.getPlace();
             handleLocationChange(
@@ -106,7 +112,11 @@ const SchedulerPage = () => {
     updatedLocations[index].deadline = value;
     setFormData({ ...formData, locations: updatedLocations });
 
-    if (currentMarker && updatedLocations[index].position.lat && updatedLocations[index].position.lng) {
+    if (
+      currentMarker &&
+      updatedLocations[index].position.lat &&
+      updatedLocations[index].position.lng
+    ) {
       currentMarker.setPosition(updatedLocations[index].position);
       map.setCenter(updatedLocations[index].position);
     }
@@ -117,9 +127,13 @@ const SchedulerPage = () => {
     if (newLocations.length > 0) {
       const updatedTaskList = [...taskList, ...newLocations];
       setTaskList(updatedTaskList);
-      setFormData({ locations: [{ address: "", deadline: "", position: { lat: null, lng: null } }] });
+      setFormData({
+        locations: [
+          { address: "", deadline: "", position: { lat: null, lng: null } },
+        ],
+      });
       if (currentMarker) {
-        currentMarker.setMap(null); 
+        currentMarker.setMap(null);
         setCurrentMarker(null);
       }
     }
@@ -169,13 +183,22 @@ const SchedulerPage = () => {
 
     const directionsService = new window.google.maps.DirectionsService();
 
-    const waypoints = taskList.slice(1, taskList.length - 1).map(task => ({
-      location: new window.google.maps.LatLng(task.position.lat, task.position.lng),
+    const waypoints = taskList.slice(1, taskList.length - 1).map((task) => ({
+      location: new window.google.maps.LatLng(
+        task.position.lat,
+        task.position.lng
+      ),
       stopover: true,
     }));
 
-    const origin = new window.google.maps.LatLng(taskList[0].position.lat, taskList[0].position.lng);
-    const destination = new window.google.maps.LatLng(taskList[taskList.length - 1].position.lat, taskList[taskList.length - 1].position.lng);
+    const origin = new window.google.maps.LatLng(
+      taskList[0].position.lat,
+      taskList[0].position.lng
+    );
+    const destination = new window.google.maps.LatLng(
+      taskList[taskList.length - 1].position.lat,
+      taskList[taskList.length - 1].position.lng
+    );
 
     const request = {
       origin: origin,

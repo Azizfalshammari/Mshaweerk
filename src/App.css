@@ -1,24 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=Markazi+Text:wght@400..700&family=Noto+Naskh+Arabic:wght@400..700&family=Scheherazade+New:wght@400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400..700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Markazi+Text:wght@400..700&family=Noto+Naskh+Arabic:wght@400..700&family=Scheherazade+New:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400..700&display=swap");
 
 * {
-    direction: rtl;
-     font-family: "Cairo", sans-serif;
-    font-weight: 400;
-    font-style: normal;
+  direction: rtl;
+  font-family: "Cairo", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
-.gd{
-    padding-bottom: 3px;
-    color: #FFA842;
-    line-height: 2rem !important;
-
+.gd {
+  padding-bottom: 3px;
+  color: #ffa842;
+  line-height: 2rem !important;
 }
-.lIN{
-    line-height: 1.4 !important;
+.lIN {
+  line-height: 1.4 !important;
 }
-.Par{
-    line-height: 1.6 !important;
-
+.Par {
+  line-height: 1.6 !important;
 }
 .btn{
     width: 9rem;
