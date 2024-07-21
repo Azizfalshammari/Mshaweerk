@@ -1,176 +1,159 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import '../App.css'
+import React, { useEffect, useState } from "react";
+import { doc, getDoc } from "firebase/firestore";
+import { auth, datastore } from "../config/firbase";
+import { onAuthStateChanged } from "firebase/auth";
+import logo from '../assets/logo-jadw.png'
+import { Link } from "react-router-dom";
+
 function ProfilePage() {
-    const id = localStorage.getItem('userId');
-    const [fName, setFName] = useState('');
-    const [lName, setLName] = useState('');
-    const [email, setEmail] = useState('');
-    const [phone, setPhone] = useState('');
-    const [address , setAdress] = useState('')
-    const [event, setEvent] = useState(false);
-    const [showPreviousTrips, setShowPreviousTrips] = useState(false);
+  const [currentUser, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        axios.get(`https://6657370d9f970b3b36c86882.mockapi.io/login/${id}`).then((res) => {
-            setFName(res.data.firstName); 
-            setLName(res.data.lastName);  
-            setEmail(res.data.email);
-            setPhone(res.data.phone);
-        });
-    }, [id]);
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        fetchUserData(currentUser);
+      } else {
+        setUser(null);
+        setLoading(false);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
 
-    const update = () => {
-        axios.put(`https://6657370d9f970b3b36c86882.mockapi.io/login/${id}`, {
-            firstName: fName, 
-            lastName: lName,  
-            email: email,
-            phone: phone,
-        }).then(() => {
-            setEvent(true);
-        });
-    };
+  const fetchUserData = async (currentUser) => {
+    setLoading(true);
+    try {
+      const userDoc = await getDoc(doc(datastore, "users", currentUser.uid));
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        setUser(userData);
+        localStorage.setItem("userData", JSON.stringify(userData));
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    return (
-        <div className='profile text-right'>
-            {/* <Nav /> */}
-            {/* section personal information */}
-            {/* <div className='h-[200px] w-full bg-[#7055be] pt-[10px]  rounded-[12px]'> */}
-            <div className='bg-[#ececec] pb-[10vh] w-[90%] m-[auto] pt-[20px] '>
-            <h1 className='p-2 text-[18px] font-semibold pr-4 border-solid border-[2px]  rounded-[15px] w-fit  border-[#f9a950] text-[#f9a950] ml-auto mr-[10vw]'>
-                    إعدادات الحساب
-                </h1>
-            {/* </div> */}
-            <div className='flex p-4 justify-center mt-[20vh]'>
-                <div className="form w-[60%] mt-[-10vh] ">
-                    <div className="bg-white p-4 shadow-xl   rounded-[4px]">
-                        <div className="flex justify-between items-center mb-4">
-                            <h3 className="data text-lg font-semibold ml-auto mb">
-                                المعلومات الشخصيه
-                            </h3>
-                        </div>
-                        <div className="grid grid-cols-2 gap-4">
-                            <div>
-                                <label htmlFor="" className="block text-gray-600">
-                                    الاسم الأخير
-                                </label>
-                                <input
-                                    type="text"
-                                    name="lastName"
-                                    className="w-full p-2 border border-gray-300 rounded-[3px]"
-                                    value={lName}
-                                    onChange={(e) => setLName(e.target.value)}
-                                />
-                            </div>
-                            <div>
-                            <label htmlFor="" className="block text-gray-600">
-                                    الاسم الاول
-                                </label>
-                                <input
-                                    type="text"
-                                    name="fristName"
-                                    className="w-full p-2 border border-gray-300 rounded-[3px]"
-                                    value={fName}
-                                    onChange={(e) => setFName(e.target.value)}
-                                />
-                            </div>
-                            <div>
-                                <label htmlFor="" className="block text-gray-600">
-                                    الإيميل
-                                </label>
-                                <input
-                                    type="email"
-                                    name="email"
-                                    className="w-full p-2 border border-gray-300 rounded-[3px]"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-gray-600">
-                                     الهاتف
-                                </label>
-                                <input
-                                    type="text"
-                                    name="phone"
-                                    placeholder=''
-                                    className="w-full p-2 border border-gray-300 rounded-[3px] "
-                                    value={phone}
-                                    onChange={(e) => setPhone(e.target.value)}
-                                    
-                                />
-                            </div>
-                            <div className=''>
-                                <label className="block text-gray-600">
-                                     العنوان
-                                </label>
-                                <input
-                                    type="text"
-                                    name="address"
-                                    className="w-full p-2 border border-gray-300 rounded-[3px]"
-                                    value={address}
-                                    onChange={(e) => setAdress(e.target.value)}
-                                />
-               
-                        </div>
-                        <div className=''>
-                                <label className="block text-gray-600">
-                                    الشارع
-                                </label>
-                                <input
-                                    type="text"
-                                    name="address"
-                                    className="w-full p-2 border border-gray-300 rounded-[3px]"
-                                    value={address}
-                                    onChange={(e) => setAdress(e.target.value)}
-                                />
-                            </div>
-                        </div>
-                
+  useEffect(() => {
+    const storedUserData = localStorage.getItem("userData");
+    if (storedUserData) {
+      setUser(JSON.parse(storedUserData));
+      setLoading(false);
+    }
+  }, []);
 
-                        {/* Collapse Section for Previous Orders */}
-                        <div className='bg-white pt-4 pb-4 '>
-                            <div className='flex-col justify-between'>
-                                {/* <button
-                                    onClick={() => setShowPreviousTrips(!showPreviousTrips)}
-                                    className='w-full bg-[#fff]  pt-2 pb-2 rounded-md text-right mb-4 mr-auto'
-                                >
-                                         <i className="fa-solid fa-angles-left mr-[20px]"></i>
-                                    مشاويرك السابقة
-                                    
-                                </button> */}
-                                <div></div>
-                           
-                                <div
-                                    className={`collapse-content ${showPreviousTrips? 'block' : 'hidden'} p-4`}
-                                >
-                                    {/* Add your content here */}
-                                    <p className='text-[red]'>ااااا</p>
-                                </div>
-                            </div>
-                        </div>
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
-                        <button
-                            className='save ml-auto pb-4 bg-[#7055be] text-[#fff] rounded-lg grid col-end-7 col-span-2 mt-5 w-[12em] p-2'
-                            onClick={update}
-                        >
-                            حفظ
-                        </button>
-                    </div>
+  if (!currentUser) {
+    return <div>لا يوجد بيانات للمستخدم</div>;
+  }
+
+  const getInitials = (firstName, lastName) => {
+    if (!firstName || !lastName) return '';
+    return firstName.charAt(0).toUpperCase() + lastName.charAt(lastName.length - 1).toUpperCase();
+  };
+
+  return (
+    <div className='profile text-right'>
+      <div className='contentProfile'>
+        <div className='flex justify-center w-[80vw] mr-56 mt-[17vh] max-sm:mr-2'>
+          <div className='sidebar w-[20%] h-[54vh] flex-shrink-0 max-sm:mt-28'>
+            <Link to="/">
+              <img src={logo} className="h-48 mr-[4.6vw] max-sm:hidden"/>
+            </Link>
+            <ul className='sidebar-menu'>
+              <div className='box sidebar-item active text-[16px] flex mb-[10px]'>
+                <li className='mb-[10px] font-bold text-center m-[auto] flex justify-between text-gray-800'>
+                  البيانات الشخصية
+                </li>
+                <span className='ml-[10px] mt-[-5px] text-gray-800'>
+                  <i className="fa-regular fa-user"></i>
+                </span>
+              </div>
+              <div className='box sidebar-item text-[16px] flex mb-[10px]'>
+                <li className='mb-[0px] font-bold text-center m-[auto] flex justify-between text-gray-800'>
+                  جدولك
+                </li>
+                <span className='ml-[10px] mt-[-5px] text-gray-800'>
+                <i className="fa-solid fa-table"></i>
+                </span>
+              </div>
+              <Link to="/login">
+              <div className='box sidebar-item text-[16px] flex mb-[10px]'>
+                <li className='mb-[10px] font-bold text-center m-[auto] flex justify-between text-gray-800' onClick={() => localStorage.clear()}>
+                  تسجيل خروج
+                </li>
+                <span className='ml-[10px] mt-[-5px] text-gray-800'>
+                 <i className="fa-solid fa-right-from-bracket"></i>
+                </span>
+              </div>
+              </Link>
+            </ul>
+          </div>
+          <div className="form w-[60%] ml-4 flex-grow">
+            <div className="inputs bg-white p-8 shadow-xl rounded-[4px] h-full max-sm:mr-6">
+              <div className="flex flex-col items-center mb-6">
+                <div className="profile-pic bg-gray-200 rounded-full w-24 h-24 flex items-center justify-center text-3xl text-white">
+                  {getInitials(currentUser.firstName, currentUser.lastName)}
                 </div>
-
-                {/* Sidebar */}
-                <div className='sidebar  rounded-[4px] w-[20%] p-[10px] pb-[1px] bg-[#7055be] text-[#fff] shadow-xl mt-[-10vh] ml-[10px]'>
-                    <ul>
-                        <li className='rounded-[6px] bg-[#9685cf6b] p-[8px] mb-[8px]'>حسابي <span className='ml-[10px]'><i className="fa-regular fa-user"></i></span></li>
-                        <li className='rounded-[6px] hover:bg-[#9685cf6b] p-[8px] mb-[8px]'>مشاويرك <span className='ml-[10px]'><i class="fa-solid fa-car-on"></i></span></li>
-                        <li className='rounded-[6px] hover:bg-[#9685cf6b] p-[8px] mb-[8px]'>تسجيل الخروج <span className='ml-[10px]'><i class="fa-solid fa-right-from-bracket"></i></span></li>
-                    </ul>
+                <h3 className="mt-4 text-xl font-semibold">
+                  {currentUser.firstName} {currentUser.lastName}
+                </h3>
+                <p className="text-gray-600">{currentUser.address}</p>
+              </div>
+              <div className="inputs grid grid-cols-2 gap-4">
+                <div className='box'>
+                  <label htmlFor="firstName" className="block text-gray-600 mb-[5px]">الاسم الأول</label>
+                  <input
+                    type="text"
+                    name="firstName"
+                    className="field w-full p-2 border border-gray-300 rounded-[3px]"
+                    value={currentUser.firstName}
+                    readOnly
+                  />
                 </div>
+                <div>
+                  <label htmlFor="lastName" className="block text-gray-600 mb-[5px]">الاسم الأخير</label>
+                  <input
+                    type="text"
+                    name="lastName"
+                    className="field w-full p-2 border border-gray-300 rounded-[3px]"
+                    value={currentUser.lastName}
+                    readOnly
+                  />
+                </div>
+                <div>
+                  <label htmlFor="email" className="block text-gray-600 mb-[5px]">الإيميل</label>
+                  <input
+                    type="email"
+                    name="email"
+                    className="field w-full p-2 border border-gray-300 rounded-[3px]"
+                    value={currentUser.email}
+                    readOnly
+                  />
+                </div>
+                <div>
+                  <label htmlFor="phone" className="block text-gray-600 mb-[5px]">الهاتف</label>
+                  <input
+                    type="text"
+                    name="phone"
+                    className="field w-full p-2 border border-gray-300 rounded-[3px]"
+                    value={currentUser.phone}
+                    readOnly
+                  />
+                </div>
+              </div>
             </div>
-            </div>
+          </div>
         </div>
-    );
+      </div>
+    </div>
+  );
 }
 
 export default ProfilePage;
+
+

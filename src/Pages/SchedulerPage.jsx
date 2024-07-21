@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import Sidebar from "../Components/Sidebar";
+import Sidebar from "../components/Sidebar";
 
 const SchedulerPage = () => {
   const [formData, setFormData] = useState({
-    locations: [
-      { address: "", deadline: "", position: { lat: null, lng: null } },
-    ],
+    locations: [{ address: "", deadline: "", position: { lat: null, lng: null } }],
   });
   const [map, setMap] = useState(null);
   const [markers, setMarkers] = useState([]);
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
   const [taskList, setTaskList] = useState([]);
+  const [currentMarker, setCurrentMarker] = useState(null); // Track the current marker
+  const [routeInfo, setRouteInfo] = useState(null); // State to hold route information
 
   useEffect(() => {
     const loadGoogleMapsScript = () => {
@@ -39,24 +37,27 @@ const SchedulerPage = () => {
 
         setMap(mapInstance);
 
-        // Add click listener to the map
         mapInstance.addListener("click", (event) => {
           const clickedPosition = {
             lat: event.latLng.lat(),
             lng: event.latLng.lng(),
           };
 
-          const marker = new window.google.maps.Marker({
-            position: clickedPosition,
-            map: mapInstance,
-          });
-
-          setMarkers((prevMarkers) => [...prevMarkers, marker]);
-          console.log(markers);
-          updateAddress(clickedPosition, formData.locations.length - 1);
-
-          // Show the sidebar when the map is clicked
-          setIsSidebarVisible(true);
+          if (currentMarker) {
+            currentMarker.setPosition(clickedPosition);
+            updateAddress(clickedPosition, 0); // Update the first location's address
+          } else {
+            const marker = new window.google.maps.Marker({
+              position: clickedPosition,
+              map: mapInstance,
+            });
+            setCurrentMarker(marker);
+            setFormData(prevFormData => ({
+              locations: [{ address: "", deadline: "", position: clickedPosition }],
+            }));
+            setMarkers([marker]);
+            setIsSidebarVisible(true);
+          }
         });
       });
     };
@@ -66,16 +67,14 @@ const SchedulerPage = () => {
     } else {
       initializeMap();
     }
-  }, []);
+  }, [currentMarker]);
 
   useEffect(() => {
     if (window.google && map) {
       formData.locations.forEach((location, index) => {
         const input = document.getElementById(`location-${index}`);
         if (input) {
-          const autocomplete = new window.google.maps.places.Autocomplete(
-            input
-          );
+          const autocomplete = new window.google.maps.places.Autocomplete(input);
           autocomplete.addListener("place_changed", () => {
             const place = autocomplete.getPlace();
             handleLocationChange(
@@ -98,9 +97,6 @@ const SchedulerPage = () => {
     const { value } = event.target;
     const updatedLocations = [...formData.locations];
     updatedLocations[index].address = value;
-    if (event.position) {
-      updatedLocations[index].position = event.position;
-    }
     setFormData({ ...formData, locations: updatedLocations });
   };
 
@@ -108,35 +104,31 @@ const SchedulerPage = () => {
     const { value } = event.target;
     const updatedLocations = [...formData.locations];
     updatedLocations[index].deadline = value;
-
-    if (
-      updatedLocations[index].position.lat &&
-      updatedLocations[index].position.lng
-    ) {
-      const marker = new window.google.maps.Marker({
-        position: updatedLocations[index].position,
-        map,
-      });
-      map.setCenter(updatedLocations[index].position);
-      setMarkers((prevMarkers) => [...prevMarkers, marker]);
-    }
-
     setFormData({ ...formData, locations: updatedLocations });
+
+    if (currentMarker && updatedLocations[index].position.lat && updatedLocations[index].position.lng) {
+      currentMarker.setPosition(updatedLocations[index].position);
+      map.setCenter(updatedLocations[index].position);
+    }
   };
 
   const addTaskToTable = () => {
-    const updatedTaskList = [...taskList, ...formData.locations];
-    setTaskList(updatedTaskList);
-    setFormData({
-      locations: [
-        { address: "", deadline: "", position: { lat: null, lng: null } },
-      ],
-    });
+    const newLocations = [...formData.locations];
+    if (newLocations.length > 0) {
+      const updatedTaskList = [...taskList, ...newLocations];
+      setTaskList(updatedTaskList);
+      setFormData({ locations: [{ address: "", deadline: "", position: { lat: null, lng: null } }] });
+      if (currentMarker) {
+        currentMarker.setMap(null); 
+        setCurrentMarker(null);
+      }
+    }
   };
 
   const removeTaskFromTable = (index) => {
     const updatedTaskList = taskList.filter((_, i) => i !== index);
     setTaskList(updatedTaskList);
+
     if (markers[index]) {
       markers[index].setMap(null);
       setMarkers(markers.filter((_, i) => i !== index));
@@ -167,6 +159,39 @@ const SchedulerPage = () => {
 
   const toggleSidebar = () => {
     setIsSidebarVisible(!isSidebarVisible);
+  };
+
+  const confirmSchedule = () => {
+    if (taskList.length < 2) {
+      alert("Please add at least two tasks to calculate a route.");
+      return;
+    }
+
+    const directionsService = new window.google.maps.DirectionsService();
+
+    const waypoints = taskList.slice(1, taskList.length - 1).map(task => ({
+      location: new window.google.maps.LatLng(task.position.lat, task.position.lng),
+      stopover: true,
+    }));
+
+    const origin = new window.google.maps.LatLng(taskList[0].position.lat, taskList[0].position.lng);
+    const destination = new window.google.maps.LatLng(taskList[taskList.length - 1].position.lat, taskList[taskList.length - 1].position.lng);
+
+    const request = {
+      origin: origin,
+      destination: destination,
+      waypoints: waypoints,
+      travelMode: window.google.maps.TravelMode.DRIVING,
+      optimizeWaypoints: true,
+    };
+
+    directionsService.route(request, (result, status) => {
+      if (status === "OK") {
+        setRouteInfo(result);
+      } else {
+        alert("Could not calculate route: " + status);
+      }
+    });
   };
 
   return (
@@ -212,7 +237,7 @@ const SchedulerPage = () => {
                     ))}
                     <button
                       type="button"
-                      className="bg-[#9685CF] text-black  text-lg px-4 py-2 rounded-md hover:bg-[#FFA842] focus:outline-none focus:ring-2 focus:ring-[#9685CF]"
+                      className="bg-[#9685CF] text-black text-lg px-4 py-2 rounded-md hover:bg-[#FFA842] focus:outline-none focus:ring-2 focus:ring-[#9685CF]"
                       onClick={addTaskToTable}
                     >
                       أضف مهمة
@@ -226,10 +251,10 @@ const SchedulerPage = () => {
                       <table className="min-w-full bg-white rounded-lg shadow-md">
                         <thead>
                           <tr>
-                            <th className="py-2 px-4 border-b-2 border-[#9685CF] text-right text-lg  font-bold text-[#9685CF] ">
+                            <th className="py-2 px-4 border-b-2 border-[#9685CF] text-right text-lg font-bold text-[#9685CF]">
                               العنوان
                             </th>
-                            <th className="py-2 px-4 border-b-2 border-[#9685CF] text-right text-lg  font-bold text-[#9685CF]">
+                            <th className="py-2 px-4 border-b-2 border-[#9685CF] text-right text-lg font-bold text-[#9685CF]">
                               الموعد النهائي
                             </th>
                             <th className="py-2 px-4 border-b-2 border-[#9685CF]"></th>
@@ -250,8 +275,52 @@ const SchedulerPage = () => {
                                   className="text-red-500 focus:outline-none focus:ring-2 focus:ring-red-500"
                                   onClick={() => removeTaskFromTable(index)}
                                 >
-                                  <FontAwesomeIcon icon={faTrash} />
+                                  حذف
                                 </button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                      <button
+                        type="button"
+                        className="bg-[#FFA842] text-black text-lg px-4 py-2 rounded-md mt-4 hover:bg-[#9685CF] focus:outline-none focus:ring-2 focus:ring-[#9685CF]"
+                        onClick={confirmSchedule}
+                      >
+                        تأكيد الجدول
+                      </button>
+                    </div>
+                  )}
+                  {routeInfo && (
+                    <div className="mt-8">
+                      <h3 className="text-2xl font-semibold text-black p-3">
+                        أفضل مسار
+                      </h3>
+                      <table className="min-w-full bg-white rounded-lg shadow-md">
+                        <thead>
+                          <tr>
+                            <th className="py-2 px-4 border-b-2 border-[#9685CF] text-right text-lg font-bold text-[#9685CF]">
+                              النقطة
+                            </th>
+                            <th className="py-2 px-4 border-b-2 border-[#9685CF] text-right text-lg font-bold text-[#9685CF]">
+                              العنوان
+                            </th>
+                            <th className="py-2 px-4 border-b-2 border-[#9685CF] text-right text-lg font-bold text-[#9685CF]">
+                              الوقت
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {routeInfo.routes[0].legs.map((leg, index) => (
+                            <tr key={index}>
+                              <td className="py-2 px-4 border-b border-gray-200">
+                                {index + 1}
+                              </td>
+                              <td className="py-2 px-4 border-b border-gray-200">
+                                {leg.start_address}
+                              </td>
+                              <td className="py-2 px-4 border-b border-gray-200">
+                                {leg.duration.text}
                               </td>
                             </tr>
                           ))}
