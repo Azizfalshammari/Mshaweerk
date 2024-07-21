@@ -62,7 +62,7 @@ function ProfilePage() {
         <div className='flex justify-center w-[80vw] mr-56 mt-[17vh] max-sm:mr-2'>
           <div className='sidebar w-[20%] h-[54vh] flex-shrink-0 max-sm:mt-28'>
             <Link to="/">
-              <img src={logo} className="h-48 mr-[4vw] max-sm:hidden"/>
+              <img src={logo} className="h-48 mr-[4.6vw] max-sm:hidden"/>
             </Link>
             <ul className='sidebar-menu'>
               <div className='box sidebar-item active text-[16px] flex mb-[10px]'>
@@ -81,14 +81,16 @@ function ProfilePage() {
                 <i className="fa-solid fa-table"></i>
                 </span>
               </div>
+              <Link to="/login">
               <div className='box sidebar-item text-[16px] flex mb-[10px]'>
                 <li className='mb-[10px] font-bold text-center m-[auto] flex justify-between text-gray-800' onClick={() => localStorage.clear()}>
                   تسجيل خروج
                 </li>
                 <span className='ml-[10px] mt-[-5px] text-gray-800'>
-                  <i className="fa-solid fa-right-from-bracket"></i>
+                 <i className="fa-solid fa-right-from-bracket"></i>
                 </span>
               </div>
+              </Link>
             </ul>
           </div>
           <div className="form w-[60%] ml-4 flex-grow">
@@ -153,4 +155,5 @@ function ProfilePage() {
 }
 
 export default ProfilePage;
+
 
