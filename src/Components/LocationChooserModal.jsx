@@ -28,7 +28,6 @@ const LocationChooserModal = ({ type, onClose, onSave }) => {
           geocoder.geocode({ location: clickedPosition }, (results, status) => {
             if (status === "OK" && results[0]) {
               const address = results[0].formatted_address;
-              localStorage.setItem(`${type} Location`,`Selected location: ${address}, Lat: ${clickedPosition.lat}, Lng: ${clickedPosition.lng}`);
               onSave({ address, position: clickedPosition });
               toast.success(`${type === "home" ? "Home" : "Work"} location saved!`);
               onClose();
