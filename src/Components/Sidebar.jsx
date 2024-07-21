@@ -87,7 +87,7 @@ const Sidebar = ({ onMenuClick }) => {
                 الملف الشخصي
               </p>
             </Link>
-            <Popup />
+            {/* <Popup /> */}
           </div>
         </nav>
       </div>
