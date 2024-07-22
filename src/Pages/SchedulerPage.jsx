@@ -18,6 +18,8 @@ const SchedulerPage = () => {
       { address: "", deadline: "", position: { lat: null, lng: null } },
     ],
   });
+  const [imageURL, setImageURL] = useState("");
+
   const [map, setMap] = useState(null);
   const [markers, setMarkers] = useState([]);
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
@@ -46,11 +48,71 @@ const SchedulerPage = () => {
           document.getElementById("map"),
           {
             center: mapCenter,
+
             zoom: 12,
           }
         );
 
         setMap(mapInstance);
+        const fetchPlaceDetails = (placeId, callback) => {
+          const service = new window.google.maps.places.PlacesService(
+            mapInstance
+          );
+          const request = {
+            placeId: placeId,
+            fields: ["formatted_address", "photos"],
+          };
+
+          service.getDetails(request, (place, status) => {
+            if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+              const address = place.formatted_address;
+              const photo = place.photos?.[0];
+              let photoUrl = null;
+
+              if (photo) {
+                photoUrl = photo.getUrl({ maxWidth: 400 });
+              }
+
+              console.log("Address:", address);
+              console.log("Photo URL:", photoUrl);
+
+              callback({
+                address: address,
+                photoUrl: photoUrl,
+              });
+            } else {
+              console.error("Failed to get place details:", status);
+              callback({ address: null, photoUrl: null });
+            }
+          });
+        };
+
+        const geocodeLatLng = (latlng, callback) => {
+          const geocoder = new window.google.maps.Geocoder();
+          geocoder.geocode({ location: latlng }, (results, status) => {
+            if (status === "OK") {
+              if (results[0]) {
+                const placeId = results[0]?.place_id;
+                console.log("Place ID:", placeId);
+
+                if (placeId) {
+                  fetchPlaceDetails(placeId, (details) => {
+                    callback(details);
+                  });
+                } else {
+                  callback({
+                    address: results[0].formatted_address,
+                    photoUrl: null,
+                  });
+                }
+              } else {
+                window.alert("No results found");
+              }
+            } else {
+              window.alert("Geocoder failed due to: " + status);
+            }
+          });
+        };
 
         mapInstance.addListener("click", (event) => {
           const clickedPosition = {
@@ -59,8 +121,6 @@ const SchedulerPage = () => {
           };
 
           if (currentMarker) {
-            updateAddress(null, 0);
-
             currentMarker.setPosition(clickedPosition);
             updateAddress(clickedPosition, 0);
           } else {
@@ -68,15 +128,22 @@ const SchedulerPage = () => {
               position: clickedPosition,
               map: mapInstance,
             });
-            setCurrentMarker(marker);
+            setMarkers([marker]);
+          }
+
+          geocodeLatLng(clickedPosition, (result) => {
             setFormData((prevFormData) => ({
               locations: [
-                { address: "", deadline: "", position: clickedPosition },
+                {
+                  address: result.address,
+                  deadline: "",
+                  position: clickedPosition,
+                  photoUrl: result.photoUrl,
+                },
               ],
             }));
-            setMarkers((prevMarkers) => [...prevMarkers, marker]);
             setIsSidebarVisible(true);
-          }
+          });
         });
       });
     };
@@ -98,6 +165,8 @@ const SchedulerPage = () => {
           );
           autocomplete.addListener("place_changed", () => {
             const place = autocomplete.getPlace();
+            const placeId = place.place_id;
+
             handleLocationChange(
               {
                 target: { value: place.formatted_address },
@@ -108,6 +177,22 @@ const SchedulerPage = () => {
               },
               index
             );
+
+            if (placeId) {
+              fetchPlaceDetails(placeId, (details) => {
+                setFormData((prevFormData) => ({
+                  locations: prevFormData.locations.map((loc, i) =>
+                    i === index
+                      ? {
+                          ...loc,
+                          address: details.address,
+                          photoUrl: details.photoUrl,
+                        }
+                      : loc
+                  ),
+                }));
+              });
+            }
           });
         }
       });
@@ -118,6 +203,9 @@ const SchedulerPage = () => {
     const { value } = event.target;
     const updatedLocations = [...formData.locations];
     updatedLocations[index].address = value;
+    if (event.position) {
+      updatedLocations[index].position = event.position;
+    }
     setFormData({ ...formData, locations: updatedLocations });
   };
 
@@ -125,17 +213,22 @@ const SchedulerPage = () => {
     const { value } = event.target;
     const updatedLocations = [...formData.locations];
     updatedLocations[index].deadline = value;
-    setFormData({ ...formData, locations: updatedLocations });
 
     if (
-      currentMarker &&
       updatedLocations[index].position.lat &&
       updatedLocations[index].position.lng
     ) {
-      currentMarker.setPosition(updatedLocations[index].position);
+      const marker = new window.google.maps.Marker({
+        position: updatedLocations[index].position,
+        map,
+      });
       map.setCenter(updatedLocations[index].position);
+      setMarkers((prevMarkers) => [...prevMarkers, marker]);
     }
+
+    setFormData({ ...formData, locations: updatedLocations });
   };
+  console.log(formData);
 
   const addTaskToTable = () => {
     const newLocations = [...formData.locations];
@@ -191,13 +284,12 @@ const SchedulerPage = () => {
   };
 
   const confirmSchedule = () => {
-    // Dummy data with addresses (further out from the center)
     const dummyTaskList = [
       {
         address:
-          "محطة قطار S1، مطار الملك خالد الدولي، الرياض 13414،، King Khalid International Airport, Riyadh 13415, Saudi Arabia",
-      }, // Origin
-      { address: "8330, 4182 نجران، ظهرة لبن، الرياض 13784, Saudi Arabia" }, // Destination 1
+          "شركة عبدالعزيز الدليقان للمقاولات، شارع الجائزة، Riyadh Saudi Arabia",
+      },
+      { address: "8330, 4182 نجران، ظهرة لبن، الرياض 13784, Saudi Arabia" },
     ];
 
     if (dummyTaskList.length < 2) {
@@ -233,7 +325,7 @@ const SchedulerPage = () => {
             travelMode: window.google.maps.TravelMode.DRIVING,
             drivingOptions: {
               departureTime,
-              trafficModel: "pessimistic",
+              trafficModel: "bestguess",
             },
             provideRouteAlternatives: true,
             unitSystem: window.google.maps.UnitSystem.METRIC,
@@ -291,7 +383,6 @@ const SchedulerPage = () => {
           return;
         }
 
-        // Log and compare durations
         validResults.forEach(
           ({
             destinationIndex,
@@ -309,7 +400,6 @@ const SchedulerPage = () => {
           }
         );
 
-        // Find the shortest and longest durations for each destination
         destinations.forEach((destination, destIndex) => {
           const destinationResults = validResults.filter(
             (result) => result.destinationIndex === destIndex
@@ -372,103 +462,6 @@ const SchedulerPage = () => {
       });
   };
 
-  // const confirmSchedule = () => {
-  //   // Dummy data with addresses (further out from the center)
-  //   const dummyTaskList = [
-  //     { address: "محطة قطار S1، مطار الملك خالد الدولي، الرياض 13414،، King Khalid International Airport, Riyadh 13415, Saudi Arabia" }, // Origin
-  //     { address: "8330, 4182 نجران، ظهرة لبن، الرياض 13784, Saudi Arabia" },     // Destination 1
-
-  //   ];
-
-  //   if (dummyTaskList.length < 2) {
-  //     toast("Add more tasks before scheduling!");
-  //     return;
-  //   }
-
-  //   const directionsService = new window.google.maps.DirectionsService();
-
-  //   const origin = dummyTaskList[0].address;
-  //   const destinations = dummyTaskList.slice(1).map(task => task.address);
-
-  //   console.log("Testing route duration for each hour of the day using bestguess traffic model");
-
-  //   const requests = [];
-  //   const now = new Date();
-
-  //   destinations.forEach((destination, destIndex) => {
-  //     for (let i = 0; i < 24; i++) {
-  //       const departureTime = new Date(now.getTime() + i * 3600000); // every hour
-
-  //       const request = {
-  //         origin,
-  //         destination,
-  //         travelMode: window.google.maps.TravelMode.DRIVING,
-  //         drivingOptions: {
-  //           departureTime,
-  //           trafficModel: "pessimistic"
-  //         },
-  //         provideRouteAlternatives: true,
-  //         unitSystem: window.google.maps.UnitSystem.METRIC
-  //       };
-
-  //       console.log(`Request being sent for destination ${destIndex + 1}, departure time: ${departureTime.toLocaleTimeString()}`);
-  //       console.log("Request details:", request);
-
-  //       requests.push(
-  //         new Promise((resolve, reject) => {
-  //           directionsService.route(request, (result, status) => {
-  //             if (status === window.google.maps.DirectionsStatus.OK) {
-  //               const route = result.routes[0];
-  //               const durationInSeconds = route.legs.reduce((total, leg) => total + leg.duration.value, 0);
-  //               resolve({ destinationIndex: destIndex, departureTime, durationInSeconds });
-  //             } else {
-  //               reject({ status, destinationIndex: destIndex, departureTime });
-  //             }
-  //           });
-  //         })
-  //       );
-  //     }
-  //   });
-
-  //   Promise.allSettled(requests)
-  //     .then((results) => {
-  //       const validResults = results
-  //         .filter(({ status }) => status === "fulfilled")
-  //         .map(({ value }) => value);
-
-  //       if (validResults.length === 0) {
-  //         toast.error("Failed to fetch routes.");
-  //         return;
-  //       }
-
-  //       // Log and compare durations
-  //       validResults.forEach(({ destinationIndex, departureTime, durationInSeconds }) => {
-  //         console.log(`Destination: ${destinations[destinationIndex]}, Departure time: ${departureTime.toLocaleTimeString()}, Duration: ${durationInSeconds / 60} minutes`);
-  //       });
-
-  //       // Find the shortest and longest durations for each destination
-  //       destinations.forEach((destination, destIndex) => {
-  //         const destinationResults = validResults.filter(result => result.destinationIndex === destIndex);
-
-  //         const bestDeparture = destinationResults.reduce((best, current) => current.durationInSeconds < best.durationInSeconds ? current : best);
-  //         const worstDeparture = destinationResults.reduce((worst, current) => current.durationInSeconds > worst.durationInSeconds ? current : worst);
-
-  //         console.log(`Best departure time for destination ${destination}:`, bestDeparture.departureTime);
-  //         console.log(`Shortest estimated duration for destination ${destination}:`, bestDeparture.durationInSeconds, "seconds");
-
-  //         console.log(`Worst departure time for destination ${destination}:`, worstDeparture.departureTime);
-  //         console.log(`Longest estimated duration for destination ${destination}:`, worstDeparture.durationInSeconds, "seconds");
-
-  //         toast.success(`For destination ${destination}, the best departure time is ${bestDeparture.departureTime.toLocaleString()} with an estimated duration of ${Math.round(bestDeparture.durationInSeconds / 60)} minutes.`);
-  //         toast.info(`For destination ${destination}, the worst departure time is ${worstDeparture.departureTime.toLocaleString()} with an estimated duration of ${Math.round(worstDeparture.durationInSeconds / 60)} minutes.`);
-  //       });
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching routes:", error);
-  //       toast.error(`Error fetching routes: ${error.status}`);
-  //     });
-  // };
-
   const openLocationChooser = (type) => {
     setLocationType(type);
     setIsModalOpen(true);
@@ -521,6 +514,7 @@ const SchedulerPage = () => {
                               key={index}
                               className="p-4 bg-white rounded-lg shadow-md space-y-2"
                             >
+                              <img src={location.photoUrl} />
                               <input
                                 type="text"
                                 id={`location-${index}`}
@@ -616,4 +610,4 @@ const SchedulerPage = () => {
     </>
   );
 };
-export default confirmSchedule;
+export default SchedulerPage;
