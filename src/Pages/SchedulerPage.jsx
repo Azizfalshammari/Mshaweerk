@@ -1,31 +1,25 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../Components/Sidebar";
-import BestRouteModal from "../Components/BestRouteModal"; // Import the BestRouteModal component
-import LocationChooserModal from "../Components/LocationChooserModal"; // Import the LocationChooserModal component
+import BestRouteModal from "../Components/BestRouteModal";
+import LocationChooserModal from "../Components/LocationChooserModal";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faTrash,
-  faHome,
-  faBriefcase,
-} from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faHome, faBriefcase } from "@fortawesome/free-solid-svg-icons";
 import Popup from "../Components/Popup";
 
 const SchedulerPage = () => {
   const [formData, setFormData] = useState({
-    locations: [
-      { address: "", deadline: "", position: { lat: null, lng: null } },
-    ],
+    locations: [{ address: "", deadline: "", position: { lat: null, lng: null } }],
   });
   const [map, setMap] = useState(null);
   const [markers, setMarkers] = useState([]);
-  const [isSidebarVisible, setIsSidebarVisible] = useState(false); // Make sure sidebar is initially visible
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
   const [taskList, setTaskList] = useState([]);
   const [currentMarker, setCurrentMarker] = useState(null);
-  const [routeInfo, setRouteInfo] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false); // State to control the modal visibility
-  const [locationType, setLocationType] = useState(null); // State to control the location type for the modal
+  const [bestRoute, setBestRoute] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [locationType, setLocationType] = useState(null);
 
   useEffect(() => {
     const loadGoogleMapsScript = () => {
@@ -59,23 +53,22 @@ const SchedulerPage = () => {
           };
 
           if (currentMarker) {
-            updateAddress(null, 0); // Update the first location's address
+            updateAddress(null, 0);
 
             currentMarker.setPosition(clickedPosition);
-            updateAddress(clickedPosition, 0); // Update the first location's address
+            updateAddress(clickedPosition, 0);
           } else {
             const marker = new window.google.maps.Marker({
               position: clickedPosition,
               map: mapInstance,
             });
-            setCurrentMarker(null);
-            console.log(currentMarker)
+            setCurrentMarker(marker);
             setFormData((prevFormData) => ({
               locations: [
                 { address: "", deadline: "", position: clickedPosition },
               ],
             }));
-            setMarkers(null);
+            setMarkers((prevMarkers) => [...prevMarkers, marker]);
             setIsSidebarVisible(true);
           }
         });
@@ -94,9 +87,7 @@ const SchedulerPage = () => {
       formData.locations.forEach((location, index) => {
         const input = document.getElementById(`location-${index}`);
         if (input) {
-          const autocomplete = new window.google.maps.places.Autocomplete(
-            input
-          );
+          const autocomplete = new window.google.maps.places.Autocomplete(input);
           autocomplete.addListener("place_changed", () => {
             const place = autocomplete.getPlace();
             handleLocationChange(
@@ -192,45 +183,214 @@ const SchedulerPage = () => {
   };
 
   const confirmSchedule = () => {
-    const notify = () => toast("This is an alert!");
-
-    if (taskList.length < 2) {
-      notify();
+    // Dummy data with addresses (further out from the center)
+    const dummyTaskList = [
+      { address: "محطة قطار S1، مطار الملك خالد الدولي، الرياض 13414،، King Khalid International Airport, Riyadh 13415, Saudi Arabia" }, // Origin
+      { address: "8330, 4182 نجران، ظهرة لبن، الرياض 13784, Saudi Arabia" },     // Destination 1
+    ];
+  
+    if (dummyTaskList.length < 2) {
+      toast("Add more tasks before scheduling!");
       return;
     }
-
+  
     const directionsService = new window.google.maps.DirectionsService();
-
-    const waypoints = taskList.slice(1, taskList.length - 1).map((task) => ({
-      location: new window.google.maps.LatLng(
-        task.position.lat,
-        task.position.lng
-      ),
-      stopover: true,
-    }));
-
-    const origin = new window.google.maps.LatLng(
-      taskList[0].position.lat,
-      taskList[0].position.lng
-    );
-    const destination = new window.google.maps.LatLng(
-      taskList[taskList.length - 1].position.lat,
-      taskList[taskList.length - 1].position.lng
-    );
-
-    const request = {
-      origin,
-      destination,
-      waypoints,
-      travelMode: window.google.maps.TravelMode.DRIVING,
-    };
-
-    directionsService.route(request, (result, status) => {
-      if (status === window.google.maps.DirectionsStatus.OK) {
-        setRouteInfo(result);
+  
+    const origin = dummyTaskList[0].address;
+    const destinations = dummyTaskList.slice(1).map(task => task.address);
+  
+    console.log("Testing route duration for each hour of the week using pessimistic traffic model");
+  
+    const requests = [];
+    const now = new Date();
+  
+    destinations.forEach((destination, destIndex) => {
+      // Loop through each hour of the week
+      for (let day = 0; day < 7; day++) { // 7 days
+        for (let hour = 0; hour < 24; hour++) { // 24 hours
+          const departureTime = new Date(now.getTime() + (day * 24 + hour) * 3600000); // every hour for a week
+  
+          const request = {
+            origin,
+            destination,
+            travelMode: window.google.maps.TravelMode.DRIVING,
+            drivingOptions: {
+              departureTime,
+              trafficModel: "pessimistic"
+            },
+            provideRouteAlternatives: true,
+            unitSystem: window.google.maps.UnitSystem.METRIC
+          };
+  
+          console.log(`Request being sent for destination ${destIndex + 1}, departure time: ${departureTime.toLocaleString()}`);
+          console.log("Request details:", request);
+  
+          requests.push(
+            new Promise((resolve, reject) => {
+              directionsService.route(request, (result, status) => {
+                if (status === window.google.maps.DirectionsStatus.OK) {
+                  const route = result.routes[0];
+                  // Sum up the duration_in_traffic for all legs
+                  const totalDurationInTraffic = route.legs.reduce((total, leg) => total + leg.duration_in_traffic.value, 0);
+                  // Calculate arrival time
+                  const arrivalTime = new Date(departureTime.getTime() + totalDurationInTraffic * 1000);
+                  resolve({ destinationIndex: destIndex, departureTime, totalDurationInTraffic, arrivalTime });
+                } else {
+                  reject({ status, destinationIndex: destIndex, departureTime });
+                }
+              });
+            })
+          );
+        }
       }
     });
+  
+    Promise.allSettled(requests)
+      .then((results) => {
+        const validResults = results
+          .filter(({ status }) => status === "fulfilled")
+          .map(({ value }) => value);
+  
+        if (validResults.length === 0) {
+          toast.error("Failed to fetch routes.");
+          return;
+        }
+  
+        // Log and compare durations
+        validResults.forEach(({ destinationIndex, departureTime, totalDurationInTraffic, arrivalTime }) => {
+          console.log(`Destination: ${destinations[destinationIndex]}, Departure time: ${departureTime.toLocaleString()}, Total duration in traffic: ${totalDurationInTraffic / 60} minutes, Arrival time: ${arrivalTime.toLocaleString()}`);
+        });
+  
+        // Find the shortest and longest durations for each destination
+        destinations.forEach((destination, destIndex) => {
+          const destinationResults = validResults.filter(result => result.destinationIndex === destIndex);
+  
+          const bestDeparture = destinationResults.reduce((best, current) => current.totalDurationInTraffic < best.totalDurationInTraffic ? current : best);
+          const worstDeparture = destinationResults.reduce((worst, current) => current.totalDurationInTraffic > worst.totalDurationInTraffic ? current : worst);
+  
+          console.log(`Best departure time for destination ${destination}:`, bestDeparture.departureTime);
+          console.log(`Shortest estimated total duration in traffic for destination ${destination}:`, bestDeparture.totalDurationInTraffic, "seconds");
+          console.log(`Best arrival time for destination ${destination}:`, bestDeparture.arrivalTime);
+          
+          console.log(`Worst departure time for destination ${destination}:`, worstDeparture.departureTime);
+          console.log(`Longest estimated total duration in traffic for destination ${destination}:`, worstDeparture.totalDurationInTraffic, "seconds");
+          console.log(`Worst arrival time for destination ${destination}:`, worstDeparture.arrivalTime);
+          
+          toast.success(`For destination ${destination}, the best departure time is ${bestDeparture.departureTime.toLocaleString()} with an estimated total duration of ${Math.round(bestDeparture.totalDurationInTraffic / 60)} minutes, arriving at ${bestDeparture.arrivalTime.toLocaleString()}.`);
+          toast.info(`For destination ${destination}, the worst departure time is ${worstDeparture.departureTime.toLocaleString()} with an estimated total duration of ${Math.round(worstDeparture.totalDurationInTraffic / 60)} minutes, arriving at ${worstDeparture.arrivalTime.toLocaleString()}.`);
+        });
+      })
+      .catch((error) => {
+        console.error("Error fetching routes:", error);
+        toast.error(`Error fetching routes: ${error.status}`);
+      });
   };
+  
+  
+  
+  
+// const confirmSchedule = () => {
+//   // Dummy data with addresses (further out from the center)
+//   const dummyTaskList = [
+//     { address: "محطة قطار S1، مطار الملك خالد الدولي، الرياض 13414،، King Khalid International Airport, Riyadh 13415, Saudi Arabia" }, // Origin
+//     { address: "8330, 4182 نجران، ظهرة لبن، الرياض 13784, Saudi Arabia" },     // Destination 1
+ 
+//   ];
+
+//   if (dummyTaskList.length < 2) {
+//     toast("Add more tasks before scheduling!");
+//     return;
+//   }
+
+//   const directionsService = new window.google.maps.DirectionsService();
+
+//   const origin = dummyTaskList[0].address;
+//   const destinations = dummyTaskList.slice(1).map(task => task.address);
+
+//   console.log("Testing route duration for each hour of the day using bestguess traffic model");
+
+//   const requests = [];
+//   const now = new Date();
+
+//   destinations.forEach((destination, destIndex) => {
+//     for (let i = 0; i < 24; i++) {
+//       const departureTime = new Date(now.getTime() + i * 3600000); // every hour
+
+//       const request = {
+//         origin,
+//         destination,
+//         travelMode: window.google.maps.TravelMode.DRIVING,
+//         drivingOptions: {
+//           departureTime,
+//           trafficModel: "pessimistic"
+//         },
+//         provideRouteAlternatives: true,
+//         unitSystem: window.google.maps.UnitSystem.METRIC
+//       };
+
+//       console.log(`Request being sent for destination ${destIndex + 1}, departure time: ${departureTime.toLocaleTimeString()}`);
+//       console.log("Request details:", request);
+
+//       requests.push(
+//         new Promise((resolve, reject) => {
+//           directionsService.route(request, (result, status) => {
+//             if (status === window.google.maps.DirectionsStatus.OK) {
+//               const route = result.routes[0];
+//               const durationInSeconds = route.legs.reduce((total, leg) => total + leg.duration.value, 0);
+//               resolve({ destinationIndex: destIndex, departureTime, durationInSeconds });
+//             } else {
+//               reject({ status, destinationIndex: destIndex, departureTime });
+//             }
+//           });
+//         })
+//       );
+//     }
+//   });
+
+//   Promise.allSettled(requests)
+//     .then((results) => {
+//       const validResults = results
+//         .filter(({ status }) => status === "fulfilled")
+//         .map(({ value }) => value);
+
+//       if (validResults.length === 0) {
+//         toast.error("Failed to fetch routes.");
+//         return;
+//       }
+
+//       // Log and compare durations
+//       validResults.forEach(({ destinationIndex, departureTime, durationInSeconds }) => {
+//         console.log(`Destination: ${destinations[destinationIndex]}, Departure time: ${departureTime.toLocaleTimeString()}, Duration: ${durationInSeconds / 60} minutes`);
+//       });
+
+//       // Find the shortest and longest durations for each destination
+//       destinations.forEach((destination, destIndex) => {
+//         const destinationResults = validResults.filter(result => result.destinationIndex === destIndex);
+
+//         const bestDeparture = destinationResults.reduce((best, current) => current.durationInSeconds < best.durationInSeconds ? current : best);
+//         const worstDeparture = destinationResults.reduce((worst, current) => current.durationInSeconds > worst.durationInSeconds ? current : worst);
+
+//         console.log(`Best departure time for destination ${destination}:`, bestDeparture.departureTime);
+//         console.log(`Shortest estimated duration for destination ${destination}:`, bestDeparture.durationInSeconds, "seconds");
+        
+//         console.log(`Worst departure time for destination ${destination}:`, worstDeparture.departureTime);
+//         console.log(`Longest estimated duration for destination ${destination}:`, worstDeparture.durationInSeconds, "seconds");
+
+//         toast.success(`For destination ${destination}, the best departure time is ${bestDeparture.departureTime.toLocaleString()} with an estimated duration of ${Math.round(bestDeparture.durationInSeconds / 60)} minutes.`);
+//         toast.info(`For destination ${destination}, the worst departure time is ${worstDeparture.departureTime.toLocaleString()} with an estimated duration of ${Math.round(worstDeparture.durationInSeconds / 60)} minutes.`);
+//       });
+//     })
+//     .catch((error) => {
+//       console.error("Error fetching routes:", error);
+//       toast.error(`Error fetching routes: ${error.status}`);
+//     });
+// };
+
+  
+  
+  
+  
+  
 
   const openLocationChooser = (type) => {
     setLocationType(type);
@@ -247,14 +407,11 @@ const SchedulerPage = () => {
 
   return (
     <>
-      <div className="flex h-screen ">
-        {/* Sidebar */}
+      <div className="flex h-screen">
         <Sidebar onMenuClick={toggleSidebar} />
 
-        {/* Main Content */}
-        <div className=" flex flex-col flex-grow bg-transparent">
-          {/* <Popup/> */}
-          <div className="absolute top-0 z-50 bg-transparent flex items-center justify-between p-4 ">
+        <div className="flex flex-col flex-grow bg-transparent">
+          <div className="absolute top-0 z-50 bg-transparent flex items-center justify-between p-4">
             <input
               type="text"
               placeholder="ابحث ..."
@@ -269,7 +426,7 @@ const SchedulerPage = () => {
               <FontAwesomeIcon
                 icon={faBriefcase}
                 className="text-2xl cursor-pointer text-[#9685cf]"
-                onClick={() => openLocationChooser("work")}
+                onClick={() => confirmSchedule()}
               />
             </div>
           </div>
@@ -281,10 +438,10 @@ const SchedulerPage = () => {
                   <div className="absolute inset-0 flex justify-end p-4">
                     <div className="w-1/3 bg-gray-100 rounded-lg p-3 overflow-y-auto max-sm:w-[67vw]">
                       <div className="space-y-4">
-                        <h2 className="text-2xl font-semibold p-3 text-black">
-                          أدخل مواقع المهام والمواعيد النهائية
+                        <h2 className="text-2xl font-semibold p-3">
+                          إضافة مهام
                         </h2>
-                        <form onSubmit={handleSubmit} className="space-y-4">
+                        <form onSubmit={handleSubmit}>
                           {formData.locations.map((location, index) => (
                             <div
                               key={index}
@@ -376,6 +533,12 @@ const SchedulerPage = () => {
           <ToastContainer />
         </div>
       </div>
+      {bestRoute && (
+        <BestRouteModal
+          route={bestRoute}
+          onClose={() => setBestRoute(null)}
+        />
+      )}
       {isModalOpen && (
         <LocationChooserModal
           type={locationType}
