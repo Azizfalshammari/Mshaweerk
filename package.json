@@ -10,19 +10,28 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@fortawesome/react-fontawesome": "^0.2.2",
+    "@headlessui/react": "^2.1.2",
     "@react-google-maps/api": "^2.19.3",
     "@reduxjs/toolkit": "^2.2.6",
     "@tomtom-international/web-sdk-maps": "^6.25.0",
     "@tomtom-international/web-sdk-services": "^6.25.0",
     "axios": "^1.7.2",
-    "firebase": "^10.12.3",
+    "bootstrap": "^5.3.3",
+    "firebase": "^10.12.4",
+    "framer-motion": "^11.3.4",
     "google-map-react": "^2.2.1",
+    "gsap": "^3.12.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-modal": "^3.16.1",
     "react-router-dom": "^6.24.1",
     "react-toastify": "^10.0.5",
+    "reactstrap": "^9.2.2",
     "redux": "^5.0.1",
-    "slick-slider": "^1.8.2"
+    "slick-slider": "^1.8.2",
+    "tailwindcss-rtl": "^0.9.0"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",

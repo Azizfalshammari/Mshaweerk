@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../config/firbase";
-import img from "../assets/logo-jadw.png";
+import img from "./logo-jadw.png";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
 function LogInPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(""); 
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleLogin = () => {
@@ -19,13 +19,13 @@ function LogInPage() {
         navigate("/");
       })
       .catch((error) => {
-        setError("البريد الإلكتروني أو كلمة المرور غير صحيحة"); 
+        setError("البريد الإلكتروني أو كلمة المرور غير صحيحة");
         console.error("Error logging in:", error);
       });
   };
 
   const closeModal = () => {
-    setError(""); 
+    setError("");
   };
 
   return (
