@@ -56,5 +56,3 @@ const ModalComponent = () => {
         </div>
     );
 };
-
-export default ModalComponent;

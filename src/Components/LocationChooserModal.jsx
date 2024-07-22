@@ -47,11 +47,10 @@ const LocationChooserModal = ({ type, onClose, onSave }) => {
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className="bg-[#c9c0e5] rounded-lg p-4 w-3/4 h-[90%] max-sm:h-2/4 max-sm:w-full max-md:h-[70%]">
         <div className="flex flex-row justify-between w-full items-center">
-          {" "}
           <p className="self-start">اختر الموقع </p>
           <button
             type="button"
-            className="text-gray-800 hover:bg-gray-100 p-1 rounded-full "
+            className="text-gray-800 hover:bg-gray-100 p-1 rounded-full"
             onClick={onClose}
           >
             <span className="sr-only">Close</span>
@@ -70,8 +69,7 @@ const LocationChooserModal = ({ type, onClose, onSave }) => {
             </svg>
           </button>
         </div>
-        <div ref={mapRef} className="w-full max-sm:h-[90%] h-[90%]"></div>{" "}
-        {/* Add margin-top to create space for the button */}
+        <div ref={mapRef} className="w-full max-sm:h-[90%] h-[90%]"></div>
       </div>
     </div>
   );
