@@ -54,12 +54,7 @@ const Sidebar = ({ onMenuClick }) => {
                 fill="#333333"
               />
             </svg>
-            <p
-              
-              className="text-sm font-semibold mt-2 text-white"
-            >
-              انشىء جدولك
-            </p>
+            <p className="text-sm font-semibold mt-2 text-white">انشىء جدولك</p>
           </div>
 
           <div
