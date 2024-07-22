@@ -6,6 +6,8 @@ import SignUpPage from "../Pages/SignUpPage";
 import SchedulerPage from "../Pages/SchedulerPage";
 import ProfilePage from "../Pages/ProfilePage";
 import Test from "../Components/Test";
+import Popup from "../Components/Popup";
+import Card from "../Components/Card";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +33,14 @@ const router = createBrowserRouter([
   {
     path: "/test",
     element: <Test />,
+  },
+  {
+    path: "/Popup",
+    element: <Popup/>,
+  },
+  {
+    path: "/Card",
+    element: <Card/>,
   },
 ]);
 function Router() {

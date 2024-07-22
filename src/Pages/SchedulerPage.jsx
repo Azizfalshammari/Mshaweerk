@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../Components/Sidebar";
+import Popup from "../Components/Popup";
 
 const SchedulerPage = () => {
   const [formData, setFormData] = useState({
@@ -220,18 +221,24 @@ const SchedulerPage = () => {
   return (
     <>
       <div className="flex bg-transparent relative">
+   
         <div className="flex flex-col w-full">
+   
           <div className="flex h-screen">
             <div className="w-full">
+             
               <div id="map" className="h-full"></div>
             </div>
             {isSidebarVisible && (
+                
               <div className="sidebar w-1/3 bg-gray-100 rounded-lg p-3 overflow-y-auto max-sm:w-[67vw] max-sm:gray-100">
+               
                 <div className="space-y-4">
                   <h2 className="text-2xl font-semibold p-3 text-black">
                     أدخل مواقع المهام والمواعيد النهائية
                   </h2>
                   <form onSubmit={handleSubmit} className="space-y-4">
+                  <Popup></Popup>
                     {formData.locations.map((location, index) => (
                       <div
                         key={index}
