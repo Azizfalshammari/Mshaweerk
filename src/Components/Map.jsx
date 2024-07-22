@@ -6,7 +6,7 @@ const MapComponent = () => {
     useEffect(() => {
         const loadGoogleMapsScript = () => {
             const script = document.createElement("script");
-            script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyAMzdv8DEMVlz1HdW6YiqZGqKeWGJxS0T0&libraries=places`;
+            script.src = `https://maps.googleapis.com/maps/api/js?key=&libraries=places`;
             script.async = true;
             script.defer = true;
             script.onload = initializeMap;
