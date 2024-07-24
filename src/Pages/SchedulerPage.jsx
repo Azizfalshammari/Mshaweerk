@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Sidebar from "../Components/Sidebar";
-import LocationChooserModal from "../Components/LocationChooserModal";
-import ScheduleModal from "../Components/ScheduleModal";
+import Sidebar from "../components/Sidebar";
+import LocationChooserModal from "../components/LocationChooserModal";
+import ScheduleModal from "../components/ScheduleModal";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,7 +11,7 @@ import {
   faBriefcase,
   faClock,
 } from "@fortawesome/free-solid-svg-icons";
-import BusyTimeModal from "../Components/BusyTimeModal";
+import BusyTimeModal from "../components/BusyTimeModal";
 
 const SchedulerPage = () => {
   const [formData, setFormData] = useState({
@@ -139,7 +139,7 @@ const SchedulerPage = () => {
     const home = localStorage.getItem("home");
     const work = localStorage.getItem("work");
 
-    if (!home || !work) {
+    if (!home) {
       notify();
       return;
     }
@@ -185,6 +185,8 @@ const SchedulerPage = () => {
             now.getTime() + (day * 24 + hour) * 3600000
           );
 
+          const deadline = new Date(taskList[destIndex].deadline);
+          if (departureTime > deadline) continue;
           if (isTimeBusy(departureTime)) continue;
 
           const request = {
@@ -220,6 +222,7 @@ const SchedulerPage = () => {
                     duration: route.legs[0].duration.text,
                   });
                 } else {
+                  console.error(`Directions API Error: ${status}`);
                   reject({
                     status,
                     destinationIndex: destIndex,
@@ -270,22 +273,24 @@ const SchedulerPage = () => {
               distance: bestDeparture.distance,
               duration: bestDeparture.duration,
             });
+
+            return {
+              ...task,
+              routeDetails: {
+                bestTime: bestDeparture.departureTime,
+                bestRoute: `${bestDeparture.departureTime.toLocaleString()} - ${bestDeparture.arrivalTime.toLocaleString()}`,
+                distance: bestDeparture.distance,
+                duration: bestDeparture.duration,
+                day: bestDeparture.departureTime.toLocaleString("en-GB", {
+                  weekday: "long",
+                }),
+              },
+              departureTime: bestDeparture.departureTime,
+              arrivalTime: bestDeparture.arrivalTime,
+            };
           }
 
-          return {
-            ...task,
-            routeDetails: {
-              bestTime: bestDeparture.departureTime,
-              bestRoute: `${bestDeparture.departureTime.toLocaleString()} - ${bestDeparture.arrivalTime.toLocaleString()}`,
-              distance: bestDeparture.distance,
-              duration: bestDeparture.duration,
-              day: bestDeparture.departureTime.toLocaleString("en-GB", {
-                weekday: "long",
-              }),
-            },
-            departureTime: bestDeparture.departureTime,
-            arrivalTime: bestDeparture.arrivalTime,
-          };
+          return task;
         });
 
         setTaskList(updatedTaskList);
@@ -299,7 +304,7 @@ const SchedulerPage = () => {
       })
       .catch((error) => {
         console.error("Error fetching routes:", error);
-        toast.error(`Error fetching routes: ${error.status}`);
+        toast.error(`Error fetching routes: ${error.message || error}`);
       });
   };
 
