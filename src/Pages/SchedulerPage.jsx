@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Sidebar from "../Components/Sidebar";
-import LocationChooserModal from "../Components/LocationChooserModal";
-import ScheduleModal from "../Components/ScheduleModal";
+import Sidebar from "../components/Sidebar";
+import LocationChooserModal from "../components/LocationChooserModal";
+import ScheduleModal from "../components/ScheduleModal";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,8 +11,7 @@ import {
   faBriefcase,
   faClock,
 } from "@fortawesome/free-solid-svg-icons";
-import BusyTimeModal from "../Components/BusyTimeModal";
-
+import BusyTimeModal from "../components/BusyTimeModal";
 const SchedulerPage = () => {
   const [formData, setFormData] = useState({
     locations: [
@@ -37,7 +36,6 @@ const SchedulerPage = () => {
   const [isScheduleModalOpen, setIsScheduleModalOpen] = useState(false);
   const [busyTimes, setBusyTimes] = useState([]);
   const [isBusyTimeModalOpen, setIsBusyTimeModalOpen] = useState(false);
-
   const handleLocationChange = (event, index) => {
     const { value, position } = event.target;
     const updatedLocations = [...formData.locations];
@@ -50,13 +48,11 @@ const SchedulerPage = () => {
     };
     setFormData({ ...formData, locations: updatedLocations });
   };
-
   const handleDeadlineChange = (event, index) => {
     const { value } = event.target;
     const updatedLocations = [...formData.locations];
     updatedLocations[index].deadline = value;
     setFormData({ ...formData, locations: updatedLocations });
-
     if (
       currentMarker &&
       updatedLocations[index].position.lat &&
@@ -66,7 +62,6 @@ const SchedulerPage = () => {
       map.setCenter(updatedLocations[index].position);
     }
   };
-
   const addTaskToTable = () => {
     const newLocations = [...formData.locations];
     if (newLocations.length > 0) {
@@ -86,22 +81,18 @@ const SchedulerPage = () => {
       }
     }
   };
-
   const removeTaskFromTable = (index) => {
     const updatedTaskList = taskList.filter((_, i) => i !== index);
     setTaskList(updatedTaskList);
-
     if (markers[index]) {
       markers[index].setMap(null);
       setMarkers(markers.filter((_, i) => i !== index));
     }
   };
-
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(formData);
   };
-
   const updateAddress = (position, index) => {
     const geocoder = new window.google.maps.Geocoder();
     geocoder.geocode({ location: position }, (results, status) => {
@@ -115,15 +106,12 @@ const SchedulerPage = () => {
       }
     });
   };
-
   const toggleSidebar = () => {
     setIsSidebarVisible(!isSidebarVisible);
   };
-
   const handleSaveBusyTime = (newBusyTime) => {
     setBusyTimes([...busyTimes, newBusyTime]);
   };
-
   // const isTaskInBusyTime = (taskTime) => {
   //   return busyTimes.some((taskTime) => {
   //     const taskDate = new Date(taskTime);
@@ -132,36 +120,22 @@ const SchedulerPage = () => {
   //     return taskDate >= startTime && taskDate <= endTime;
   //   });
   // };
-
   const confirmSchedule = () => {
     const notify = () => toast("من فضلك ادخل موقع منزلك او عملك");
-
     const home = localStorage.getItem("home");
     const work = localStorage.getItem("work");
 
-    if (!home && !work) {
+    if (!home) {
       notify();
       return;
     }
-
-    // Determine which address to use
-    const origin = home
-      ? JSON.parse(home)?.address
-      : work
-      ? JSON.parse(work)?.address
-      : null;
-
-    if (!origin) {
-      notify();
-      return;
-    }
-
     if (taskList.length <= 0) {
       toast("Add more tasks before scheduling!");
       return;
     }
 
     const directionsService = new window.google.maps.DirectionsService();
+    const origin = JSON.parse(home).address;
     const destinations = taskList.map((task) => task.address);
 
     const isTimeBusy = (time) => {
@@ -188,17 +162,15 @@ const SchedulerPage = () => {
         console.error("existingTasks is not an array:", existingTasks);
         return false;
       }
-
       return existingTasks.some(
         (task) =>
-          newTask.arrivalTime > task.departureTime &&
-          newTask.departureTime < task.arrivalTime
+          newTask.arrivalTime >= task.departureTime &&
+          newTask.departureTime <= task.arrivalTime
       );
     };
 
     const requests = [];
     const now = new Date();
-    console.log(`the point is ${origin}`);
     const scheduledTasks = [];
     destinations.forEach((destination, destIndex) => {
       for (let day = 0; day < 7; day++) {
@@ -210,7 +182,6 @@ const SchedulerPage = () => {
           const deadline = new Date(taskList[destIndex].deadline);
           if (departureTime > deadline) continue;
           if (isTimeBusy(departureTime)) continue;
-
           const request = {
             origin,
             destination,
@@ -222,7 +193,6 @@ const SchedulerPage = () => {
             provideRouteAlternatives: true,
             unitSystem: window.google.maps.UnitSystem.METRIC,
           };
-
           requests.push(
             new Promise((resolve, reject) => {
               directionsService.route(request, (result, status) => {
@@ -264,23 +234,19 @@ const SchedulerPage = () => {
         const validResults = results
           .filter(({ status }) => status === "fulfilled")
           .map(({ value }) => value);
-
         if (validResults.length === 0) {
           toast.error("Failed to fetch routes.");
           return;
         }
-
         const updatedTaskList = taskList.map((task, index) => {
           const destinationResults = validResults.filter(
             (result) => result.destinationIndex === index
           );
-
           const bestDeparture = destinationResults.reduce((best, current) =>
             current.totalDurationInTraffic < best.totalDurationInTraffic
               ? current
               : best
           );
-
           console.log(`Task Address: ${task.address}`);
           console.log(
             `Best Departure Time: ${bestDeparture.departureTime.toLocaleString()}`
@@ -292,19 +258,17 @@ const SchedulerPage = () => {
           console.log(`Duration: ${bestDeparture.duration}`);
           console.log(`Best Route Name: ${bestDeparture.bestRouteName}`);
           console.log("---");
-          console.log(`origin point is ${origin}`);
 
-          // Check for overlaps with previously scheduled tasks
           const scheduledTasksForCurrent = scheduledTasks.filter(
             (scheduledTask) =>
-              isOverlap(bestDeparture, {
-                departureTime: scheduledTask.departureTime,
-                arrivalTime: scheduledTask.arrivalTime,
-              })
+              isOverlap(bestDeparture, [
+                {
+                  departureTime: scheduledTask.departureTime,
+                  arrivalTime: scheduledTask.arrivalTime,
+                },
+              ])
           );
-
           if (!isOverlap(bestDeparture, scheduledTasksForCurrent)) {
-            // Add the task to the scheduled tasks list
             scheduledTasks.push({
               departureTime: bestDeparture.departureTime,
               arrivalTime: bestDeparture.arrivalTime,
@@ -312,13 +276,10 @@ const SchedulerPage = () => {
               distance: bestDeparture.distance,
               duration: bestDeparture.duration,
             });
-
             return {
               ...task,
               routeDetails: {
-                origin: origin,
                 bestTime: bestDeparture.departureTime,
-
                 bestRoute: bestDeparture.bestRouteName,
                 distance: bestDeparture.distance,
                 duration: bestDeparture.duration,
@@ -330,10 +291,8 @@ const SchedulerPage = () => {
               arrivalTime: bestDeparture.arrivalTime,
             };
           }
-
           return task;
         });
-
         setTaskList(updatedTaskList);
         setRouteInfo({
           validResults,
@@ -348,18 +307,15 @@ const SchedulerPage = () => {
         toast.error(`Error fetching routes: ${error.message || error}`);
       });
   };
-
   const calculateBestTime = (durationInSeconds) => {
     const now = new Date();
     now.setSeconds(now.getSeconds() + durationInSeconds);
     return now.toLocaleTimeString();
   };
-
   const openLocationChooser = (type) => {
     setLocationType(type);
     setIsModalOpen(true);
   };
-
   const handleSaveLocation = ({ address, position }) => {
     const locationData = { address, position };
     localStorage.setItem(locationType, JSON.stringify(locationData));
@@ -367,23 +323,20 @@ const SchedulerPage = () => {
     if (locationType === "work") setWorkLocation(locationData);
     setIsModalOpen(false);
   };
-
   useEffect(() => {
     const loadGoogleMapsScript = () => {
       const script = document.createElement("script");
       script.src =
-        "https://maps.googleapis.com/maps/api/js?key=AIzaSyA2cOHxW7ND9ZzlnOnOGlJL9_OXzVsruJU&libraries=places";
+        "https://maps.googleapis.com/maps/api/js?key=AIzaSyAMzdv8DEMVlz1HdW6YiqZGqKeWGJxS0T0&libraries=places";
       script.async = true;
       script.defer = true;
       script.onload = () => initializeMap();
       document.head.appendChild(script);
     };
-
     const initializeMap = () => {
       navigator.geolocation.getCurrentPosition((position) => {
         const { latitude, longitude } = position.coords;
         const mapCenter = { lat: latitude, lng: longitude };
-
         const mapInstance = new window.google.maps.Map(
           document.getElementById("map"),
           {
@@ -391,14 +344,11 @@ const SchedulerPage = () => {
             zoom: 12,
           }
         );
-
         const directionsRendererInstance =
           new window.google.maps.DirectionsRenderer();
         directionsRendererInstance.setMap(mapInstance);
         setDirectionsRenderer(directionsRendererInstance);
-
         setMap(mapInstance);
-
         const fetchPlaceDetails = (placeId, callback) => {
           const service = new window.google.maps.places.PlacesService(
             mapInstance
@@ -407,20 +357,16 @@ const SchedulerPage = () => {
             placeId: placeId,
             fields: ["formatted_address", "photos"],
           };
-
           service.getDetails(request, (place, status) => {
             if (status === window.google.maps.places.PlacesServiceStatus.OK) {
               const address = place.formatted_address;
               const photo = place.photos?.[0];
               let photoUrl = null;
-
               if (photo) {
                 photoUrl = photo.getUrl({ maxWidth: 400 });
               }
-
               console.log("Address:", address);
               console.log("Photo URL:", photoUrl);
-
               callback({
                 address: address,
                 photoUrl: photoUrl,
@@ -431,7 +377,6 @@ const SchedulerPage = () => {
             }
           });
         };
-
         const geocodeLatLng = (latlng, callback) => {
           const geocoder = new window.google.maps.Geocoder();
           geocoder.geocode({ location: latlng }, (results, status) => {
@@ -439,7 +384,6 @@ const SchedulerPage = () => {
               if (results[0]) {
                 const placeId = results[0]?.place_id;
                 console.log("Place ID:", placeId);
-
                 if (placeId) {
                   fetchPlaceDetails(placeId, (details) => {
                     callback(details);
@@ -458,13 +402,11 @@ const SchedulerPage = () => {
             }
           });
         };
-
         mapInstance.addListener("click", (event) => {
           const clickedPosition = {
             lat: event.latLng.lat(),
             lng: event.latLng.lng(),
           };
-
           if (currentMarker) {
             currentMarker.setPosition(clickedPosition);
             updateAddress(clickedPosition, 0);
@@ -475,7 +417,6 @@ const SchedulerPage = () => {
             });
             setMarkers([marker]);
           }
-
           geocodeLatLng(clickedPosition, (result) => {
             setFormData((prevFormData) => ({
               locations: [
@@ -492,14 +433,12 @@ const SchedulerPage = () => {
         });
       });
     };
-
     if (!window.google) {
       loadGoogleMapsScript();
     } else {
       initializeMap();
     }
   }, [currentMarker]);
-
   useEffect(() => {
     if (window.google && map) {
       formData.locations.forEach((location, index) => {
@@ -524,11 +463,9 @@ const SchedulerPage = () => {
       });
     }
   }, [formData.locations, map]);
-
   const openBusyTimeChooser = () => {
     setIsBusyTimeModalOpen(true);
   };
-
   return (
     <>
       <div className="flex rounded-md h-screen">
@@ -644,7 +581,6 @@ const SchedulerPage = () => {
         </div>
       </div>
       <ToastContainer />
-
       {isModalOpen && (
         <LocationChooserModal
           isOpen={isModalOpen}
@@ -666,5 +602,4 @@ const SchedulerPage = () => {
     </>
   );
 };
-
 export default SchedulerPage;

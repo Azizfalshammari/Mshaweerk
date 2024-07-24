@@ -1,3 +1,108 @@
+// import React, { useState, useEffect } from "react";
+// import logo from "../assets/logo-jad.png";
+// import { Link } from "react-router-dom";
+// import { auth } from "../config/firbase";
+
+// const Sidebar = ({ onMenuClick }) => {
+//   const [isOpen, setIsOpen] = useState(false);
+//   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+
+//   useEffect(() => {
+//     const unsubscribe = auth.onAuthStateChanged((user) => {
+//       setIsUserLoggedIn(!!user);
+//     });
+
+//     return () => unsubscribe();
+//   }, []);
+
+//   return (
+//     <div
+//       onMouseEnter={() => setIsOpen(true)}
+//       onMouseLeave={() => setIsOpen(false)}
+//       className="absolute bottom-[35vh] right-2"
+//     >
+//       <div className="relative flex h-[20vw] w-auto flex-col rounded-lg bg-gray-100 pt-12 gap-6 bg-clip-border p-1 text-[#9685cf] shadow-xl shadow-blue-gray-900/5 transition-all duration-300">
+//         <div className="flex items-center gap-2 p-2 justify-center ">
+//           <Link to="/">
+//           <svg viewBox="0 0 24 24"  fill="currentColor" className="w-[48px] h-[48px]" >
+//     <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+//     </svg>
+//           </Link>
+//         </div>
+
+//         <nav className="flex flex-col gap-2 p-2 font-sans text-base font-normal text-blue-gray-700">
+//           <div className="relative block w-full">
+//             <div
+//               role="button"
+//               className="flex flex-col justify-center items-center w-full gap-2 p-2 leading-tight transition-all rounded-lg outline-none hover:bg-opacity-80 hover:text-white focus:bg-[#9685cf] focus:bg-opacity-80 focus:text-white active:bg-[#9685cf] active:bg-opacity-80 active:text-white"
+//               onClick={onMenuClick}
+//             >
+//               <svg
+//                 width="48px"
+//                 height="48px"
+//                 viewBox="0 0 1024 1024"
+//                 className="icon"
+//                 version="1.1"
+//                 xmlns="http://www.w3.org/2000/svg"
+//                 fill="#000000"
+//               >
+//                 <g id="SVGRepo_bgCarrier" strokeWidth="0" />
+//                 <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" />
+//                 <g id="SVGRepo_iconCarrier">
+//                   <path
+//                     d="M224.3 251.4h556.2c14.3 0 25.9 11.6 25.9 25.9v501.8c0 14.3-11.6 25.9-25.9 25.9H224.3c-14.3 0-25.9-11.6-25.9-25.9V277.3c0-14.3 11.6-25.9 25.9-25.9z"
+//                     fill="#FFFFFF"
+//                   />
+//                   <path
+//                     d="M780.5 830.8H224.3c-28.5 0-51.7-23.2-51.7-51.7V277.3c0-28.5 23.2-51.7 51.7-51.7h556.2c28.5 0 51.7 23.2 51.7 51.7v501.8c0 28.5-23.2 51.7-51.7 51.7zM224.3 277.3v501.8h556.2V277.3H224.3z"
+//                     fill="#333333"
+//                   />
+//                   <path d="M224.3 277h568.5v152.1H224.3z" fill="#9685CF" />
+//                   <path
+//                     d="M198.4 399.5h633.8v51.8H198.4zM495.6 638.8l101-101c11.8-11.8 30.9-11.8 42.7 0l0.1 0.1c11.8 11.8 11.8 30.9 0 42.7L518.7 701.2c-6.3 6.3-14.8 9.3-23.1 8.8-8.3 0.5-16.7-2.5-23.1-8.8l-76-76c-11.8-11.8-11.8-30.9 0-42.7l0.1-0.1c11.8-11.8 30.9-11.8 42.7 0l56.3 56.4z"
+//                     fill="#333333"
+//                   />
+//                   <path
+//                     d="M327.7 166.8c14.3 0 25.9 11.6 25.9 25.9v38.8h-51.7v-38.8c0-14.4 11.6-25.9 25.8-25.9zM664.1 166.8c14.3 0 25.9 11.6 25.9 25.9v38.8h-51.7v-38.8c-0.1-14.4 11.5-25.9 25.8-25.9z"
+//                     fill="#333333"
+//                   />
+//                 </g>
+//               </svg>
+//             </div>
+//           </div>
+
+//           {isUserLoggedIn && (
+//             <div
+//               role="button"
+//               className="flex flex-col justify-center items-center w-full gap-2 p-2 leading-tight "
+//             >
+//               <div className="grid gap-2 p-2 place-items-center ">
+//               <Link to="/profile">
+//                 <svg
+//                   xmlns="http://www.w3.org/2000/svg"
+//                   viewBox="0 0 24 24"
+//                   fill="currentColor"
+//                   aria-hidden="true"
+//                   className="w-[48px] h-[48px]"
+//                 >
+//                   <path
+//                     fillRule="evenodd"
+//                     d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
+//                     clipRule="evenodd"
+//                   ></path>
+//                 </svg>
+//                 </Link>
+//               </div>
+//             </div>
+//           )}
+//         </nav>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Sidebar;
+
 import React, { useState } from "react";
 import logo from "../assets/lan-fp.png";
 import { Link } from "react-router-dom";
