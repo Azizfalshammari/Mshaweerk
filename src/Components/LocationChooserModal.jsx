@@ -1,77 +1,124 @@
-import React, { useEffect, useRef } from "react";
-import { toast } from "react-toastify";
+import React, { useState, useEffect } from "react";
+import Modal from "react-modal";
 
-const LocationChooserModal = ({ type, onClose, onSave }) => {
-  const mapRef = useRef(null);
-  const mapInstanceRef = useRef(null);
+const LocationChooserModal = ({ isOpen, onClose, onSave }) => {
+  const [address, setAddress] = useState("");
+  const [position, setPosition] = useState(null);
+  const [map, setMap] = useState(null);
+  const [marker, setMarker] = useState(null);
 
   useEffect(() => {
-    if (!mapRef.current) return;
+    if (isOpen) {
+      const loadGoogleMapsScript = () => {
+        const script = document.createElement("script");
+        script.src =
+          "https://maps.googleapis.com/maps/api/js?key=AIzaSyA2cOHxW7ND9ZzlnOnOGlJL9_OXzVsruJU&libraries=places";
+        script.async = true;
+        script.defer = true;
+        script.onload = () => initializeMap();
+        document.head.appendChild(script);
+      };
 
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const { latitude, longitude } = position.coords;
-        const mapCenter = { lat: latitude, lng: longitude };
+      const initializeMap = () => {
+        navigator.geolocation.getCurrentPosition((position) => {
+          const { latitude, longitude } = position.coords;
+          const mapCenter = { lat: latitude, lng: longitude };
 
-        mapInstanceRef.current = new window.google.maps.Map(mapRef.current, {
-          center: mapCenter,
-          zoom: 12,
-        });
-
-        mapInstanceRef.current.addListener("click", (event) => {
-          const clickedPosition = {
-            lat: event.latLng.lat(),
-            lng: event.latLng.lng(),
-          };
-
-          const geocoder = new window.google.maps.Geocoder();
-          geocoder.geocode({ location: clickedPosition }, (results, status) => {
-            if (status === "OK" && results[0]) {
-              const address = results[0].formatted_address;
-              onSave({ address, position: clickedPosition });
-              toast.success(
-                `${type === "home" ? "Home" : "Work"} location saved!`
-              );
-              onClose();
+          const mapInstance = new window.google.maps.Map(
+            document.getElementById("modal-map"),
+            {
+              center: mapCenter,
+              zoom: 12,
             }
+          );
+
+          setMap(mapInstance);
+
+          const markerInstance = new window.google.maps.Marker({
+            position: mapCenter,
+            map: mapInstance,
+            draggable: true,
           });
+
+          setMarker(markerInstance);
+
+          mapInstance.addListener("click", (event) => {
+            const clickedPosition = {
+              lat: event.latLng.lat(),
+              lng: event.latLng.lng(),
+            };
+            markerInstance.setPosition(clickedPosition);
+            updateAddress(clickedPosition);
+          });
+
+          markerInstance.addListener("dragend", (event) => {
+            const draggedPosition = {
+              lat: event.latLng.lat(),
+              lng: event.latLng.lng(),
+            };
+            updateAddress(draggedPosition);
+          });
+
+          updateAddress(mapCenter);
         });
-      },
-      (error) => {
-        toast.error("Failed to get your location.");
+      };
+
+      if (!window.google) {
+        loadGoogleMapsScript();
+      } else {
+        initializeMap();
       }
-    );
-  }, [type, onClose, onSave]);
+    }
+  }, [isOpen]);
+
+  const updateAddress = (position) => {
+    const geocoder = new window.google.maps.Geocoder();
+    geocoder.geocode({ location: position }, (results, status) => {
+      if (status === "OK" && results[0]) {
+        setAddress(results[0].formatted_address);
+        setPosition(position);
+      }
+    });
+  };
+
+  const handleSave = () => {
+    if (address && position) {
+      onSave({ address, position });
+    }
+  };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-[#c9c0e5] rounded-lg p-4 w-3/4 h-[90%] max-sm:h-2/4 max-sm:w-full max-md:h-[70%]">
-        <div className="flex flex-row justify-between w-full items-center">
-          <p className="self-start">اختر الموقع </p>
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={onClose}
+      contentLabel="Choose Location"
+      className="fixed inset-0 flex items-center justify-center p-4"
+      overlayClassName="fixed inset-0 bg-opacity-10"
+    >
+      <div className="w-[50vw] max-sm:mr-24 h-[50vh] bg-white p-4 rounded-lg shadow-lg">
+        <div id="modal-map" className="h-64 w-full border rounded-lg"></div>
+        <input
+          type="text"
+          value={address}
+          readOnly
+          className="w-full p-2 border rounded-lg mt-4"
+        />
+        <div className="flex justify-center space-x-2 mt-4">
           <button
-            type="button"
-            className="text-gray-800 hover:bg-gray-100 p-1 rounded-full"
-            onClick={onClose}
+            onClick={handleSave}
+            className="bg-[#9685CF] ml-2 hover:bg-[#6b4b9a] text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
           >
-            <span className="sr-only">Close</span>
-            <svg
-              className="w-6 h-6"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M18 6L6 18" />
-              <path d="M6 6L18 18" />
-            </svg>
+            حفظ الموقع
+          </button>
+          <button
+            onClick={onClose}
+            className="bg-[#FFA842] hover:bg-[#e68a33] text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+          >
+            الغاء
           </button>
         </div>
-        <div ref={mapRef} className="w-full max-sm:h-[90%] h-[90%]"></div>
       </div>
-    </div>
+    </Modal>
   );
 };
 
