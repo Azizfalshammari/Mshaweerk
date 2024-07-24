@@ -154,11 +154,22 @@ const SchedulerPage = () => {
     const destinations = taskList.map((task) => task.address);
 
     const isTimeBusy = (time) => {
-      return busyTimes.some(
-        (busyTime) =>
-          time >= new Date(`1970-01-01T${busyTime.start}:00Z`) &&
-          time <= new Date(`1970-01-01T${busyTime.end}:00Z`)
-      );
+      return busyTimes.some((busyTime) => {
+        const [busyStartHours, busyStartMinutes] = busyTime.start
+          .split(":")
+          .map(Number);
+        const [busyEndHours, busyEndMinutes] = busyTime.end
+          .split(":")
+          .map(Number);
+
+        const busyStartTime = new Date(time);
+        busyStartTime.setHours(busyStartHours, busyStartMinutes, 0, 0);
+
+        const busyEndTime = new Date(time);
+        busyEndTime.setHours(busyEndHours, busyEndMinutes, 0, 0);
+
+        return time >= busyStartTime && time <= busyEndTime;
+      });
     };
 
     const isOverlap = (newTask, existingTasks = []) => {
@@ -181,9 +192,9 @@ const SchedulerPage = () => {
     destinations.forEach((destination, destIndex) => {
       for (let day = 0; day < 7; day++) {
         for (let hour = 0; hour < 24; hour++) {
-          const departureTime = new Date(
-            now.getTime() + (day * 24 + hour) * 3600000
-          );
+          const departureTime = new Date(now.getTime());
+          departureTime.setDate(now.getDate() + day);
+          departureTime.setHours(hour, 0, 0, 0);
 
           const deadline = new Date(taskList[destIndex].deadline);
           if (departureTime > deadline) continue;
@@ -258,6 +269,17 @@ const SchedulerPage = () => {
               ? current
               : best
           );
+          console.log(`Task Address: ${task.address}`);
+          console.log(
+            `Best Departure Time: ${bestDeparture.departureTime.toLocaleString()}`
+          );
+          console.log(
+            `Arrival Time: ${bestDeparture.arrivalTime.toLocaleString()}`
+          );
+          console.log(`Distance: ${bestDeparture.distance}`);
+          console.log(`Duration: ${bestDeparture.duration}`);
+          console.log(`Best Route Name: ${bestDeparture.bestRouteName}`);
+          console.log("---");
 
           const scheduledTasksForCurrent = scheduledTasks.filter((task) =>
             isOverlap(bestDeparture, {
