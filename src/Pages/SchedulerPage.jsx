@@ -220,6 +220,7 @@ const SchedulerPage = () => {
                     arrivalTime,
                     distance: route.legs[0].distance.text,
                     duration: route.legs[0].duration.text,
+                    bestRouteName: route.summary,
                   });
                 } else {
                   console.error(`Directions API Error: ${status}`);
@@ -278,7 +279,7 @@ const SchedulerPage = () => {
               ...task,
               routeDetails: {
                 bestTime: bestDeparture.departureTime,
-                bestRoute: `${bestDeparture.departureTime.toLocaleString()} - ${bestDeparture.arrivalTime.toLocaleString()}`,
+                bestRoute: bestDeparture.bestRouteName,
                 distance: bestDeparture.distance,
                 duration: bestDeparture.duration,
                 day: bestDeparture.departureTime.toLocaleString("en-GB", {
