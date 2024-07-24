@@ -12,7 +12,7 @@ const LocationChooserModal = ({ isOpen, onClose, onSave }) => {
       const loadGoogleMapsScript = () => {
         const script = document.createElement("script");
         script.src =
-          "https://maps.googleapis.com/maps/api/js?key=AIzaSyAMzdv8DEMVlz1HdW6YiqZGqKeWGJxS0T0&libraries=places";
+          "https://maps.googleapis.com/maps/api/js?key=AIzaSyA2cOHxW7ND9ZzlnOnOGlJL9_OXzVsruJU&libraries=places";
         script.async = true;
         script.defer = true;
         script.onload = () => initializeMap();
