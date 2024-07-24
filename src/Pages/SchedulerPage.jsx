@@ -105,10 +105,10 @@ const SchedulerPage = () => {
                   });
                 }
               } else {
-                window.alert("No results found");
+                console.log("");
               }
             } else {
-              window.alert("Geocoder failed due to: " + status);
+              console.log("");
             }
           });
         };
@@ -277,7 +277,7 @@ const SchedulerPage = () => {
       }
     });
   };
-
+  const home = localStorage.getItem("home");
   const toggleSidebar = () => {
     setIsSidebarVisible(!isSidebarVisible);
   };
@@ -285,10 +285,12 @@ const SchedulerPage = () => {
   const confirmSchedule = () => {
     const dummyTaskList = [
       {
-        address:
-          "شركة عبدالعزيز الدليقان للمقاولات، شارع الجائزة، Riyadh Saudi Arabia",
+        address: home,
       },
-      { address: "8330, 4182 نجران، ظهرة لبن، الرياض 13784, Saudi Arabia" },
+      {
+        address:
+          "7089 Abi Bakr As Siddiq Branch Rd, An Nada, Riyadh 13317, Saudi Arabia",
+      },
     ];
 
     if (dummyTaskList.length < 2) {
@@ -309,14 +311,11 @@ const SchedulerPage = () => {
     const now = new Date();
 
     destinations.forEach((destination, destIndex) => {
-      // Loop through each hour of the week
       for (let day = 0; day < 7; day++) {
-        // 7 days
         for (let hour = 0; hour < 24; hour++) {
-          // 24 hours
           const departureTime = new Date(
             now.getTime() + (day * 24 + hour) * 3600000
-          ); // every hour for a week
+          );
 
           const request = {
             origin,
@@ -342,12 +341,10 @@ const SchedulerPage = () => {
               directionsService.route(request, (result, status) => {
                 if (status === window.google.maps.DirectionsStatus.OK) {
                   const route = result.routes[0];
-                  // Sum up the duration_in_traffic for all legs
                   const totalDurationInTraffic = route.legs.reduce(
                     (total, leg) => total + leg.duration_in_traffic.value,
                     0
                   );
-                  // Calculate arrival time
                   const arrivalTime = new Date(
                     departureTime.getTime() + totalDurationInTraffic * 1000
                   );
@@ -470,6 +467,7 @@ const SchedulerPage = () => {
     localStorage.setItem(locationType, JSON.stringify({ address, position }));
     setIsModalOpen(false);
   };
+  console.log(confirmSchedule);
 
   return (
     <>
