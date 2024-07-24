@@ -387,7 +387,7 @@ html {
   background-color: white;
 }
 
-.search-bar {
+/* .search-bar {
   margin: 0;
   padding: 0;
   height: 50px;
@@ -399,7 +399,7 @@ html {
   position: absolute;
   transform: translate(-50%, -50%);
   transition-duration: 0.2s;
-}
+} */
 
 .textbox {
   width: 0px;
@@ -414,7 +414,7 @@ html {
   /* height: 100%; */
   float: left;
   color: black;
-  transition-duration: 0.05s;
+  /* transition-duration: 0.05s; */
 }
 
 .search-btn {
@@ -453,7 +453,7 @@ html {
   height: 47%;
   background: rgba(0, 0, 0, 0.3);
   background: rgb(150 133 207 / 25%);
-  border-radius: 0.75rem;
+  border-radius: 6px !important;
   z-index: 1;
   opacity: 0;
   transition: opacity 0.3s ease;
@@ -665,4 +665,24 @@ html { margin: 0; padding:0; height: 100%; width: 100%; background-color: white;
          .boxCard i { display: none;
          }
          }  
-        
+    /* start list     */
+  .list {
+   background-color: rgb(201 192 229 / 61%) !important;
+  }
+  .list .arow {
+    background-color: rgb(150 133 207 / 50%)
+  }
+  .hidden {
+    display: none !important;
+  }
+  
+  @media (max-width: 768px){
+    .hidden {
+      display: block !important;
+    }
+    .inputs {
+      padding: 10px !important;
+      width: 100% !important;
+      box-shadow: none !important;
+    } 
+  }

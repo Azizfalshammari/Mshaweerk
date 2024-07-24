@@ -24,11 +24,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/scheduler",
-    element: <SchedulerPage />,
+    element: <SchedulerPage/>,
   },
-  {
+{
     path: "/profile",
-    element: <ProfilePage />,
+    element: <ProfilePage/>,
   },
   {
     path: "/test",

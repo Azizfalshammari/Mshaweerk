@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 
+
 const LocationChooserModal = ({ type, onClose, onSave }) => {
   const mapRef = useRef(null);
   const mapInstanceRef = useRef(null);

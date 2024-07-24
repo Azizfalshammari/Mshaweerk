@@ -14,10 +14,10 @@ import { useEffect , useState } from 'react';
     
   return (
     <div>
-      <div class=" imgCard relative  w-[30%] text-right border shadow-sm rounded-xl dark:bg-neutral-900 dark:border-neutral-700 dark:shadow-neutral-700/70 m-[auto] mb-[10px]">
-        <img class="imgCard w-full h-80 rounded-xl " src="https://i.pinimg.com/236x/73/e4/ce/73e4cef17f5c235ed7891c09bb71f5d0.jpg"/>
-        <div class="absolute top-0 start-0 end-0">
-            <div class="p-4 md:p-5">
+      <div className=" imgCard relative  w-[30%] text-right border shadow-sm rounded-xl dark:bg-neutral-900 dark:border-neutral-700 dark:shadow-neutral-700/70 m-[auto] mb-[10px]">
+        <img className="imgCard w-full h-80 rounded-xl " src="https://lh3.googleusercontent.com/places/ANXAkqGuae9BQ1CsmzliIGoZt9GflPp8luzq7Diwu6bdQ-YKFPAD3C3eqv7mBOuwe8yx5yPcZvvwz_V7v_no4TeOd9-Pa1z24OzvIe8=s1600-w600"/>
+        <div className="absolute top-0 start-0 end-0">
+            <div className="p-4 md:p-5">
                 {/* section search */}
                 <div className='flex mt-[10px] justify-between '>
                 <div className="search-bar relative z-10">
