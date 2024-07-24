@@ -25,9 +25,10 @@ const ScheduleModal = ({ isOpen, onClose, taskList, onSave }) => {
 
     if (Array.isArray(taskList) && taskList.length > 0) {
       const columns = [
-        { title: "Address", dataKey: "address" },
+        { title: "destination", dataKey: "address" },
         { title: "Deadline", dataKey: "deadline" },
         { title: "Best Time", dataKey: "bestTime" },
+        { title: " origin", dataKey: "origin" },
         { title: "Best Route", dataKey: "bestRoute" },
         { title: "Distance", dataKey: "distance" },
         { title: "Duration", dataKey: "duration" },

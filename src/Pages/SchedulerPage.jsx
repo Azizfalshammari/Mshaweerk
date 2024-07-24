@@ -139,18 +139,29 @@ const SchedulerPage = () => {
     const home = localStorage.getItem("home");
     const work = localStorage.getItem("work");
 
-    if (!home) {
+    if (!home && !work) {
       notify();
       return;
     }
 
-    if (taskList.length < 2) {
+    // Determine which address to use
+    const origin = home
+      ? JSON.parse(home)?.address
+      : work
+      ? JSON.parse(work)?.address
+      : null;
+
+    if (!origin) {
+      notify();
+      return;
+    }
+
+    if (taskList.length <= 0) {
       toast("Add more tasks before scheduling!");
       return;
     }
 
     const directionsService = new window.google.maps.DirectionsService();
-    const origin = JSON.parse(home).address;
     const destinations = taskList.map((task) => task.address);
 
     const isTimeBusy = (time) => {
@@ -187,7 +198,7 @@ const SchedulerPage = () => {
 
     const requests = [];
     const now = new Date();
-
+    console.log(`the point is ${origin}`);
     const scheduledTasks = [];
     destinations.forEach((destination, destIndex) => {
       for (let day = 0; day < 7; day++) {
@@ -269,6 +280,7 @@ const SchedulerPage = () => {
               ? current
               : best
           );
+
           console.log(`Task Address: ${task.address}`);
           console.log(
             `Best Departure Time: ${bestDeparture.departureTime.toLocaleString()}`
@@ -280,15 +292,19 @@ const SchedulerPage = () => {
           console.log(`Duration: ${bestDeparture.duration}`);
           console.log(`Best Route Name: ${bestDeparture.bestRouteName}`);
           console.log("---");
+          console.log(`origin point is ${origin}`);
 
-          const scheduledTasksForCurrent = scheduledTasks.filter((task) =>
-            isOverlap(bestDeparture, {
-              departureTime: task.departureTime,
-              arrivalTime: task.arrivalTime,
-            })
+          // Check for overlaps with previously scheduled tasks
+          const scheduledTasksForCurrent = scheduledTasks.filter(
+            (scheduledTask) =>
+              isOverlap(bestDeparture, {
+                departureTime: scheduledTask.departureTime,
+                arrivalTime: scheduledTask.arrivalTime,
+              })
           );
 
           if (!isOverlap(bestDeparture, scheduledTasksForCurrent)) {
+            // Add the task to the scheduled tasks list
             scheduledTasks.push({
               departureTime: bestDeparture.departureTime,
               arrivalTime: bestDeparture.arrivalTime,
@@ -300,7 +316,9 @@ const SchedulerPage = () => {
             return {
               ...task,
               routeDetails: {
+                origin: origin,
                 bestTime: bestDeparture.departureTime,
+
                 bestRoute: bestDeparture.bestRouteName,
                 distance: bestDeparture.distance,
                 duration: bestDeparture.duration,
