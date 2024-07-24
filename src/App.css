@@ -552,6 +552,36 @@ html {
   width: 100%;
   bottom: 0;
 }
+.schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.schedule-table th,
+.schedule-table td {
+  border: 1px solid #9685cf;
+  padding: 8px;
+  text-align: center;
+}
+
+.schedule-table th {
+  background-color: #9685cf;
+  color: #333;
+  font-weight: bold;
+}
+
+.schedule-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.schedule-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+.schedule-table td {
+  font-size: 14px;
+}
 
 /* * {
   direction: rtl;
