@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Sidebar from "../components/Sidebar";
-import LocationChooserModal from "../components/LocationChooserModal";
-import ScheduleModal from "../components/ScheduleModal";
+import Sidebar from "../Components/Sidebar";
+import LocationChooserModal from "../Components/LocationChooserModal";
+import ScheduleModal from "../Components/ScheduleModal";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,7 +11,7 @@ import {
   faBriefcase,
   faClock,
 } from "@fortawesome/free-solid-svg-icons";
-import BusyTimeModal from "../components/BusyTimeModal";
+import BusyTimeModal from "../Components/BusyTimeModal";
 
 const SchedulerPage = () => {
   const [formData, setFormData] = useState({
