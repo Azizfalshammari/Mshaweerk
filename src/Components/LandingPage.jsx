@@ -1,9 +1,8 @@
 import React from "react";
-import img1 from "../assets/landingggg.png";
+import img1 from "./landingggg.png";
 import { Link } from "react-router-dom";
 import Team from "../Components/Team";
 import Navbar from "../Components/NavBar";
-import UsageSteps from "../Components/Test";
 import Footer from "../Components/Footer";
 import Animation from "../Components/Animation";
 
@@ -11,8 +10,8 @@ function Landding() {
   return (
     <>
       <Navbar />
-      <div className="w-full flex bg-[#9685CF] h-[auto] justify-center items-center md:h-full py-10 md:py-0">
-        <div className="w-full max-w-7xl  md:h-full   px-4 md:px-0">
+      <div className="w-full flex bg-[#9685CF] h-auto justify-center items-center md:h-full py-10 md:py-0">
+        <div className="w-full max-w-7xl md:h-full px-4 md:px-0">
           <div className="flex flex-col md:h-full md:flex-row-reverse">
             <div className="mr-14 md:w-1/2 flex justify-center md:h-full md:mb-0 max-sm:items-center max-sm:ml-10 ">
               <img

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../config/firbase";
-import logo from "../Pages/logo-jadw.png";
+import logo from "../assets/logo-jadw.png";
 
 function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

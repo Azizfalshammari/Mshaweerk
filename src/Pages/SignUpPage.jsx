@@ -3,7 +3,7 @@ import { auth, datastore } from "../config/firbase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { Link, useNavigate } from "react-router-dom";
-import img from "./logo-jadw.png";
+import img from "../assets/logo-jadw.png";
 import { motion } from "framer-motion";
 
 function SignUpPage() {
@@ -12,6 +12,7 @@ function SignUpPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ function SignUpPage() {
   };
 
   const handleSignup = async () => {
-    setError("");
+    setError(""); // Reset error
     if (phone.length !== 10) {
       setError("يجب أن يكون رقم الهاتف مكون من 10 أرقام");
       setShowModal(true);
@@ -45,17 +46,14 @@ function SignUpPage() {
     }
 
     try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       await setDoc(doc(datastore, "users", user.uid), {
         firstName: fName,
         lastName: lName,
         email: email,
         phone: phone,
+        address: address,
       });
       setShowModal(true);
     } catch (error) {
@@ -79,7 +77,7 @@ function SignUpPage() {
               <img src={img} alt="Logo" className="mt-12" />
             </Link>
           </div>
-          <div className="w-full py-10 px-5 md:px-10">
+          <div className="w-full py-10 px-5 md:px-10 max-sm:p-0">
             <div className="text-center mb-10">
               <h1 className="font-bold text-3xl text-[#9685CF]">
                 قم بإدخال معلوماتك للتسجيل
@@ -88,10 +86,7 @@ function SignUpPage() {
             <div>
               <div className="flex -mx-3">
                 <div className="w-1/2 px-3 mb-5">
-                  <label
-                    htmlFor="firstName"
-                    className="text-xs font-semibold px-1"
-                  >
+                  <label htmlFor="firstName" className="text-xs font-semibold px-1">
                     الأسم الأول
                   </label>
                   <input
@@ -103,10 +98,7 @@ function SignUpPage() {
                   />
                 </div>
                 <div className="w-1/2 px-3 mb-5">
-                  <label
-                    htmlFor="lastName"
-                    className="text-xs font-semibold px-1"
-                  >
+                  <label htmlFor="lastName" className="text-xs font-semibold px-1">
                     الأسم الاخير
                   </label>
                   <input
@@ -134,10 +126,7 @@ function SignUpPage() {
               </div>
               <div className="flex -mx-3">
                 <div className="w-full px-3 mb-5">
-                  <label
-                    htmlFor="password"
-                    className="text-xs font-semibold px-1"
-                  >
+                  <label htmlFor="password" className="text-xs font-semibold px-1">
                     كلمة المرور
                   </label>
                   <input
@@ -172,7 +161,10 @@ function SignUpPage() {
                     تسجيل
                   </button>
                   <p className="text-center p-3 text-black">
-                    لديك حساب؟ <Link to="/login">قم بتسجيل الدخول</Link>
+                    لديك حساب؟ <Link to="/login" className="text-[#9685CF] hover:underline">قم بتسجيل الدخول</Link>
+                  </p>
+                  <p className="text-center p-1 ">
+                  <Link to="/" className="text-[#9685CF] hover:underline">الرجوع للصفحة الرئيسية</Link>
                   </p>
                 </div>
               </div>
@@ -192,9 +184,7 @@ function SignUpPage() {
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className={`w-16 h-16 mx-auto ${
-                  error ? "text-red-500" : "text-green-500"
-                }`}
+                className={`w-16 h-16 mx-auto ${error ? 'text-red-500' : 'text-green-500'}`}
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -216,9 +206,7 @@ function SignUpPage() {
                 )}
               </svg>
             </motion.div>
-            <p className="mb-4 text-red-500">
-              {error || "تم إنشاء الحساب بنجاح"}
-            </p>
+            <p className="mb-4 text-red-500">{error || "تم إنشاء الحساب بنجاح"}</p>
             <button
               className="bg-[#9685CF] hover:bg-[#FFA842] text-white font-semibold px-4 py-2 rounded"
               onClick={closeModal}

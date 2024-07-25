@@ -7,6 +7,9 @@ import { useNavigate } from "react-router-dom";
 import { auth, datastore } from "../config/firbase";
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
+import img1 from '../assets/icons8-pdf-50.png'
+import img2 from '../assets/icons8-save-50.png'
+import img3 from '../assets/icons8-close-50.png'
 
 const ScheduleModal = ({ isOpen, onClose, taskList, onSave }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -25,10 +28,9 @@ const ScheduleModal = ({ isOpen, onClose, taskList, onSave }) => {
 
     if (Array.isArray(taskList) && taskList.length > 0) {
       const columns = [
-        { title: "destination", dataKey: "address" },
+        { title: "Address", dataKey: "address" },
         { title: "Deadline", dataKey: "deadline" },
         { title: "Best Time", dataKey: "bestTime" },
-        { title: " origin", dataKey: "origin" },
         { title: "Best Route", dataKey: "bestRoute" },
         { title: "Distance", dataKey: "distance" },
         { title: "Duration", dataKey: "duration" },
@@ -41,7 +43,7 @@ const ScheduleModal = ({ isOpen, onClose, taskList, onSave }) => {
         bestTime: task.routeDetails?.bestTime
           ? new Date(task.routeDetails.bestTime).toLocaleString()
           : "N/A",
-        bestRoute: task.routeDetails?.bestRoute || "N/A", // Ensure this is the route name or description
+        bestRoute: task.routeDetails?.bestRoute || "N/A",
         distance: task.routeDetails?.distance || "N/A",
         duration: task.routeDetails?.duration || "N/A",
         day: task.routeDetails?.day || "N/A",
@@ -54,7 +56,7 @@ const ScheduleModal = ({ isOpen, onClose, taskList, onSave }) => {
       });
     }
 
-    doc.save("task_schedule.pdf");
+    doc.save("tasks_schedule.pdf");
   };
 
   const handleSaveClick = async () => {
@@ -68,7 +70,7 @@ const ScheduleModal = ({ isOpen, onClose, taskList, onSave }) => {
             bestTime: task.routeDetails?.bestTime
               ? new Date(task.routeDetails.bestTime).toLocaleString()
               : "",
-            bestRoute: task.routeDetails?.bestRoute || "", // Ensure this is the route name or description
+            bestRoute: task.routeDetails?.bestRoute || "", 
             distance: task.routeDetails?.distance || "",
             duration: task.routeDetails?.duration || "",
             day: task.routeDetails?.day || "",
@@ -141,26 +143,17 @@ const ScheduleModal = ({ isOpen, onClose, taskList, onSave }) => {
       </Modal.Body>
       <Modal.Footer>
         {isLoggedIn && (
-          <Button
-            className="bg-[#9685CF] border-none hover:bg-[#D3CCE3]"
-            onClick={handleSaveClick}
-          >
-            Save Schedule
-          </Button>
+          <div className=" gap-4">
+          <img src={img2} onClick={handleSaveClick} />
+          </div>
         )}
-        <Button
-          className="bg-[#9685CF] border-none hover:bg-[#D3CCE3]"
-          onClick={handleDownloadClick}
-        >
-          Download PDF
-        </Button>
-        <Button
-          className="bg-[#9685CF] border-none hover:bg-[#D3CCE3]"
-          onClick={onClose}
-        >
-          Close
-        </Button>
-      </Modal.Footer>
+        <div className=" gap-4">
+          <img src={img1} onClick={handleDownloadClick}/>
+        </div>
+          <div className=" gap-4">
+         <img src={img3} onClick={onClose}/>
+         </div>
+    </Modal.Footer>
     </Modal>
   );
 };
