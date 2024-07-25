@@ -31,18 +31,18 @@ Note: Replace path_to_main_page_screenshot, path_to_scheduling_page_screenshot, 
 Getting Started
 To get started with the project, follow these steps:
 
-1-![screenshots](screen/screen1.jpg)
-2-![screenshots](screen/screen2.jpg)
-3-![screenshots](screen/screen3.jpg)
-4-![screenshots](screen/screen4.jpg)
-5-![screenshots](screen/screen5.jpg)
-6-![screenshots](screen/screen6.jpg)
-7-![screenshots](screen/screen7.jpg)
-8-![screenshots](screen/screen8.jpg)
-9-![screenshots](screen/screen9.jpg)
-10-![screenshots](screen/screen10.jpg)
-11-![screenshots](screen/screen11.jpg)
-12-![screenshots](screen/screen12.jpg)
+1-![screenshots](screenshots/screen1.jpg)
+2-![screenshots](screenshots/screen2.jpg)
+3-![screenshots](screenshots/screen3.jpg)
+4-![screenshots](screenshots/screen4.jpg)
+5-![screenshots](screenshots/screen5.jpg)
+6-![screenshots](screenshots/screen6.jpg)
+7-![screenshots](screenshots/screen7.jpg)
+8-![screenshots](screenshots/screen8.jpg)
+9-![screenshots](screenshots/screen9.jpg)
+10-![screenshots](screenshots/screen10.jpg)
+11-![screenshots](screenshots/screen11.jpg)
+12-![screenshots](screenshots/screen12.jpg)
 
 Contact
 For any inquiries or feedback, please contact us at your.email@example.com.
