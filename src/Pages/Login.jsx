@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [error, setError] = useState(""); 
   const navigate = useNavigate();
 
   const handleLogin = () => {
@@ -19,28 +19,28 @@ function Login() {
         navigate("/");
       })
       .catch((error) => {
-        setError("البريد الإلكتروني أو كلمة المرور غير صحيحة");
+        setError("البريد الإلكتروني أو كلمة المرور غير صحيحة"); 
         console.error("Error logging in:", error);
       });
   };
 
   const closeModal = () => {
-    setError("");
+    setError(""); 
   };
 
   return (
     <div className="w-full min-h-screen bg-gray-100 flex items-center justify-center px-5 py-5 bg-black-100">
       <div className="bg-white text-black-500 max-sm:w-[100%] overflow-hidden w-[50vw]">
         <div className="md:flex w-full rounded-lg border-2 border-[#9685CF]">
-          <div className="md:block w-[50vw] max-sm:w-[100%] bg-[#9685CF] py-10 px-10">
+          <div className="md:block w-[50vw] max-sm:w-[100%] bg-[#9685CF] py-10 px-10 max-sm:hidden">
             <Link to="/">
-              <img src={img} className="mt-25" />
+              <img src={img} className="mt-20" />
             </Link>
           </div>
-          <div className="w-full py-10 px-5 md:px-10">
+          <div className="w-full py-10 max-sm:p-0 px-5 md:px-10">
             <div className="text-center mb-10">
-              <h1 className="font-bold pt-5 text-3xl text-[#9685CF]">
-                مرحبًا بك مرة اخرى, الرجاء ادخال بياناتك للتسجيل الدخول
+              <h1 className="font-bold pt-5 text-2xl text-[#9685CF]">
+                مرحبًا بك مرة اخرى, الرجاء ادخال بياناتك لتسجيل الدخول
               </h1>
             </div>
             <div>
@@ -88,7 +88,10 @@ function Login() {
                     تسجيل دخول
                   </button>
                   <p className="text-center p-3 text-black">
-                    ليس لديك حساب؟ <Link to="/signup">قم بإنشاء حساب</Link>
+                    ليس لديك حساب؟ <Link to="/signup" className="text-[#9685CF] hover:underline">قم بإنشاء حساب</Link>
+                  </p>
+                  <p className="text-center p-1 ">
+                  <Link to="/" className="text-[#9685CF] hover:underline">الرجوع للصفحة الرئيسية</Link>
                   </p>
                 </div>
               </div>

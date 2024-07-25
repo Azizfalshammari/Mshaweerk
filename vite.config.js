@@ -7,6 +7,7 @@ export default defineConfig({
   resolve: {
     alias: {
       'react-lottie': 'react-lottie/dist/react-lottie.js'
-    }
+    },
+    assetsInclude: ['**/*.ttf'],
   }
 });

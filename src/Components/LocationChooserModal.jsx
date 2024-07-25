@@ -11,14 +11,12 @@ const LocationChooserModal = ({ isOpen, onClose, onSave }) => {
     if (isOpen) {
       const loadGoogleMapsScript = () => {
         const script = document.createElement("script");
-        script.src =
-          "https://maps.googleapis.com/maps/api/js?key=AIzaSyA9W3rYjrZCXq5cLjMHW-lpEuEJQ8K8CnY&libraries=places";
+        script.src ="https://maps.googleapis.com/maps/api/js?key=AIzaSyA9W3rYjrZCXq5cLjMHW-lpEuEJQ8K8CnY&libraries=places";
         script.async = true;
         script.defer = true;
         script.onload = () => initializeMap();
         document.head.appendChild(script);
       };
-
       const initializeMap = () => {
         navigator.geolocation.getCurrentPosition((position) => {
           const { latitude, longitude } = position.coords;
@@ -95,7 +93,7 @@ const LocationChooserModal = ({ isOpen, onClose, onSave }) => {
       className="fixed inset-0 flex items-center justify-center p-4"
       overlayClassName="fixed inset-0 bg-opacity-10"
     >
-      <div className="w-[50vw] max-sm:mr-24 h-[50vh] bg-white p-4 rounded-lg shadow-lg">
+      <div className="w-[50vw] max-sm:w-full h-[50vh] bg-white p-4 rounded-lg shadow-lg">
         <div id="modal-map" className="h-64 w-full border rounded-lg"></div>
         <input
           type="text"
@@ -123,3 +121,4 @@ const LocationChooserModal = ({ isOpen, onClose, onSave }) => {
 };
 
 export default LocationChooserModal;
+

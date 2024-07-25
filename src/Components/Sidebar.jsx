@@ -123,7 +123,7 @@ const Sidebar = ({ onMenuClick }) => {
     <div
       onMouseEnter={() => setIsOpen(true)}
       onMouseLeave={() => setIsOpen(false)}
-      className="h-screen w-32 bg-white shadow-lg transition-transform duration-300 ease-in-out"
+      className="h-screen w-32 bg-white transition-transform duration-300 ease-in-out"
     >
       <div className="flex flex-col h-full p-4">
         {/* Logo Section */}

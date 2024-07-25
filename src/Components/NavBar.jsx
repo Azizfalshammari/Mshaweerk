@@ -22,7 +22,7 @@ function Navbar() {
         navigate("/login");
       })
       .catch((error) => {
-        console.error("Error signing out:", error);
+        console.error(error);
       });
   };
 
@@ -101,7 +101,7 @@ function Navbar() {
                 to="/signup"
                 className="block py-2 px-4 text-white bg-[#9685CF] hover:bg-[#7d6eb0] rounded"
               >
-                تسجيل جديد
+                  تسجيل جديد
               </Link>
             </>
           )}
