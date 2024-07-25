@@ -5,6 +5,10 @@ import ScheduleModal from "../components/ScheduleModal";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import HomeIcon from "./HomeIcon";
+import WorkIcon from "./WorkIcon";
+import TimeIcon from "./TimeIcon";
+
 import {
   faTrash,
   faHome,
@@ -469,44 +473,25 @@ const SchedulerPage = () => {
   return (
     <>
       <div className="flex rounded-md h-screen">
-        {/* Sidebar */}
-        <Sidebar onMenuClick={toggleSidebar} />
-        {/* Main Content */}
+        <Sidebar
+          onMenuClick={toggleSidebar}
+          onOpenLocationChooser={openLocationChooser}
+          onOpenBusyTimeChooser={openBusyTimeChooser}
+        />
         <div className="flex flex-col flex-grow">
-          <div className=" flex items-center justify-between self-end p-4">
-            <div className="flex items-center gap-4 space-x-4">
-              <FontAwesomeIcon
-                icon={faHome}
-                className="text-2xl cursor-pointer text-[#9685cf]"
-                onClick={() => openLocationChooser("home")}
-              />
-              <FontAwesomeIcon
-                icon={faBriefcase}
-                className="text-2xl cursor-pointer text-[#9685cf]"
-                onClick={() => openLocationChooser("work")}
-              />
-              <FontAwesomeIcon
-                icon={faClock}
-                className="text-2xl cursor-pointer text-[#9685cf]"
-                onClick={openBusyTimeChooser}
-              />
-            </div>
-          </div>
           <div className="flex-grow">
             <div className="h-full w-full relative">
               <div id="map" className="absolute inset-0"></div>
               {isSidebarVisible && (
-                <div className="absolute inset-y-0 right-0 w-full max-w-md flex flex-col rounded-lg bg-gray-100 p-4 overflow-y-auto">
+                <div className="absolute inset-y-0 right-0 max-w-xl flex flex-col rounded-lg bg-gray-100 p-4 overflow-y-auto">
                   <h2 className="text-2xl text-center font-bold p-3 text-[#9685CF]">
                     أدخل العنوان والموعد النهائي لمشوارك
                   </h2>
-                  <div className="w-full max-w-sm max-sm:w-full bg-white rounded-lg shadow-lg overflow-hidden">
+                  <div className="w-full max-w-sm max-sm:w-[70vw] bg-white rounded-lg shadow-lg overflow-hidden">
                     <div className="p-4">
                       <form onSubmit={handleSubmit} className="space-y-4">
                         {formData.locations.map((location, index) => (
                           <div key={index} className="flex flex-col space-y-2">
-                            {/* كارد الصوره */}
-                            {/* <img src={location.photoUrl} /> */}
                             <input
                               id={`location-${index}`}
                               type="text"
@@ -534,38 +519,44 @@ const SchedulerPage = () => {
                       </button>
                     </div>
                   </div>
-                  {/* قائمة المهام */}
                   {taskList.length > 0 && (
                     <div className="mt-4">
                       <h2 className="text-2xl font-semibold p-3 text-black">
                         قائمة المهام
                       </h2>
-                      <table className="w-full bg-white rounded-lg shadow-md">
-                        <thead>
-                          <tr>
-                            <th className="p-2 border">العنوان</th>
-                            <th className="p-2 border">الموعد النهائي</th>
-                            <th className="p-2 border">إجراء</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {taskList.map((task, index) => (
-                            <tr key={index}>
-                              <td className="p-2 border">{task.address}</td>
-                              <td className="p-2 border">{task.deadline}</td>
-                              <td className="p-2 border text-center">
-                                <FontAwesomeIcon
-                                  icon={faTrash}
-                                  className="text-red-500 cursor-pointer"
-                                  onClick={() => removeTaskFromTable(index)}
-                                />
-                              </td>
+                      <div className="overflow-y-auto max-h-64 custom-scrollbar">
+                        <table className="w-full bg-white rounded-lg shadow-md">
+                          <thead>
+                            <tr>
+                              <th className="p-2 border">العنوان</th>
+                              <th className="p-2 border">الموعد النهائي</th>
+                              <th className="p-2 border">إجراء</th>
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                          </thead>
+                          <tbody>
+                            {taskList.map((task, index) => (
+                              <tr key={index}>
+                                <td className="p-2 border text-[#9685CF] max-w-xs truncate">
+                                  {task.address}
+                                </td>
+                                <td className="p-2 border text-[#9685CF]">
+                                  {task.deadline}
+                                </td>
+                                <td className="p-2 border text-[#9685CF]">
+                                  <FontAwesomeIcon
+                                    icon={faTrash}
+                                    className="text-red-500 cursor-pointer"
+                                    onClick={() => removeTaskFromTable(index)}
+                                  />
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   )}
+
                   {taskList.length > 0 && (
                     <button
                       onClick={confirmSchedule}
@@ -578,9 +569,53 @@ const SchedulerPage = () => {
               )}
             </div>
           </div>
+          {/* Original Overlay (Wider on Desktop) */}
+          {/* <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 mb-4 bg-white border-2 border-black rounded-lg shadow-md p-2 flex justify-around w-1/3 max-w-md max-sm:flex-row max-sm:top-14 max-sm:left-2 max-sm:bottom-auto max-sm:right-auto max-sm:translate-x-0 max-sm:w-auto">
+            <div
+              className="text-2xl cursor-pointer text-[#9685cf] p-2 hover:bg-gray-200 rounded-full transition duration-300 ease-in-out"
+              onClick={() => openLocationChooser("home")}
+            >
+              <HomeIcon className="fill-current text-[#9685cf]" />
+            </div>
+            <div
+              className="text-2xl cursor-pointer text-[#9685cf] p-2 hover:bg-gray-200 rounded-full transition duration-300 ease-in-out"
+              onClick={() => openLocationChooser("work")}
+            >
+              <WorkIcon className="fill-current text-[#9685cf]" />
+            </div>
+            <div
+              className="text-2xl cursor-pointer text-[#9685cf] p-2 hover:bg-gray-200 rounded-full transition duration-300 ease-in-out"
+              onClick={openBusyTimeChooser}
+            >
+              <TimeIcon className="fill-current text-[#9685cf]" />
+            </div>
+          </div> */}
+
+          {/* Secondary Overlay (Closer to Sidebar) */}
+          <div className="fixed bottom-0 right-52 transform -translate-x-0 mb-4 bg-white border-2 border-[#9685cf] rounded-lg shadow-md p-2 flex justify-around w-1/3 max-w-xs max-sm:flex-row max-sm:bottom-2-14 max-sm:left-2 max-sm:bottom-auto max-sm:right-auto max-sm:translate-x-0 max-sm:h-16 max-sm:w-auto max-sm:p-1 max-sm:w-[90vw]">
+            <div
+              className="text-2xl cursor-pointer text-[#9685cf] p-2 max-sm:p-1 max-sm:mx-2 hover:bg-gray-200 rounded-full transition duration-300 ease-in-out"
+              onClick={() => openLocationChooser("home")}
+            >
+              <HomeIcon className="fill-current text-[#9685cf] max-sm:w-6 max-sm:h-6 " />
+            </div>
+            <div
+              className="text-2xl cursor-pointer text-[#9685cf] p-2 max-sm:p-1 max-sm:mx-2 hover:bg-gray-200 rounded-full transition duration-300 ease-in-out"
+              onClick={() => openLocationChooser("work")}
+            >
+              <WorkIcon className="fill-current text-[#9685cf] max-sm:w-6 max-sm:h-6" />
+            </div>
+            <div
+              className="text-2xl cursor-pointer text-[#9685cf] p-2 max-sm:p-1 max-sm:mx-2 hover:bg-gray-200 rounded-full transition duration-300 ease-in-out"
+              onClick={openBusyTimeChooser}
+            >
+              <TimeIcon className="fill-current text-[#9685cf] max-sm:w-6 max-sm:h-6" />
+            </div>
+          </div>
         </div>
       </div>
       <ToastContainer />
+
       {isModalOpen && (
         <LocationChooserModal
           isOpen={isModalOpen}
@@ -602,4 +637,5 @@ const SchedulerPage = () => {
     </>
   );
 };
+
 export default SchedulerPage;
