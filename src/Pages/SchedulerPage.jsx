@@ -86,15 +86,15 @@ const SchedulerPage = () => {
     }
   };
 
-  const removeTaskFromTable = (index) => {
-    const updatedTaskList = taskList.filter((_, i) => i !== index);
-    setTaskList(updatedTaskList);
+  // const removeTaskFromTable = (index) => {
+  //   const updatedTaskList = taskList.filter((_, i) => i !== index);
+  //   setTaskList(updatedTaskList);
 
-    if (markers[index]) {
-      markers[index].setMap(null);
-      setMarkers(markers.filter((_, i) => i !== index));
-    }
-  };
+  //   if (markers[index]) {
+  //     markers[index].setMap(null);
+  //     setMarkers(markers.filter((_, i) => i !== index));
+  //   }
+  // };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -431,41 +431,41 @@ const SchedulerPage = () => {
     }
   }, [formData.locations, map]);
 
-  const handleLocationChange = (event, index) => {
-    const { value } = event.target;
-    const updatedLocations = [...formData.locations];
-    updatedLocations[index].address = value;
-    if (event.position) {
-      updatedLocations[index].position = event.position;
-    }
-    setFormData({ ...formData, locations: updatedLocations });
-  };
+  // const handleLocationChange = (event, index) => {
+  //   const { value } = event.target;
+  //   const updatedLocations = [...formData.locations];
+  //   updatedLocations[index].address = value;
+  //   if (event.position) {
+  //     updatedLocations[index].position = event.position;
+  //   }
+  //   setFormData({ ...formData, locations: updatedLocations });
+  // };
 
-  const handleDeadlineChange = (event, index) => {
-    const { value } = event.target;
-    const updatedLocations = [...formData.locations];
-    updatedLocations[index].deadline = value;
+  // const handleDeadlineChange = (event, index) => {
+  //   const { value } = event.target;
+  //   const updatedLocations = [...formData.locations];
+  //   updatedLocations[index].deadline = value;
 
-    if (
-      updatedLocations[index].position.lat &&
-      updatedLocations[index].position.lng
-    ) {
-      const marker = new window.google.maps.Marker({
-        position: updatedLocations[index].position,
-        map,
-      });
-      map.setCenter(updatedLocations[index].position);
-      setMarkers((prevMarkers) => [...prevMarkers, marker]);
-    }
+  //   if (
+  //     updatedLocations[index].position.lat &&
+  //     updatedLocations[index].position.lng
+  //   ) {
+  //     const marker = new window.google.maps.Marker({
+  //       position: updatedLocations[index].position,
+  //       map,
+  //     });
+  //     map.setCenter(updatedLocations[index].position);
+  //     setMarkers((prevMarkers) => [...prevMarkers, marker]);
+  //   }
 
-    setFormData({ ...formData, locations: updatedLocations });
-  };
+  //   setFormData({ ...formData, locations: updatedLocations });
+  // };
 
-  const addTaskToTable = () => {
-    const updatedTaskList = [...taskList, ...formData.locations];
-    setTaskList(updatedTaskList);
-    setFormData({ locations: [{ address: "", deadline: "", position: { lat: null, lng: null } }] });
-  };
+  // const addTaskToTable = () => {
+  //   const updatedTaskList = [...taskList, ...formData.locations];
+  //   setTaskList(updatedTaskList);
+  //   setFormData({ locations: [{ address: "", deadline: "", position: { lat: null, lng: null } }] });
+  // };
 
   const removeTaskFromTable = (index) => {
     const updatedTaskList = taskList.filter((_, i) => i !== index);
@@ -476,31 +476,26 @@ const SchedulerPage = () => {
     }
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log(formData);
-  };
 
-  const updateAddress = (position, index) => {
-    const geocoder = new window.google.maps.Geocoder();
-    geocoder.geocode({ location: position }, (results, status) => {
-      if (status === "OK") {
-        if (results[0]) {
-          handleLocationChange(
-            {
-              target: { value: results[0].formatted_address },
-              position,
-            },
-            index
-          );
-        }
-      }
-    });
-  };
 
-  const toggleSidebar = () => {
-    setIsSidebarVisible(!isSidebarVisible);
-  };
+  // const updateAddress = (position, index) => {
+  //   const geocoder = new window.google.maps.Geocoder();
+  //   geocoder.geocode({ location: position }, (results, status) => {
+  //     if (status === "OK") {
+  //       if (results[0]) {
+  //         handleLocationChange(
+  //           {
+  //             target: { value: results[0].formatted_address },
+  //             position,
+  //           },
+  //           index
+  //         );
+  //       }
+  //     }
+  //   });
+  // };
+
+
 
   return (
     <>
