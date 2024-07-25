@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { auth } from "../config/firbase";
 import logo from "../assets/logo-jadw.png";
+import { auth } from "../config/firbase";
 
 function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -22,7 +22,7 @@ function Navbar() {
         navigate("/login");
       })
       .catch((error) => {
-        console.error("Error signing out:", error);
+        console.error(error);
       });
   };
 
@@ -35,17 +35,13 @@ function Navbar() {
       <nav className="bg-[#9685CF] h-[10vh]">
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center mr-2 hover:text-gray-300">
-            <img
-              src={logo}
-              className="w-auto mr-4 h-[15vh] max-sm:h-[10vh]"
-              alt="Logo"
-            />
+            <img src={logo} className="w-auto mr-4 h-[15vh] max-sm:h-[10vh]" alt="Logo" />
           </Link>
-          <div className="hidden md:flex items-center gap-4">
+          <div className=" hidden md:flex items-center gap-4">
             {isLoggedIn ? (
               <button
                 onClick={handleLogout}
-                className="py-2 px-3 ml-3 text-2xl bg-[#FFA842] text-white rounded-lg transition duration-300"
+                className="py-2 px-3 ml-3  text-2xl bg-[#FFA842] text-white rounded-lg transition duration-300"
               >
                 تسجيل خروج
               </button>
@@ -85,11 +81,7 @@ function Navbar() {
             </button>
           </div>
         </div>
-        <div
-          className={`mobile-menu ${
-            menuOpen ? "block" : "hidden"
-          } md:hidden bg-white`}
-        >
+        <div className={`mobile-menu ${menuOpen ? "block" : "hidden"} md:hidden bg-white`}>
           {isLoggedIn ? (
             <button
               onClick={handleLogout}
@@ -109,7 +101,7 @@ function Navbar() {
                 to="/signup"
                 className="block py-2 px-4 text-white bg-[#9685CF] hover:bg-[#7d6eb0] rounded"
               >
-                تسجيل جديد
+                  تسجيل جديد
               </Link>
             </>
           )}

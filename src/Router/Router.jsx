@@ -1,39 +1,34 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import LandingPage from "../Pages/LandingPage";
-import LogInPage from "../Pages/LogInPage";
-import SignUpPage from "../Pages/SignUpPage";
-import SchedulerPage from "../Pages/SchedulerPage";
-import ProfilePage from "../Pages/ProfilePage";
-import Test from "../Components/Test";
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <LandingPage />,
-  },
-  {
-    path: "/login",
-    element: <LogInPage />,
-  },
-  {
-    path: "/signup",
-    element: <SignUpPage />,
-  },
-  {
-    path: "/scheduler",
-    element: <SchedulerPage />,
-  },
-  {
-    path: "/profile",
-    element: <ProfilePage />,
-  },
-  {
-    path: "/test",
-    element: <Test />,
-  },
-]);
+import Login from '../pages/Login'
+import Home from '../pages/Home'
+import Signup from "../pages/Signup";
+import SchedulerPage from '../pages/SchedulerPage'
+import ProfilePage from "../pages/ProfilePage";
 function Router() {
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Home />,
+    },
+    {
+      path: "/signup",
+      element: <Signup />,
+    },
+   
+    {
+      path: "/login",
+      element: <Login />,
+    },
+    {
+        path: "/scheduler",
+        element: <SchedulerPage/>,
+      },
+    {
+        path: "/profile",
+        element: <ProfilePage/>,
+      },
+  ]);
   return <RouterProvider router={router} />;
 }
 

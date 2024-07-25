@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import img from "../assets/logo-jadw.png";
 import { motion } from "framer-motion";
 
-function SignUpPage() {
+function Signup() {
   const [fName, setFName] = useState("");
   const [lName, setLName] = useState("");
   const [email, setEmail] = useState("");
@@ -220,4 +220,4 @@ function SignUpPage() {
   );
 }
 
-export default SignUpPage;
+export default Signup;
