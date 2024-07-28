@@ -1,6 +1,6 @@
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Router from './router/Router'
+import Router from './Router/Router'
 function App() {
 
   return (

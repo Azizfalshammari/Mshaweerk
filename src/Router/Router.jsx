@@ -1,10 +1,10 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Login from '../pages/Login'
-import Home from '../pages/Home'
-import Signup from "../pages/Signup";
-import SchedulerPage from '../pages/SchedulerPage'
-import ProfilePage from "../pages/ProfilePage";
+import Login from '../Pages/Login'
+import Home from '../Pages/Home'
+import Signup from "../Pages/Signup";
+import SchedulerPage from '../Pages/SchedulerPage'
+import ProfilePage from "../Pages/ProfilePage";
 function Router() {
   const router = createBrowserRouter([
     {
