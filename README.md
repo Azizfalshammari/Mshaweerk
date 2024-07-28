@@ -1,15 +1,5 @@
 Welcome to Jadwlha GitHub repository! This project aims to provide a comprehensive solution for users to manage their tasks, schedule, and personal profile. Our website offers a seamless experience for tracking tasks, viewing team information, and personal profile management.
 
-Table of Contents
-About the Project
-Features
-Screenshots
-Getting Started
-Usage
-Contributing
-License
-Contact
-About the Project
 Jadwlha is a web-based platform designed to help users organize their daily activities, schedule tasks efficiently, and access team information. It includes a main page with team details, a scheduling page for task management, and a user profile section.
 
 Features
