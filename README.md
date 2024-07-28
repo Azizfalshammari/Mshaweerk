@@ -1,5 +1,4 @@
-Project Name
-Welcome to the Project Name GitHub repository! This project aims to provide a comprehensive solution for users to manage their tasks, schedule, and personal profile. Our website offers a seamless experience for tracking tasks, viewing team information, and personal profile management.
+Welcome to Jadwlha GitHub repository! This project aims to provide a comprehensive solution for users to manage their tasks, schedule, and personal profile. Our website offers a seamless experience for tracking tasks, viewing team information, and personal profile management.
 
 Table of Contents
 About the Project
@@ -11,7 +10,7 @@ Contributing
 License
 Contact
 About the Project
-Project Name is a web-based platform designed to help users organize their daily activities, schedule tasks efficiently, and access team information. It includes a main page with team details, a scheduling page for task management, and a user profile section.
+Jadwlha is a web-based platform designed to help users organize their daily activities, schedule tasks efficiently, and access team information. It includes a main page with team details, a scheduling page for task management, and a user profile section.
 
 Features
 Main Page: Learn more about the team, the website's purpose, and how to use it effectively.
@@ -25,8 +24,6 @@ Main Page
 Scheduling Page
 
 Profile Page
-
-Note: Replace path_to_main_page_screenshot, path_to_scheduling_page_screenshot, and path_to_profile_page_screenshot with the actual paths or URLs of your screenshots.
 
 Getting Started
 To get started with the project, follow these steps:
@@ -43,6 +40,3 @@ To get started with the project, follow these steps:
 10-![screenshots](screenshots/screen10.jpg)
 11-![screenshots](screenshots/screen11.jpg)
 12-![screenshots](screenshots/screen12.jpg)
-
-Contact
-For any inquiries or feedback, please contact us at your.email@example.com.
