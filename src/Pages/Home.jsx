@@ -8,6 +8,7 @@ import Cards from '../Components/Cards'
 function Home() {
   return (
     <>
+    {/* Hello */}
    <Navbar/> 
    <Landding/> 
    {/* <Cards/> */}
